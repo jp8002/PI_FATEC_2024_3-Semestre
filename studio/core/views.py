@@ -1,10 +1,10 @@
 from django.shortcuts import render
-import ipdb
+from core.services import ServiceMongo
 
 # Create your views here.
 def View_Pagina_Inicial(request):
-    
-    #ipdb.set_trace()
-    print(request.session["teste"])
-    return render(request, "TemplatePaginaInicial.html")
+    service = ServiceMongo()
+    x = service.consultar_datas_agendadas()
+
+    return render(request, "TemplatePaginaInicial.html", {"x":x})
     pass
