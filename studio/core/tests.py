@@ -8,3 +8,5 @@ class testePaginaInicial(TestCase):
         
     def test_200_response(self):
          self.assertEqual(self.resp.status_code,200)
+    
+    
