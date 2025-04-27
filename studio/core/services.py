@@ -51,8 +51,5 @@ class ServiceMongo:
                 data_datetime = datetime.strptime(data_str, "%Y-%m-%dT%H:%M:%S")
                 data = data_datetime.strftime("%d/%m/%Y")
                 datas_agendadas.append(data)
-        
-        return datas_agendadas
-    
 
         
