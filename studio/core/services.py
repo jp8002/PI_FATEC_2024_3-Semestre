@@ -10,40 +10,27 @@ class Autenticar:
         
         if ServiceMongo.Checar_cliente(ClienteID):
             request.session["Sessao"] = TRUE
-            
-            
-
-        
 
 class ServiceMongo:
-    def Checar_cliente(id):
+    def __init__(self, host="localhost", port = "27017", db = "studio"):
         try:
-            client = pymongo.MongoClient('mongodb://localhost:27017')
-            mydb = client["studio"]
-            colecao = mydb["clientes"]
-            
-            cliente = colecao.find_one(ObjectId(id))
+            self._client = pymongo.MongoClient('mongodb://' + host + ':' + port + '/')
+            self._mydb = self._client[db]
+        except Exception as e:
+            print("Erro ao conectar o banco de dados: " + str(e))
         
-        except:
-            print("Erro ao utilizar o banco de dados")
-            return False
+    def Checar_cliente(self,id):
+        
+        cliente = self._colecao.find_one(ObjectId(id))
         
         if len(list(cliente)) == 0:
             return False
     
         return True
         
-    def consultar(id):
-        try:
-            client = pymongo.MongoClient('mongodb://localhost:27017')
-            mydb = client["studio"]
-            colecao = mydb["clientes"]
-            
-            cliente = colecao.find_one(ObjectId(id))
+    def consultar(self,id):
         
-        except:
-            print("Erro ao utilizar o banco de dados")
-            return False
+        cliente = self._colecao.find_one(ObjectId(id))
         
         if  len(list(cliente)) == 0:
             return False

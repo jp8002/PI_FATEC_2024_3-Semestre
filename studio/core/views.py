@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import pymongo
 import ipdb
 from core.services import ServiceMongo
 from core.services import Autenticar
@@ -9,9 +10,12 @@ def View_Pagina_Inicial(request):
     #ipdb.set_trace()
     if request.session.get('Sessao',False) and request.session.get("ClienteID", False):
         ClienteID = request.session.get("ClienteID", False)
-        cliente = ServiceMongo.consultar(ClienteID)
-        contexto={'cliente':cliente}
+        serviceM = ServiceMongo()
+       
+        serviceM._colecao = serviceM._mydb["clientes"]
         
+        cliente = serviceM.consultar(ClienteID)
+        contexto={'cliente':cliente}
     
     return render(request, "TemplatePaginaInicial.html",contexto)
     
