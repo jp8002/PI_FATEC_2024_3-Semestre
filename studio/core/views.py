@@ -19,3 +19,13 @@ def View_Pagina_Inicial(request):
     
     return render(request, "TemplatePaginaInicial.html",contexto)
     
+def Calendario(request):
+    contexto={}
+    serviceM = ServiceMongo()
+
+    serviceM._colecao = serviceM._mydb["clientes"]
+
+    datas = serviceM.consultar_datas_agendadas()
+    contexto={'datas':datas}
+
+    return render(request, "TemplateCalendario.html", contexto)
