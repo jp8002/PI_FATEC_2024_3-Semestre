@@ -44,6 +44,15 @@ class testeServiceMongo(TestCase):
         self.mongo._colecao = self.mongo._mydb['mockcol']
         self.id = self.mongo._colecao.insert_one({"nome":"joao"})
 
+        self.mongo._colecao.insert_one({
+            "status": "ativo",
+            "data_assinatura": "2024-03-01T08:00:00"
+        })
+        self.mongo._colecao.insert_one({
+            "status": "inativo",
+            "data_assinatura": "2024-03-02T09:00:00"
+        })
+
     def test_Checar_cliente(self):
         resp = self.mongo.Checar_cliente(self.id.inserted_id)
         #ipdb.set_trace()
@@ -54,11 +63,17 @@ class testeServiceMongo(TestCase):
         nomeBanco = resp.get("nome","Essa chave não existe")
         
         self.assertEqual(nomeBanco, "joao")
-        
+
+    def test_consultar_datas_agendadas(self):
+        resp = self.mongo.consultar_datas_agendadas()
+        self.assertIn("01/03/2024", resp)
+        self.assertNotIn("02/03/2024", resp)
+
     def __del__(self):
         self.mongo._colecao.drop()
         
-        
+
+    
     
         
             
