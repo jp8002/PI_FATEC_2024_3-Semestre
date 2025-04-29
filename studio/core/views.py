@@ -29,3 +29,9 @@ def Calendario(request):
     contexto={'datas':datas}
 
     return render(request, "TemplateCalendario.html", contexto)
+
+
+def View_Login(request):
+
+
+    return render(request, "TemplateLogin.html")
