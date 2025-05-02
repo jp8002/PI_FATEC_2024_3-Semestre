@@ -36,6 +36,29 @@ class testePaginaInicial(TestCase):
         
 #     def test_template_session(self):
 #         self.assertContains(self.resp, "Ana Silva")
+
+class testeView_LoginGet(TestCase):
+    def setUp(self):
+        self.resp = self.client.get(r('paginaLogin'))
+        
+    def test_200_response(self):
+         self.assertEqual(self.resp.status_code,200)
+    
+    def test_template(self):
+        self.assertTemplateUsed(self.resp, "TemplateLogin.html")
+        
+    
+
+class testeView_LoginPost(TestCase):
+    def setUp(self):
+        self.resp = self.client.post(r("paginaLogin"),{ "rg":"453458762", "senha":"senha123"})
+    
+    def test_302_response(self):
+         self.assertEqual(self.resp.status_code,302)
+        
+    def test_template(self):
+        self.assertRedirects(self.resp, r('paginaInicial'), status_code=302, target_status_code=200, fetch_redirect_response=True)
+    
     
 class testeServiceMongo(TestCase):
     def setUp(self):
@@ -54,9 +77,9 @@ class testeServiceMongo(TestCase):
         })
 
     def test_Checar_cliente(self):
-        resp = self.mongo.Checar_cliente(self.id.inserted_id)
-        #ipdb.set_trace()
-        self.assertEqual(resp, True)
+            resp = self.mongo.Checar_cliente(self.id.inserted_id)
+            #ipdb.set_trace()
+            self.assertEqual(resp, True)
     
     def test_consultar(self):
         resp = self.mongo.consultar(self.id.inserted_id)

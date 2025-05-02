@@ -1,24 +1,63 @@
 import pymongo
 from bson.objectid  import ObjectId
+from django.shortcuts import render, redirect #checar com o prfessor
 from datetime import datetime
 
 class Autenticar:
-    def AuthSession(cookies):
-        if not request.session.get("ClienteID", False):
-            return False
+    # def AuthSession(cookies):
+    #     if not request.session.get("ClienteID", False):
+    #         return False
             
-        ClienteID = request.session.get("ClienteID", False)
+    #     ClienteID = request.session.get("ClienteID", False)
         
-        if ServiceMongo.Checar_cliente(ClienteID):
-            request.session["Sessao"] = TRUE
+    #     if ServiceMongo.Checar_cliente(ClienteID):
+    #         request.session["Sessao"] = TRUE
+    
+    def AuthUsuario(usuario):
+        
+        if not ("rg" and "senha" in usuario):
+            raise Exception("O dict post não possui todos as chaves")
+            return False
+        
+        if not usuario.get("rg") or not usuario.get("senha"):
+            raise Exception("Os campos não foram completamente preenchidos")
+            return False
+        
+       
+        MongoClient = ServiceMongo()
+        MongoClient._colecao = MongoClient._mydb["clientes"]
+       
+        query = MongoClient.consultarRg(usuario.get("rg"))
+        
+        if not (query.get("senha") == usuario.get('senha')):
+            raise Exception("Senha errada")
+            return False
+        
+        return True
+    
+    def checarSessao(sessao):
+        if sessao.get('sessao',False) and sessao.get("rg", False):
+            return True
+
+        return False
+        
+        
+        
+        
+            
 
 class ServiceMongo:
+    
+
     def __init__(self, host="localhost", port = "27017", db = "studio"):
         try:
             self._client = pymongo.MongoClient('mongodb://' + host + ':' + port + '/')
             self._mydb = self._client[db]
+            self._colecao = None
         except Exception as e:
-            print("Erro ao conectar o banco de dados: " + str(e))
+            raise Exception("Erro ao conectar o banco de dados: " + str(e))
+            return False
+        
         
     def Checar_cliente(self,id):
         
@@ -27,7 +66,17 @@ class ServiceMongo:
         if len(list(cliente)) == 0:
             return False
     
-        return True
+        return True    
+    
+    def consultarRg(self,rg):
+        
+        cliente = self._colecao.find_one({"rg":rg})
+        
+        if len(list(cliente)) == 0:
+            return False
+    
+        return cliente
+    
         
     def consultar(self,id):
         

@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import pymongo
+
 import ipdb
 from core.services import ServiceMongo
 from core.services import Autenticar
@@ -7,15 +8,18 @@ from core.services import Autenticar
 # Create your views here.
 def View_Pagina_Inicial(request):
     contexto={}
-    #ipdb.set_trace()
-    if request.session.get('Sessao',False) and request.session.get("ClienteID", False):
-        ClienteID = request.session.get("ClienteID", False)
+    
+    if Autenticar.checarSessao(request.session):
+        rg = request.session.get("rg", False)
         serviceM = ServiceMongo()
        
         serviceM._colecao = serviceM._mydb["clientes"]
         
-        cliente = serviceM.consultar(ClienteID)
+        cliente = serviceM.consultarRg(rg)
+        
         contexto={'cliente':cliente}
+        
+    #ipdb.set_trace()
     
     return render(request, "TemplatePaginaInicial.html",contexto)
     
@@ -32,6 +36,19 @@ def Calendario(request):
 
 
 def View_Login(request):
+    if Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
 
-
-    return render(request, "TemplateLogin.html")
+    if(request.method == "GET"):
+        return render(request, "TemplateLogin.html")
+    
+    usuario = request.POST
+    
+    if not Autenticar.AuthUsuario(usuario):
+        return render(request, "TemplateLogin.html")
+    
+    request.session["sessao"] = True
+    request.session["rg"] = usuario.get("rg")
+    
+    return redirect("paginaInicial")
+    

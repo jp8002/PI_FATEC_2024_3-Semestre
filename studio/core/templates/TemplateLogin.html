@@ -6,6 +6,20 @@
     <title>Login</title>
 </head>
 <body>
+
+    <form method="post" action="{% url "paginaLogin" %}">
+        {% csrf_token %}
+
+        <input type="text" name="rg">
+        <br>
+        <input type="password" name="senha">
+        <br>
+        <input type="submit" name="Logar">
+        <br>
+
+
+    </form>
+    
     <h1>Página de Login</h1>
 </body>
 </html>
