@@ -51,4 +51,21 @@ def View_Login(request):
     request.session["rg"] = usuario.get("rg")
     
     return redirect("paginaInicial")
+
+
+def View_AlunoInicial(request):
     
+    if not Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
+    
+    rg = request.session.get("rg", False)
+    serviceM = ServiceMongo()
+    
+    serviceM._colecao = serviceM._mydb["clientes"]
+    
+    cliente = serviceM.consultarRg(rg)
+    
+    contexto={'cliente':cliente}
+    
+    
+    return render(request, "TemplateAlunoInicial.html", contexto)

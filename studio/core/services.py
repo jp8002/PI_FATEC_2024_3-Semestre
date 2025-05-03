@@ -2,6 +2,7 @@ import pymongo
 from bson.objectid  import ObjectId
 from django.shortcuts import render, redirect #checar com o prfessor
 from datetime import datetime
+import ipdb
 
 class Autenticar:
     # def AuthSession(cookies):
@@ -70,6 +71,8 @@ class ServiceMongo:
     
     def consultarRg(self,rg):
         
+        #ipdb.set_trace()
+        
         cliente = self._colecao.find_one({"rg":rg})
         
         if len(list(cliente)) == 0:
@@ -99,3 +102,11 @@ class ServiceMongo:
                 datas_agendadas.append(data)
 
         return datas_agendadas
+    
+    def deletarPersonalByCpf(self, cpf):
+        try:
+            self._colecao.delete_many({"cpf":cpf})
+            return True
+        except Exception as e:
+            raise Exception("Não foi possivel deletar o registro ", e)
+            return False
