@@ -10,13 +10,30 @@
     <form method="post" action="{% url "paginaLogin" %}">
         {% csrf_token %}
 
-        <input type="text" name="rg">
+        <input type="text" name="rg" id="dinamico">
         <br>
         <input type="password" name="senha">
+        <br>   
+            <input type="radio" name="tipo_usuario" value="cliente" id="cliente" checked onclick="mudarNomeCampo('cliente')">
+            <label for="cliente">Cliente</label><br>
+            
+            <input type="radio" name="tipo_usuario" value="personal" id="personal" onclick="mudarNomeCampo('personal')">
+            <label for="personal">Personal</label>
         <br>
         <input type="submit" name="Logar">
         <br>
-
+        
+        <!--JAVASCRIPT PARA FUNCIONAMENTO DO RADIO-->
+        <script>
+            function mudarNomeCampo(tipo) {
+              const campo = document.getElementById('dinamico');
+              if (tipo === "cliente") {
+                campo.name = "rg";
+                } else if(tipo === "personal") {
+                    campo.name = "cpf";
+                }
+            }
+            </script>
 
     </form>
     
