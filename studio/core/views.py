@@ -36,9 +36,11 @@ def Calendario(request):
 
 
 def View_Login(request):
-    if Autenticar.checarSessao(request.session):
-        return redirect("paginaInicial")
-
+    if Autenticar.checarSessaoCliente(request.session):
+        return redirect("alunoInicial")
+    elif Autenticar.checarSessaoPersonal(request.session):
+        return redirect("personalInicial")
+    #ipdb.set_trace()
     if(request.method == "GET"):
         return render(request, "TemplateLogin.html")
     
@@ -49,6 +51,7 @@ def View_Login(request):
     
     request.session["sessao"] = True
     request.session["rg"] = usuario.get("rg")
+    request.session["cpf"] = usuario.get("cpf")
     
     return redirect("paginaInicial")
 
@@ -69,3 +72,30 @@ def View_AlunoInicial(request):
     
     
     return render(request, "TemplateAlunoInicial.html", contexto)
+
+def View_PersonalInicial(request):
+    if not Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
+    
+    cpf = request.session.get("cpf", False)
+    serviceM = ServiceMongo()
+
+    serviceM._colecao = serviceM._mydb["personals"]
+
+    personal = serviceM.consultarCpf(cpf)
+
+    contexto={'personal':personal}
+
+
+    return render(request, "TemplatePersonalInicial.html", contexto)
+
+def View_CadastrarPersonal(request):
+    if not Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
+
+    if request.method == 'POST':
+        serviceM = ServiceMongo()
+        serviceM._colecao = serviceM._mydb["personals"]
+        serviceM.criarNovoPersonal(request.POST.get('nome'),request.POST.get('senha'),request.POST.get('telefone'),request.POST.get('email'),request.POST.get('cpf'),request.POST.get('salario'))
+
+    return render(request, "TemplateCadastrarPersonal.html")

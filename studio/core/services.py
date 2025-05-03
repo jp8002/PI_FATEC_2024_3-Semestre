@@ -1,3 +1,4 @@
+from queue import Full
 import pymongo
 from bson.objectid  import ObjectId
 from django.shortcuts import render, redirect #checar com o prfessor
@@ -15,34 +16,67 @@ class Autenticar:
     #         request.session["Sessao"] = TRUE
     
     def AuthUsuario(usuario):
-        
-        if not ("rg" and "senha" in usuario):
-            raise Exception("O dict post não possui todos as chaves")
-            return False
-        
-        if not usuario.get("rg") or not usuario.get("senha"):
-            raise Exception("Os campos não foram completamente preenchidos")
-            return False
+        if usuario.get("tipo_usuario" == "cliente"):
+            if not ("rg" and "senha" in usuario):
+                raise Exception("O dict post não possui todos as chaves")
+                return False
+            
+            if not usuario.get("rg") or not usuario.get("senha"):
+                raise Exception("Os campos não foram completamente preenchidos")
+                return False
         
        
-        MongoClient = ServiceMongo()
-        MongoClient._colecao = MongoClient._mydb["clientes"]
-       
-        query = MongoClient.consultarRg(usuario.get("rg"))
+            MongoClient = ServiceMongo()
+            MongoClient._colecao = MongoClient._mydb["clientes"]
         
-        if not (query.get("senha") == usuario.get('senha')):
-            raise Exception("Senha errada")
-            return False
+            query = MongoClient.consultarRg(usuario.get("rg"))
+            
+            if not (query.get("senha") == usuario.get('senha')):
+                raise Exception("Senha errada")
+                return False
+            
+            return True
         
-        return True
-    
+        else:
+            if usuario.get("tipo_usuario" == "personal"):
+                cpf = usuario.get("cpf")
+
+                if not (cpf and "senha" in usuario):
+                    raise Exception("O dict post não possui todas as chaves")
+                    return False
+                
+                if not usuario.get(cpf) or not usuario.get("senha"):
+                    raise Exception("Os campos não foram compleatamente preenchidos")
+                    return False
+                
+                MongoClient = ServiceMongo()
+                MongoClient._colecao = MongoClient._mydb["personals"]
+
+                query = MongoClient.consultarCpf(usuario.get(cpf))
+
+                if not (query.get("senha") == usuario.get('senha')):
+                    raise Exception("Senha errada")
+                    return False
+                
+            return True
+        
     def checarSessao(sessao):
+        if (sessao.get('sessao',False) and sessao.get("rg",False)) or (sessao.get('sessao',False) and sessao.get("cpf", False)):
+            return True
+        
+        return False
+    
+    def checarSessaoCliente(sessao):
         if sessao.get('sessao',False) and sessao.get("rg", False):
             return True
 
         return False
         
-        
+    def checarSessaoPersonal(sessao):
+        if sessao.get('sessao',False) and sessao.get("cpf", False):
+            return True
+
+        return False    
         
         
             
@@ -110,3 +144,27 @@ class ServiceMongo:
         except Exception as e:
             raise Exception("Não foi possivel deletar o registro ", e)
             return False
+        
+    def criarNovoPersonal(self, nome, senha, telefone, email, cpf, salario):
+        try:
+            self._colecao.insert_one({
+                "nome": nome,
+                "senha": senha,
+                "telefone": telefone,
+                "email": email,
+                "cpf": cpf,
+                "salario": salario
+            })
+            return True
+        except Exception as e:
+            raise Exception("Erro na criação do registro ", e)
+            return False
+        
+    def consultarCpf(self, rg):
+        cpf = rg
+        personal = self._colecao.find_one({"cpf":cpf})
+        
+        if len(list(personal)) == 0:
+            return False
+    
+        return personal
