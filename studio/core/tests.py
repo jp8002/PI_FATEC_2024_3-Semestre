@@ -87,6 +87,9 @@ class testeServiceMongo(TestCase):
         resp = self.mongo.deletarPersonalByCpf("123654789")
         self.assertEqual(resp, True)
     
+    def test_criarNovoPersonal(self):
+        resp = self.mongo.criarNovoPersonal("Otavio","otavio123","999999999","otavio@gmail.com","12345678910","1500")
+        self.assertTrue(resp)
 
     def __del__(self):
         self.mongo._colecao.drop()

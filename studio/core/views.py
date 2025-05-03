@@ -69,3 +69,11 @@ def View_AlunoInicial(request):
     
     
     return render(request, "TemplateAlunoInicial.html", contexto)
+
+def View_CadastrarPersonal(request):
+    if request.method == 'POST':
+        serviceM = ServiceMongo()
+        serviceM._colecao = serviceM._mydb["personals"]
+        serviceM.criarNovoPersonal(request.POST.get('nome'),request.POST.get('senha'),request.POST.get('telefone'),request.POST.get('email'),request.POST.get('cpf'),request.POST.get('salario'))
+
+    return render(request, "TemplateCadastrarPersonal.html")

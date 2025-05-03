@@ -1,3 +1,4 @@
+from queue import Full
 import pymongo
 from bson.objectid  import ObjectId
 from django.shortcuts import render, redirect #checar com o prfessor
@@ -109,4 +110,19 @@ class ServiceMongo:
             return True
         except Exception as e:
             raise Exception("Não foi possivel deletar o registro ", e)
+            return False
+        
+    def criarNovoPersonal(self, nome, senha, telefone, email, cpf, salario):
+        try:
+            self._colecao.insert_one({
+                "nome": nome,
+                "senha": senha,
+                "telefone": telefone,
+                "email": email,
+                "cpf": cpf,
+                "salario": salario
+            })
+            return True
+        except Exception as e:
+            raise Exception("Erro na criação do registro ", e)
             return False
