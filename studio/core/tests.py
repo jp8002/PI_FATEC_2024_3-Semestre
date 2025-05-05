@@ -152,7 +152,57 @@ class testeView_AlunoInicial(TestCase):
     def __del__(self):
         self.mongo.deletarPersonalByCpf(123654789)
         
+class testeView_PersonalInicial(TestCase):
+    def setUp(self):
 
+        self.mongo = ServiceMongo()
+        self.mongo._colecao = self.mongo._mydb['personals']
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"12345678910","senha":"1234"})
+
+        session = self.client.session
+        session["sessao"]=True,
+        session["cpf"]="12345678910"
+
+        session.save()
+
+        self.client.cookies['sessionid'] = session.session_key
+
+        self.resp = self.client.get(r("personalInicial"))
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code,200)
+
+    def test_session_data(self):
+        self.assertContains(self.resp,"joao mock")
+
+    def __del__(self):
+        self.mongo.deletarPersonalByCpf("12345678910")
+    
+class testeView_CadastrarPersonal(TestCase):
+    def setUp(self):
+
+        self.mongo = ServiceMongo()
+        self.mongo._colecao = self.mongo._mydb['personals']
+
+        session = self.client.session
+        session["sessao"]=True,
+        session["cpf"]="12345678910"
+
+        session.save()
+
+        self.client.cookies['sessionid'] = session.session_key
+
+        self.resp = self.client.get(r("cadastrarPersonal"))
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code,200)
+
+    def test_criarNovoPersonal(self):
+        resultado = self.mongo.criarNovoPersonal("joao mock", "mock123", "999999999", "joao@mock.com","12345678910","1000")
+        self.assertTrue(resultado)
+        
+    def __del__(self):
+        self.mongo.deletarPersonalByCpf("12345678910")
     
     
         

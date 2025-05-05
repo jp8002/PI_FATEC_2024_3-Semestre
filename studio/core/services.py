@@ -147,6 +147,7 @@ class ServiceMongo:
         
     def criarNovoPersonal(self, nome, senha, telefone, email, cpf, salario):
         try:
+            salario = float(salario)
             self._colecao.insert_one({
                 "nome": nome,
                 "senha": senha,
