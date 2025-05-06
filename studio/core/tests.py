@@ -83,8 +83,8 @@ class testeServiceMongo(TestCase):
         resp = self.mongo.consultarRg("123654789")
         self.assertEqual(resp.get("nome","Não foi encontrado"), "joao")
     
-    def deletarPersonalByCpf(self):
-        resp = self.mongo.deletarPersonalByCpf("123654789")
+    def test_deletarPersonalByRg(self):
+        resp = self.mongo.deletarPersonalByRg("123654789")
         self.assertEqual(resp, True)
     
     def test_criarNovoPersonal(self):
@@ -121,7 +121,7 @@ class testeView_LoginPost(TestCase):
         self.assertRedirects(self.resp, r('paginaInicial'), status_code=302, target_status_code=200, fetch_redirect_response=True)
         
     def __del__(self):
-        self.mongo.deletarPersonalByCpf("123654789")
+        self.mongo.deletarPersonalByRg("123654789")
 
 
 class testeView_AlunoInicial(TestCase):
@@ -150,18 +150,18 @@ class testeView_AlunoInicial(TestCase):
         
     
     def __del__(self):
-        self.mongo.deletarPersonalByCpf(123654789)
+        self.mongo.deletarPersonalByRg("123654789")
         
 class testeView_PersonalInicial(TestCase):
     def setUp(self):
 
         self.mongo = ServiceMongo()
         self.mongo._colecao = self.mongo._mydb['personals']
-        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"12345678910","senha":"1234"})
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","rg":"12345678910","senha":"1234"})
 
         session = self.client.session
         session["sessao"]=True,
-        session["cpf"]="12345678910"
+        session["rg"]="12345678910"
 
         session.save()
 
@@ -176,7 +176,7 @@ class testeView_PersonalInicial(TestCase):
         self.assertContains(self.resp,"joao mock")
 
     def __del__(self):
-        self.mongo.deletarPersonalByCpf("12345678910")
+        self.mongo.deletarPersonalByRg("12345678910")
     
 class testeView_CadastrarPersonal(TestCase):
     def setUp(self):
@@ -186,7 +186,7 @@ class testeView_CadastrarPersonal(TestCase):
 
         session = self.client.session
         session["sessao"]=True,
-        session["cpf"]="12345678910"
+        session["rg"]="12345678910"
 
         session.save()
 
@@ -202,7 +202,7 @@ class testeView_CadastrarPersonal(TestCase):
         self.assertTrue(resultado)
         
     def __del__(self):
-        self.mongo.deletarPersonalByCpf("12345678910")
+        self.mongo.deletarPersonalByRg("12345678910")
     
     
         

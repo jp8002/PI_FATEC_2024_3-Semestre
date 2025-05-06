@@ -6,6 +6,8 @@
     <title>Login</title>
 </head>
 <body>
+    <h1>Página de Login</h1>
+
 
     <form method="post" action="{% url "paginaLogin" %}">
         {% csrf_token %}
@@ -22,21 +24,7 @@
         <br>
         <input type="submit" name="Logar">
         <br>
-        
-        <!--JAVASCRIPT PARA FUNCIONAMENTO DO RADIO-->
-        <script>
-            function mudarNomeCampo(tipo) {
-              const campo = document.getElementById('dinamico');
-              if (tipo === "cliente") {
-                campo.name = "rg";
-                } else if(tipo === "personal") {
-                    campo.name = "cpf";
-                }
-            }
-            </script>
 
     </form>
-    
-    <h1>Página de Login</h1>
 </body>
 </html>

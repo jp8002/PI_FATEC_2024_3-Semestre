@@ -51,7 +51,6 @@ def View_Login(request):
     
     request.session["sessao"] = True
     request.session["rg"] = usuario.get("rg")
-    request.session["cpf"] = usuario.get("cpf")
     
     return redirect("paginaInicial")
 
@@ -77,12 +76,12 @@ def View_PersonalInicial(request):
     if not Autenticar.checarSessao(request.session):
         return redirect("paginaInicial")
     
-    cpf = request.session.get("cpf", False)
+    rg = request.session.get("rg", False)
     serviceM = ServiceMongo()
 
     serviceM._colecao = serviceM._mydb["personals"]
 
-    personal = serviceM.consultarCpf(cpf)
+    personal = serviceM.consultarRg(rg)
 
     contexto={'personal':personal}
 
@@ -96,6 +95,6 @@ def View_CadastrarPersonal(request):
     if request.method == 'POST':
         serviceM = ServiceMongo()
         serviceM._colecao = serviceM._mydb["personals"]
-        serviceM.criarNovoPersonal(request.POST.get('nome'),request.POST.get('senha'),request.POST.get('telefone'),request.POST.get('email'),request.POST.get('cpf'),request.POST.get('salario'))
+        serviceM.criarNovoPersonal(request.POST.get('nome'),request.POST.get('senha'),request.POST.get('telefone'),request.POST.get('email'),request.POST.get('rg'),request.POST.get('salario'))
 
     return render(request, "TemplateCadastrarPersonal.html")
