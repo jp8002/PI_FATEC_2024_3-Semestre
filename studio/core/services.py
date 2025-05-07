@@ -17,11 +17,11 @@ class Autenticar:
     
     def AuthUsuario(usuario):
         if usuario.get("tipo_usuario" == "cliente"):
-            # if not ("rg" and "senha" in usuario):
+            # if not ("cpf" and "senha" in usuario):
             #     raise Exception("O dict post não possui todos as chaves")
             #     return False
             
-            if not usuario.get("rg") or not usuario.get("senha"):
+            if not usuario.get("cpf") or not usuario.get("senha"):
                 raise Exception("Os campos não foram completamente preenchidos")
                 return False
         
@@ -29,25 +29,25 @@ class Autenticar:
             MongoClient = ServiceMongo()
             MongoClient._colecao = MongoClient._mydb["clientes"]
         
-            query = MongoClient.consultarRg(usuario.get("rg"))
+            query = MongoClient.consultarCpf(usuario.get("cpf"))
             
             if not (query.get("senha") == usuario.get('senha')):
                 raise Exception("Senha errada")
                 return False
         
         elif usuario.get("tipo_usuario" == "personal"):
-            # if not ("rg" and "senha" in usuario):
+            # if not ("cpf" and "senha" in usuario):
             #     raise Exception("O dict post não possui todas as chaves")
             #     return False
 
-            if not usuario.get("rg") or not usuario.get("senha"):
+            if not usuario.get("cpf") or not usuario.get("senha"):
                 raise Exception("Os campos não foram compleatamente preenchidos")
                 return False
 
             MongoClient = ServiceMongo()
             MongoClient._colecao = MongoClient._mydb["personals"]
 
-            query = MongoClient.consultarRg(usuario.get("rg"))
+            query = MongoClient.consultarCpf(usuario.get("cpf"))
 
             if not (query.get("senha") == usuario.get('senha')):
                 raise Exception("Senha errada")
@@ -56,19 +56,19 @@ class Autenticar:
         return True
         
     def checarSessao(sessao):
-        if (sessao.get('sessao',False) and sessao.get("rg",False)):
+        if (sessao.get('sessao',False) and sessao.get("cpf",False)):
             return True
         
         return False
     
     def checarSessaoCliente(sessao):
-        if sessao.get('sessao',False) and sessao.get("rg", False):
+        if sessao.get("tipo_usuario", False) == "aluno":
             return True
 
         return False
         
     def checarSessaoPersonal(sessao):
-        if sessao.get('sessao',False) and sessao.get("rg", False):
+        if sessao.get("tipo_usuario", False) == "personal":
             return True
 
         return False    
@@ -98,11 +98,11 @@ class ServiceMongo:
     
         return True    
     
-    def consultarRg(self,rg):
+    def consultarCpf(self,cpf):
         
         #ipdb.set_trace()
         
-        cliente = self._colecao.find_one({"rg":rg})
+        cliente = self._colecao.find_one({"cpf":cpf})
         
         if len(list(cliente)) == 0:
             return False
@@ -132,15 +132,15 @@ class ServiceMongo:
 
         return datas_agendadas
     
-    def deletarPersonalByRg(self, rg):
+    def deletarPersonalByCpf(self, cpf):
         try:
-            self._colecao.delete_many({"rg":rg})
+            self._colecao.delete_many({"cpf":cpf})
             return True
         except Exception as e:
             raise Exception("Não foi possivel deletar o registro ", e)
             return False
         
-    def criarNovoPersonal(self, nome, senha, telefone, email, rg, salario):
+    def criarNovoPersonal(self, nome, senha, telefone, email, cpf, salario):
         try:
             salario = float(salario)
             self._colecao.insert_one({
@@ -148,7 +148,7 @@ class ServiceMongo:
                 "senha": senha,
                 "telefone": telefone,
                 "email": email,
-                "rg": rg,
+                "cpf": cpf,
                 "salario": salario
             })
             return True

@@ -7,5 +7,6 @@ urlpatterns = [
     path('login/', views.View_Login, name='paginaLogin'),
     path('aluno/', views.View_AlunoInicial, name="alunoInicial"),
     path('cadastrarPersonal/', views.View_CadastrarPersonal, name="cadastrarPersonal"),
-    path('personal/', views.View_PersonalInicial, name='personalInicial')
+    path('personal/', views.View_PersonalInicial, name='personalInicial'),
+    path('personal/cadastrar_personal', views.View_AlunoCadastrar, name='alunoCadastrar')
 ]

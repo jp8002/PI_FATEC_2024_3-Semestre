@@ -22,12 +22,12 @@ class testePaginaInicialComSessao(TestCase):
     def setUp(self):
         self.mongo = ServiceMongo()
         self.mongo._colecao = self.mongo._mydb['clientes']
-        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","rg":"123654789","senha":"1234"})
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123654789","senha":"1234"})
         
         
         session = self.client.session
         session['sessao'] = [True]
-        session['rg'] = '123654789'
+        session['cpf'] = '123654789'
         session.save()
         
         self.client.cookies["sessionid"] = session.session_key
@@ -44,7 +44,7 @@ class testePaginaInicialComSessao(TestCase):
         self.assertContains(self.resp, "joao mock")
     
     def __del__ (self):
-        self.mongo.consultarRg("123654789")
+        self.mongo.consultarCpf("123654789")
     
     
 class testeServiceMongo(TestCase):
@@ -52,7 +52,7 @@ class testeServiceMongo(TestCase):
         
         self.mongo = ServiceMongo('localhost','27017',"mock")
         self.mongo._colecao = self.mongo._mydb['mockcol']
-        self.id = self.mongo._colecao.insert_one({"nome":"joao", "rg":"123654789"})
+        self.id = self.mongo._colecao.insert_one({"nome":"joao", "cpf":"123654789"})
 
         self.mongo._colecao.insert_one({
             "status": "ativo",
@@ -79,12 +79,12 @@ class testeServiceMongo(TestCase):
         self.assertIn("01/03/2024", resp)
         self.assertNotIn("02/03/2024", resp)
     
-    def test_consultarRg(self):
-        resp = self.mongo.consultarRg("123654789")
+    def test_consultarCpf(self):
+        resp = self.mongo.consultarCpf("123654789")
         self.assertEqual(resp.get("nome","Não foi encontrado"), "joao")
     
-    def test_deletarPersonalByRg(self):
-        resp = self.mongo.deletarPersonalByRg("123654789")
+    def test_deletarPersonalByCpf(self):
+        resp = self.mongo.deletarPersonalByCpf("123654789")
         self.assertEqual(resp, True)
     
     def test_criarNovoPersonal(self):
@@ -110,18 +110,18 @@ class testeView_LoginPost(TestCase):
     def setUp(self):
         self.mongo = ServiceMongo()
         self.mongo._colecao = self.mongo._mydb['clientes']
-        self.id = self.mongo._colecao.insert_one({"nome":"joao","rg":"123654789","senha":"1234"})
+        self.id = self.mongo._colecao.insert_one({"nome":"joao","cpf":"123654789","senha":"1234"})
         
-        self.resp = self.client.post(r("paginaLogin"),{ "rg":"123654789", "senha":"1234"})
+        self.resp = self.client.post(r("paginaLogin"),{ "cpf":"123654789", "senha":"1234"})
     
     def test_302_response(self):
          self.assertEqual(self.resp.status_code,302)
         
     def test_template(self):
-        self.assertRedirects(self.resp, r('paginaInicial'), status_code=302, target_status_code=200, fetch_redirect_response=True)
+        self.assertRedirects(self.resp, r('paginaLogin'), status_code=302, target_status_code=200, fetch_redirect_response=True)
         
     def __del__(self):
-        self.mongo.deletarPersonalByRg("123654789")
+        self.mongo.deletarPersonalByCpf("123654789")
 
 
 class testeView_AlunoInicial(TestCase):
@@ -129,11 +129,11 @@ class testeView_AlunoInicial(TestCase):
         
         self.mongo = ServiceMongo()
         self.mongo._colecao = self.mongo._mydb['clientes']
-        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","rg":"123654789","senha":"1234"})
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123654789","senha":"1234"})
         
         session = self.client.session
         session["sessao"]=True,
-        session["rg"] = "123654789"
+        session["cpf"] = "123654789"
         
         session.save()
         
@@ -150,18 +150,18 @@ class testeView_AlunoInicial(TestCase):
         
     
     def __del__(self):
-        self.mongo.deletarPersonalByRg("123654789")
+        self.mongo.deletarPersonalByCpf("123654789")
         
 class testeView_PersonalInicial(TestCase):
     def setUp(self):
 
         self.mongo = ServiceMongo()
         self.mongo._colecao = self.mongo._mydb['personals']
-        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","rg":"12345678910","senha":"1234"})
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"12345678910","senha":"1234"})
 
         session = self.client.session
         session["sessao"]=True,
-        session["rg"]="12345678910"
+        session["cpf"]="12345678910"
 
         session.save()
 
@@ -176,7 +176,7 @@ class testeView_PersonalInicial(TestCase):
         self.assertContains(self.resp,"joao mock")
 
     def __del__(self):
-        self.mongo.deletarPersonalByRg("12345678910")
+        self.mongo.deletarPersonalByCpf("12345678910")
     
 class testeView_CadastrarPersonal(TestCase):
     def setUp(self):
@@ -186,7 +186,7 @@ class testeView_CadastrarPersonal(TestCase):
 
         session = self.client.session
         session["sessao"]=True,
-        session["rg"]="12345678910"
+        session["cpf"]="12345678910"
 
         session.save()
 
@@ -202,7 +202,7 @@ class testeView_CadastrarPersonal(TestCase):
         self.assertTrue(resultado)
         
     def __del__(self):
-        self.mongo.deletarPersonalByRg("12345678910")
+        self.mongo.deletarPersonalByCpf("12345678910")
     
     
         

@@ -10,12 +10,12 @@ def View_Pagina_Inicial(request):
     contexto={}
     
     if Autenticar.checarSessao(request.session):
-        rg = request.session.get("rg", False)
+        cpf = request.session.get("cpf", False)
         serviceM = ServiceMongo()
        
         serviceM._colecao = serviceM._mydb["clientes"]
         
-        cliente = serviceM.consultarRg(rg)
+        cliente = serviceM.consultarCpf(cpf)
         
         contexto={'cliente':cliente}
         
@@ -50,9 +50,10 @@ def View_Login(request):
         return render(request, "TemplateLogin.html")
     
     request.session["sessao"] = True
-    request.session["rg"] = usuario.get("rg")
-    
-    return redirect("paginaInicial")
+    request.session["cpf"] = usuario.get("cpf")
+    request.session["tipo_usuario"] = usuario.get("tipo_usuario")
+
+    return redirect("paginaLogin")
 
 
 def View_AlunoInicial(request):
@@ -60,12 +61,12 @@ def View_AlunoInicial(request):
     if not Autenticar.checarSessao(request.session):
         return redirect("paginaInicial")
     
-    rg = request.session.get("rg", False)
+    cpf = request.session.get("cpf", False)
     serviceM = ServiceMongo()
     
     serviceM._colecao = serviceM._mydb["clientes"]
     
-    cliente = serviceM.consultarRg(rg)
+    cliente = serviceM.consultarCpf(cpf)
     
     contexto={'cliente':cliente}
     
@@ -76,12 +77,12 @@ def View_PersonalInicial(request):
     if not Autenticar.checarSessao(request.session):
         return redirect("paginaInicial")
     
-    rg = request.session.get("rg", False)
+    cpf = request.session.get("cpf", False)
     serviceM = ServiceMongo()
 
     serviceM._colecao = serviceM._mydb["personals"]
 
-    personal = serviceM.consultarRg(rg)
+    personal = serviceM.consultarCpf(cpf)
 
     contexto={'personal':personal}
 
@@ -95,6 +96,20 @@ def View_CadastrarPersonal(request):
     if request.method == 'POST':
         serviceM = ServiceMongo()
         serviceM._colecao = serviceM._mydb["personals"]
-        serviceM.criarNovoPersonal(request.POST.get('nome'),request.POST.get('senha'),request.POST.get('telefone'),request.POST.get('email'),request.POST.get('rg'),request.POST.get('salario'))
+        serviceM.criarNovoPersonal(request.POST.get('nome'),request.POST.get('senha'),request.POST.get('telefone'),request.POST.get('email'),request.POST.get('cpf'),request.POST.get('salario'))
 
     return render(request, "TemplateCadastrarPersonal.html")
+
+
+def View_AlunoCadastrar(request):
+    sessao = request.session
+    if not Autenticar.checarSessao(sessao) or not Autenticar.checarSessaoPersonal(sessao):
+        return redirect("paginaInicial")
+
+    if request.method == 'GET':
+        return render(request, "TemplateCadastrarAluno.html")
+
+
+
+
+
