@@ -1,0 +1,4 @@
+2025-05-07 19:11:09,532 - ERROR - services.py:99 - Esse cpf não existe ('NoneType' object is not iterable)
+2025-05-07 19:11:09,549 - ERROR - services.py:99 - Esse cpf não existe ('NoneType' object is not iterable)
+2025-05-07 19:11:46,550 - ERROR - services.py:99 - Esse cpf não existe ('NoneType' object is not iterable)
+2025-05-07 19:11:46,568 - ERROR - services.py:99 - Esse cpf não existe ('NoneType' object is not iterable)

@@ -1,3 +1,4 @@
+import logging
 from queue import Full
 import pymongo
 from bson.objectid  import ObjectId
@@ -5,53 +6,29 @@ from django.shortcuts import render, redirect #checar com o prfessor
 from datetime import datetime
 import ipdb
 
+logging.basicConfig(
+    level=logging.ERROR,
+    format='%(levelname)s - %(filename)s:%(lineno)d - %(funcName)s - %(message)s'
+)
+
 class Autenticar:
-    # def AuthSession(cookies):
-    #     if not request.session.get("ClienteID", False):
-    #         return False
-            
-    #     ClienteID = request.session.get("ClienteID", False)
-        
-    #     if ServiceMongo.Checar_cliente(ClienteID):
-    #         request.session["Sessao"] = TRUE
-    
     def AuthUsuario(usuario):
-        if usuario.get("tipo_usuario" == "cliente"):
-            # if not ("cpf" and "senha" in usuario):
-            #     raise Exception("O dict post não possui todos as chaves")
-            #     return False
-            
-            if not usuario.get("cpf") or not usuario.get("senha"):
-                raise Exception("Os campos não foram completamente preenchidos")
-                return False
-        
-       
-            MongoClient = ServiceMongo()
-            MongoClient._colecao = MongoClient._mydb["clientes"]
-        
-            query = MongoClient.consultarCpf(usuario.get("cpf"))
-            
-            if not (query.get("senha") == usuario.get('senha')):
-                raise Exception("Senha errada")
-                return False
-        
-        elif usuario.get("tipo_usuario" == "personal"):
-            # if not ("cpf" and "senha" in usuario):
-            #     raise Exception("O dict post não possui todas as chaves")
-            #     return False
 
-            if not usuario.get("cpf") or not usuario.get("senha"):
-                raise Exception("Os campos não foram compleatamente preenchidos")
-                return False
+        cpf = usuario.get("cpf", None)
+        senha = usuario.get("senha", None)
+        tipo_usuario = usuario.get("tipo_usuario", None)
 
-            MongoClient = ServiceMongo()
-            MongoClient._colecao = MongoClient._mydb["personals"]
+        if not cpf or not senha or not tipo_usuario:
+            raise Exception("Os campos não foram completamente preenchidos")
+            #return False
 
-            query = MongoClient.consultarCpf(usuario.get("cpf"))
+        MongoClient = ServiceMongo()
+        MongoClient._colecao = MongoClient._mydb[tipo_usuario]
 
-            if not (query.get("senha") == usuario.get('senha')):
-                raise Exception("Senha errada")
-                return False
+        query = MongoClient.consultarCpf(cpf)
+        if not (query.get("senha") == senha):
+            raise Exception("Senha errada")
+            #return False
                 
         return True
         
@@ -61,17 +38,27 @@ class Autenticar:
         
         return False
     
-    def checarSessaoCliente(sessao):
-        if sessao.get("tipo_usuario", False) == "aluno":
-            return True
+    def checarSessaoAluno(sessao):
+        if not sessao.get("tipo_usuario", False) == "aluno":
+            return False
 
-        return False
+        MongoClient = ServiceMongo()
+        MongoClient._colecao = MongoClient._mydb["aluno"]
+        if not MongoClient.consultarCpf(sessao.get("cpf",False)):
+            return False
+
+        return True
         
     def checarSessaoPersonal(sessao):
-        if sessao.get("tipo_usuario", False) == "personal":
-            return True
+        if not sessao.get("tipo_usuario", False) == "personal":
+            return False
 
-        return False    
+        MongoClient = ServiceMongo()
+        MongoClient._colecao = MongoClient._mydb["personal"]
+        if not MongoClient.consultarCpf(sessao.get("cpf", False)):
+            return False
+
+        return True
         
         
             
@@ -86,15 +73,15 @@ class ServiceMongo:
             self._colecao = None
         except Exception as e:
             raise Exception("Erro ao conectar o banco de dados: " + str(e))
-            return False
+            #return False
         
         
-    def Checar_cliente(self,id):
+    def ChecarAluno(self,id):
         
-        cliente = self._colecao.find_one(ObjectId(id))
+        aluno = self._colecao.find_one(ObjectId(id))
         
-        if len(list(cliente)) == 0:
-            return False
+        if len(list(aluno)) == 0:
+            raise Exception("Esse aluno não existe")
     
         return True    
     
@@ -102,24 +89,28 @@ class ServiceMongo:
         
         #ipdb.set_trace()
         
-        cliente = self._colecao.find_one({"cpf":cpf})
+        query = self._colecao.find_one({"cpf":cpf})
         
-        if len(list(cliente)) == 0:
+        try:
+            list(query)
+
+        except Exception as e:
+            logging.error("Esse cpf não existe (" + str(e) + ")")
             return False
-    
-        return cliente
+
+        return query
     
         
     def consultar(self,id):
         
-        cliente = self._colecao.find_one(ObjectId(id))
+        query = self._colecao.find_one(ObjectId(id))
         
-        if  len(list(cliente)) == 0:
-            return False
+        if  len(list(query)) == 0:
+            raise Exception("Esse id não existe")
     
-        return cliente
+        return query
     
-    def consultar_datas_agendadas(self): # O MÉTODO ATUALMENTE RETORNA TODAS AS DATAS (BASEADAS NAS ASSINATURAS ATIVAS) NO FORMATO DD/MM/AAAA
+    def consultar_datas_agendadas(self): # O METODO ATUALMENTE RETORNA TODAS AS DATAS (BASEADAS NAS ASSINATURAS ATIVAS) NO FORMATO DD/MM/AAAA
         datas_agendadas = []
         
         query = {"status":"ativo"}
@@ -132,13 +123,13 @@ class ServiceMongo:
 
         return datas_agendadas
     
-    def deletarPersonalByCpf(self, cpf):
+    def deletarByCpf(self, cpf):
         try:
             self._colecao.delete_many({"cpf":cpf})
             return True
         except Exception as e:
             raise Exception("Não foi possivel deletar o registro ", e)
-            return False
+            #return False
         
     def criarNovoPersonal(self, nome, senha, telefone, email, cpf, salario):
         try:
@@ -154,4 +145,18 @@ class ServiceMongo:
             return True
         except Exception as e:
             raise Exception("Erro na criação do registro ", e)
-            return False
+            #return False
+
+    def CriarNovoAluno(self, DadosAluno):
+        try:
+            nome = DadosAluno["nome"]
+            data_nascimento = DadosAluno["data_nascimento"]
+            cpf = DadosAluno["cpf"]
+            telefone = DadosAluno["telefone"]
+
+            query = {"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "telefone": telefone}
+
+            self._colecao.insert_one(query)
+            return True
+        except Exception as e:
+            raise Exception("Não foi possivel criar o registro ", e)

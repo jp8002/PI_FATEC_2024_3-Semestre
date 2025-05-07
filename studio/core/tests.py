@@ -21,7 +21,7 @@ class testePaginaInicial(TestCase):
 class testePaginaInicialComSessao(TestCase):
     def setUp(self):
         self.mongo = ServiceMongo()
-        self.mongo._colecao = self.mongo._mydb['clientes']
+        self.mongo._colecao = self.mongo._mydb['aluno']
         self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123654789","senha":"1234"})
         
         
@@ -63,8 +63,8 @@ class testeServiceMongo(TestCase):
             "data_assinatura": "2024-03-02T09:00:00"
         })
 
-    def test_Checar_cliente(self):
-            resp = self.mongo.Checar_cliente(self.id.inserted_id)
+    def test_ChecarAluno(self):
+            resp = self.mongo.ChecarAluno(self.id.inserted_id)
             #ipdb.set_trace()
             self.assertEqual(resp, True)
     
@@ -83,12 +83,16 @@ class testeServiceMongo(TestCase):
         resp = self.mongo.consultarCpf("123654789")
         self.assertEqual(resp.get("nome","Não foi encontrado"), "joao")
     
-    def test_deletarPersonalByCpf(self):
-        resp = self.mongo.deletarPersonalByCpf("123654789")
+    def test_deletarByCpf(self):
+        resp = self.mongo.deletarByCpf("123654789")
         self.assertEqual(resp, True)
     
     def test_criarNovoPersonal(self):
         resp = self.mongo.criarNovoPersonal("Otavio","otavio123","999999999","otavio@gmail.com","12345678910","1500")
+        self.assertTrue(resp)
+
+    def test_criarNovoAluno(self):
+        resp = self.mongo.CriarNovoAluno({"nome":"joao mock", "data_nascimento": "2019-05-20" ,"cpf":"123654789","telefone":"123424564646"})
         self.assertTrue(resp)
 
     def __del__(self):
@@ -109,26 +113,26 @@ class testeView_LoginGet(TestCase):
 class testeView_LoginPost(TestCase):
     def setUp(self):
         self.mongo = ServiceMongo()
-        self.mongo._colecao = self.mongo._mydb['clientes']
+        self.mongo._colecao = self.mongo._mydb['aluno']
         self.id = self.mongo._colecao.insert_one({"nome":"joao","cpf":"123654789","senha":"1234"})
         
-        self.resp = self.client.post(r("paginaLogin"),{ "cpf":"123654789", "senha":"1234"})
+        self.resp = self.client.post(r("paginaLogin"),{ "cpf":"123654789", "senha":"1234", "tipo_usuario":"aluno"})
     
     def test_302_response(self):
          self.assertEqual(self.resp.status_code,302)
         
     def test_template(self):
-        self.assertRedirects(self.resp, r('paginaLogin'), status_code=302, target_status_code=200, fetch_redirect_response=True)
+        self.assertRedirects(self.resp, r('paginaLogin'), status_code=302, target_status_code=302, fetch_redirect_response=True)
         
     def __del__(self):
-        self.mongo.deletarPersonalByCpf("123654789")
+        self.mongo.deletarByCpf("123654789")
 
 
 class testeView_AlunoInicial(TestCase):
     def setUp(self):
         
         self.mongo = ServiceMongo()
-        self.mongo._colecao = self.mongo._mydb['clientes']
+        self.mongo._colecao = self.mongo._mydb['aluno']
         self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123654789","senha":"1234"})
         
         session = self.client.session
@@ -150,13 +154,13 @@ class testeView_AlunoInicial(TestCase):
         
     
     def __del__(self):
-        self.mongo.deletarPersonalByCpf("123654789")
+        self.mongo.deletarByCpf("123654789")
         
 class testeView_PersonalInicial(TestCase):
     def setUp(self):
 
         self.mongo = ServiceMongo()
-        self.mongo._colecao = self.mongo._mydb['personals']
+        self.mongo._colecao = self.mongo._mydb['personal']
         self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"12345678910","senha":"1234"})
 
         session = self.client.session
@@ -176,13 +180,13 @@ class testeView_PersonalInicial(TestCase):
         self.assertContains(self.resp,"joao mock")
 
     def __del__(self):
-        self.mongo.deletarPersonalByCpf("12345678910")
+        self.mongo.deletarByCpf("12345678910")
     
 class testeView_CadastrarPersonal(TestCase):
     def setUp(self):
 
         self.mongo = ServiceMongo()
-        self.mongo._colecao = self.mongo._mydb['personals']
+        self.mongo._colecao = self.mongo._mydb['personal']
 
         session = self.client.session
         session["sessao"]=True,
@@ -202,8 +206,56 @@ class testeView_CadastrarPersonal(TestCase):
         self.assertTrue(resultado)
         
     def __del__(self):
-        self.mongo.deletarPersonalByCpf("12345678910")
-    
-    
+        self.mongo.deletarByCpf("12345678910")
+
+
+class testeView_CadastrarAluno_Get(TestCase):
+    def setUp(self):
+        sessao = self.client.session
+        sessao["sessao"]=True,
+        sessao['tipo_usuario'] = "personal"
+        sessao['cpf'] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+
+        self.resp = self.client.get(r("cadastrarAluno"))
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code,200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp,"TemplateCadastrarAluno.html")
+
+
+class testeView_CadastrarAluno_Post(TestCase):
+    def setUp(self):
+        sessao = self.client.session
+        sessao["sessao"]=True,
+        sessao['tipo_usuario'] = "personal"
+        sessao['cpf'] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+
+        self.mongo = ServiceMongo()
+        self.mongo._colecao = self.mongo._mydb['aluno']
+
+        aluno = {"nome": "joao mock", "data_nascimento":"2019-05-20" , "cpf": "123456789", "telefone": "123456"}
+
+        self.resp = self.client.post(r("cadastrarAluno"), aluno)
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code,200)
+
+    def test_post(self):
+        x = self.mongo.consultarCpf("123456789")
+        self.assertEqual(x.get("nome", "Não foi possível encontrar"),"joao mock")
+
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp,"TemplateCadastrarAluno.html")
         
+    def __del__(self):
+        self.mongo.deletarByCpf("123456789")
             
