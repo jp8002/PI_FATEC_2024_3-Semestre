@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 import pymongo
 
@@ -24,7 +25,7 @@ def View_Pagina_Inicial(request):
         contexto={'aluno':aluno}
         
     #ipdb.set_trace()
-    
+
     return render(request, "TemplatePaginaInicial.html",contexto)
     
 def Calendario(request):

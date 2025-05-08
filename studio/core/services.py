@@ -160,3 +160,32 @@ class ServiceMongo:
             return True
         except Exception as e:
             raise Exception("Não foi possivel criar o registro ", e)
+        
+    def CriarTreinoAluno(self, cpfAluno,treino):
+        try:
+            treinoAdicao = self._colecao.update_one(
+                {"cpf": cpfAluno},
+                {"$push": {"treinos":treino}}
+            )
+
+            if treinoAdicao.modified_count == 0:
+                logging.error("Nenhum treino adicionado. Verifique se o CPF está correto.")
+                return False
+            
+            return True
+
+        except Exception as e:
+            logging.error("Erro ao adicionar treino: (" + str(e) + ")")
+
+    def deletarTreinoAluno(self, cpfAluno, treino):
+        try:
+            treinoRemocao = self._colecao.update_one(
+                {"cpf":cpfAluno},
+                {"$pull": {"treinos":treino}}
+            )
+
+            if treinoRemocao.modified_count == 0:
+                logging.error(f"Treino '{treino}' não encontrado para o CPF {cpfAluno}")
+                return False
+        except Exception as e:
+            logging.error("Erro ao deletar treino: (" + str(e) + ")")
