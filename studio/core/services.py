@@ -188,7 +188,22 @@ class ServiceMongo:
         self._colecao.update_one({"cpf":cpf},{"$push":{"sessoes":dia}})
         return True
 
-        
+    def deletarAgendamento(self,Agendamento):
+        cpf = Agendamento["cpf"]
+        dia = Agendamento["dia"]
+
+        if (self.consultarCpf(cpf) == False):
+            raise Exception("Esse cpf não existe")
+
+        try:
+            dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
+        except Exception as e:
+            logging.error("Erro ao converter o dia ", e)
+            return False
+
+        self._colecao.update_one({"cpf":cpf},{"$pull":{"sessoes":dia}})
+        return True
+
     def CriarTreinoAluno(self, cpfAluno,treino):
         try:
             treinoAdicao = self._colecao.update_one(
@@ -197,7 +212,7 @@ class ServiceMongo:
             )
 
             if treinoAdicao.modified_count == 0:
-                logging.error("Nenhum treino adicionado. Verifique se o CPF está correto.")
+                raise Exception("Verifique se o CPF está correto.")
                 return False
             
             return True
@@ -213,7 +228,7 @@ class ServiceMongo:
             )
 
             if treinoRemocao.modified_count == 0:
-                logging.error(f"Treino '{treino}' não encontrado para o CPF {cpfAluno}")
+                raise Exception(f"Treino '{treino}' não encontrado para o CPF {cpfAluno}")
                 return False
         except Exception as e:
             logging.error("Erro ao deletar treino: (" + str(e) + ")")
