@@ -105,7 +105,7 @@ def View_CadastrarPersonal(request):
     return render(request, "TemplateCadastrarPersonal.html")
 
 
-def View_AlunoCadastrar(request):
+def View_CadastrarAluno(request):
     sessao = request.session
     if not Autenticar.checarSessao(sessao) or not Autenticar.checarSessaoPersonal(sessao):
         #ipdb.set_trace()
@@ -121,5 +121,22 @@ def View_AlunoCadastrar(request):
     return render(request, "TemplateCadastrarAluno.html")
 
 
+def View_AgendarTreino(request):
+    if not Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
 
+    if not Autenticar.checarSessaoPersonal(request.session):
+        return redirect("paginaInicial")
 
+    serviceM = ServiceMongo()
+    serviceM._colecao = serviceM._mydb["aluno"]
+
+    if request.method == 'POST':
+        agendamento = request.POST.dict()
+        serviceM.agendar(agendamento)
+
+    listaAlunos = serviceM.listarAlunos()
+
+    contexto = {'alunos': listaAlunos}
+
+    return render(request, "TemplateAgendarTreino.html", contexto)

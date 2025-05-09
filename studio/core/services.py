@@ -33,10 +33,13 @@ class Autenticar:
         return True
         
     def checarSessao(sessao):
-        if (sessao.get('sessao',False) and sessao.get("cpf",False)):
-            return True
+        if (not sessao.get('sessao',False) or not  sessao.get("cpf",False)):
+            return False
+
+        if sessao.get("sessao",False) != True:
+            return False
         
-        return False
+        return True
     
     def checarSessaoAluno(sessao):
         if not sessao.get("tipo_usuario", False) == "aluno":
@@ -59,9 +62,6 @@ class Autenticar:
             return False
 
         return True
-        
-        
-            
 
 class ServiceMongo:
     
@@ -160,3 +160,31 @@ class ServiceMongo:
             return True
         except Exception as e:
             raise Exception("Não foi possivel criar o registro ", e)
+
+
+    def listarAlunos(self):
+        try:
+            query = list(self._colecao.find())
+
+        except Exception as e:
+            logging.error("Erro ao consultar o registro ", e)
+            return False
+
+        return query
+
+    def agendar(self,Agendamento):
+        cpf = Agendamento["cpf"]
+        dia = Agendamento["dia"]
+
+        if (self.consultarCpf(cpf) == False):
+            raise Exception("Esse cpf não existe")
+
+        try:
+            dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
+        except Exception as e:
+            logging.error("Erro ao converter o dia ", e)
+            return False
+
+        self._colecao.update_one({"cpf":cpf},{"$push":{"sessoes":dia}})
+        return True
+

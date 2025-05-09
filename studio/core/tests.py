@@ -26,7 +26,7 @@ class testePaginaInicialComSessao(TestCase):
         
         
         session = self.client.session
-        session['sessao'] = [True]
+        session['sessao'] = True
         session['cpf'] = '123654789'
         session.save()
         
@@ -45,58 +45,6 @@ class testePaginaInicialComSessao(TestCase):
     
     def __del__ (self):
         self.mongo.consultarCpf("123654789")
-    
-    
-class testeServiceMongo(TestCase):
-    def setUp(self):
-        
-        self.mongo = ServiceMongo('localhost','27017',"mock")
-        self.mongo._colecao = self.mongo._mydb['mockcol']
-        self.id = self.mongo._colecao.insert_one({"nome":"joao", "cpf":"123654789"})
-
-        self.mongo._colecao.insert_one({
-            "status": "ativo",
-            "data_assinatura": "2024-03-01T08:00:00"
-        })
-        self.mongo._colecao.insert_one({
-            "status": "inativo",
-            "data_assinatura": "2024-03-02T09:00:00"
-        })
-
-    def test_ChecarAluno(self):
-            resp = self.mongo.ChecarAluno(self.id.inserted_id)
-            #ipdb.set_trace()
-            self.assertEqual(resp, True)
-    
-    def test_consultar(self):
-        resp = self.mongo.consultar(self.id.inserted_id)
-        nomeBanco = resp.get("nome","Essa chave não existe")
-        
-        self.assertEqual(nomeBanco, "joao")
-
-    def test_consultar_datas_agendadas(self):
-        resp = self.mongo.consultar_datas_agendadas()
-        self.assertIn("01/03/2024", resp)
-        self.assertNotIn("02/03/2024", resp)
-    
-    def test_consultarCpf(self):
-        resp = self.mongo.consultarCpf("123654789")
-        self.assertEqual(resp.get("nome","Não foi encontrado"), "joao")
-    
-    def test_deletarByCpf(self):
-        resp = self.mongo.deletarByCpf("123654789")
-        self.assertEqual(resp, True)
-    
-    def test_criarNovoPersonal(self):
-        resp = self.mongo.criarNovoPersonal("Otavio","otavio123","999999999","otavio@gmail.com","12345678910","1500")
-        self.assertTrue(resp)
-
-    def test_criarNovoAluno(self):
-        resp = self.mongo.CriarNovoAluno({"nome":"joao mock", "data_nascimento": "2019-05-20" ,"cpf":"123654789","telefone":"123424564646"})
-        self.assertTrue(resp)
-
-    def __del__(self):
-        self.mongo._colecao.drop()
         
 
 class testeView_LoginGet(TestCase):
@@ -136,7 +84,7 @@ class testeView_AlunoInicial(TestCase):
         self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123654789","senha":"1234"})
         
         session = self.client.session
-        session["sessao"]=True,
+        session["sessao"]=True
         session["cpf"] = "123654789"
         
         session.save()
@@ -164,7 +112,7 @@ class testeView_PersonalInicial(TestCase):
         self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"12345678910","senha":"1234"})
 
         session = self.client.session
-        session["sessao"]=True,
+        session["sessao"]=True
         session["cpf"]="12345678910"
 
         session.save()
@@ -189,7 +137,7 @@ class testeView_CadastrarPersonal(TestCase):
         self.mongo._colecao = self.mongo._mydb['personal']
 
         session = self.client.session
-        session["sessao"]=True,
+        session["sessao"]=True
         session["cpf"]="12345678910"
 
         session.save()
@@ -212,7 +160,7 @@ class testeView_CadastrarPersonal(TestCase):
 class testeView_CadastrarAluno_Get(TestCase):
     def setUp(self):
         sessao = self.client.session
-        sessao["sessao"]=True,
+        sessao["sessao"]=True
         sessao['tipo_usuario'] = "personal"
         sessao['cpf'] = "12345678901"
         sessao.save()
@@ -231,7 +179,7 @@ class testeView_CadastrarAluno_Get(TestCase):
 class testeView_CadastrarAluno_Post(TestCase):
     def setUp(self):
         sessao = self.client.session
-        sessao["sessao"]=True,
+        sessao["sessao"]=True
         sessao['tipo_usuario'] = "personal"
         sessao['cpf'] = "12345678901"
         sessao.save()
@@ -258,4 +206,113 @@ class testeView_CadastrarAluno_Post(TestCase):
         
     def __del__(self):
         self.mongo.deletarByCpf("123456789")
+
+
+class testeView_AgendarTreino_Get(TestCase):
+    def setUp(self):
+
+        sessao = self.client.session
+        sessao["sessao"] = True
+        sessao['tipo_usuario'] = "personal"
+        sessao["cpf"] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+
+
+        self.resp = self.client.get(r("agendarTreino"))
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code,200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp,"TemplateAgendarTreino.html")
+
+    def test_combobox(self):
+        self.assertContains(self.resp,"<option")
+
+class testeView_AgendarTreino_Post(TestCase):
+    def setUp(self):
+        sessao = self.client.session
+        sessao["sessao"] = True
+        sessao['tipo_usuario'] = "personal"
+        sessao["cpf"] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+
+        self.resp = self.client.post(r("agendarTreino"),{ 'cpf': '987654321', 'dia': '2025-05-19T00:00'})
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp, "TemplateAgendarTreino.html")
+
+    def test_combobox(self):
+        self.assertContains(self.resp, "<option")
+
+
+class testeServiceMongo(TestCase):
+    def setUp(self):
+        self.mongo = ServiceMongo('localhost', '27017', "mock")
+        self.mongo._colecao = self.mongo._mydb['mockcol']
+        self.id = self.mongo._colecao.insert_one({"nome": "joao", "cpf": "123654789"})
+
+        self.mongo._colecao.insert_one({
+            "status": "ativo",
+            "data_assinatura": "2024-03-01T08:00:00"
+        })
+        self.mongo._colecao.insert_one({
+            "status": "inativo",
+            "data_assinatura": "2024-03-02T09:00:00"
+        })
+
+    def test_ChecarAluno(self):
+        resp = self.mongo.ChecarAluno(self.id.inserted_id)
+        # ipdb.set_trace()
+        self.assertEqual(resp, True)
+
+    def test_consultar(self):
+        resp = self.mongo.consultar(self.id.inserted_id)
+        nomeBanco = resp.get("nome", "Essa chave não existe")
+
+        self.assertEqual(nomeBanco, "joao")
+
+    def test_consultar_datas_agendadas(self):
+        resp = self.mongo.consultar_datas_agendadas()
+        self.assertIn("01/03/2024", resp)
+        self.assertNotIn("02/03/2024", resp)
+
+    def test_consultarCpf(self):
+        resp = self.mongo.consultarCpf("123654789")
+        self.assertEqual(resp.get("nome", "Não foi encontrado"), "joao")
+
+    def test_deletarByCpf(self):
+        resp = self.mongo.deletarByCpf("123654789")
+        self.assertEqual(resp, True)
+
+    def test_criarNovoPersonal(self):
+        resp = self.mongo.criarNovoPersonal("Otavio", "otavio123", "999999999", "otavio@gmail.com", "12345678910",
+                                            "1500")
+        self.assertTrue(resp)
+
+    def test_criarNovoAluno(self):
+        resp = self.mongo.CriarNovoAluno(
+            {"nome": "joao mock", "data_nascimento": "2019-05-20", "cpf": "123654789", "telefone": "123424564646"})
+        self.assertTrue(resp)
+
+    def test_listaAlunos(self):
+        resp = self.mongo.listarAlunos()
+
+        #ipdb.set_trace()
+        self.assertTrue(resp)
+
+    def test_agendar(self):
+        resp = self.mongo.agendar({"cpf":"123654789","dia":"2025-05-06T20:06"})
+        self.assertTrue(resp)
+
+    def __del__(self):
+        self.mongo._colecao.drop()
+
             
