@@ -230,5 +230,7 @@ class ServiceMongo:
             if treinoRemocao.modified_count == 0:
                 raise Exception(f"Treino '{treino}' não encontrado para o CPF {cpfAluno}")
                 return False
+            
+            return True
         except Exception as e:
             logging.error("Erro ao deletar treino: (" + str(e) + ")")

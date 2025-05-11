@@ -141,3 +141,63 @@ def View_AgendarTreino(request):
     contexto = {'alunos': listaAlunos}
 
     return render(request, "TemplateAgendarTreino.html", contexto)
+
+def View_DeletarAgendamento(request): # QUAL TELA ESSAS FUNÇÕES FAZEM PARTE???~KPO
+    if not Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
+
+    if not Autenticar.checarSessaoPersonal(request.session):
+        return redirect("paginaInicial")
+
+    serviceM = ServiceMongo()
+    serviceM._colecao = serviceM._mydb["aluno"]
+
+    if request.method == 'POST':
+        agendamento = request.POST.dict()
+        serviceM.deletarAgendamento(agendamento)
+
+    listaAlunos = serviceM.listarAlunos()
+
+    contexto = {'alunos': listaAlunos}
+
+    return render(request, "TemplateDeletarAgendamento.html", contexto)
+
+def View_CriarTreinoAluno(request): # QUAL TELA ESSAS FUNÇÕES FAZEM PARTE???~KPO
+    if not Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
+    
+    if not Autenticar.checarSessaoPersonal(request.session):
+        return redirect("paginaInicial")
+    
+    serviceM = ServiceMongo()
+    serviceM._colecao = serviceM._mydb["aluno"]
+
+    if request.method == 'POST':
+        agendamento = request.POST.dict()
+        serviceM.CriarTreinoAluno(agendamento["cpf"],agendamento["treino"])
+
+    listaAlunos = serviceM.listarAlunos()
+
+    contexto = {'alunos': listaAlunos}
+
+    return render(request, "TemplateCriarTreino.html", contexto)
+
+def View_DeletarTreinoAluno(request): # QUAL TELA ESSAS FUNÇÕES FAZEM PARTE???~KPO
+    if not Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
+    
+    if not Autenticar.checarSessaoPersonal(request.session):
+        return redirect("paginaInicial")
+    
+    serviceM = ServiceMongo()
+    serviceM._colecao = serviceM._mydb["aluno"]
+
+    if request.method == 'POST':
+        agendamento = request.POST.dict()
+        serviceM.deletarTreinoAluno(agendamento["cpf"],agendamento["treino"])
+
+    listaAlunos = serviceM.listarAlunos()
+
+    contexto = {'alunos': listaAlunos}
+
+    return render(request, "TemplateDeletarTreino.html", contexto)
