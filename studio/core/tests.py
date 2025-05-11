@@ -240,8 +240,12 @@ class testeView_AgendarTreino_Post(TestCase):
         sessao.save()
 
         self.client.cookies['sessionid'] = sessao.session_key
+        
+        self.mongo = ServiceMongo()
+        self.mongo._colecao = self.mongo._mydb['aluno']
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123456789","senha":"1234"})
 
-        self.resp = self.client.post(r("agendarTreino"),{ 'cpf': '987654321', 'dia': '2025-05-19T00:00'})
+        self.resp = self.client.post(r("agendarTreino"),{ 'cpf': '123456789', 'dia': '2025-05-19T00:00'})
 
     def test_200_response(self):
         self.assertEqual(self.resp.status_code, 200)
@@ -251,6 +255,165 @@ class testeView_AgendarTreino_Post(TestCase):
 
     def test_combobox(self):
         self.assertContains(self.resp, "<option")
+
+    def __del__(self):
+        self.mongo.deletarByCpf("123456789")
+
+class testeView_DeletarAgendamento_Get(TestCase):
+    def setUp(self):
+
+        sessao = self.client.session
+        sessao["sessao"] = True
+        sessao['tipo_usuario'] = "personal"
+        sessao["cpf"] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+
+
+        self.resp = self.client.get(r("deletarAgendamento"))
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code,200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp,"TemplateDeletarAgendamento.html")
+
+    def test_combobox(self):
+        self.assertContains(self.resp,"<option")
+
+class testeView_DeletarAgendamento_Post(TestCase):
+    def setUp(self):
+        sessao = self.client.session
+        sessao["sessao"] = True
+        sessao['tipo_usuario'] = "personal"
+        sessao["cpf"] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+        
+        self.mongo = ServiceMongo()
+        self.mongo._colecao = self.mongo._mydb['aluno']
+        self.mongo._colecao.update_one({"cpf":"123456789"},{"$push": {"sessoes": "2025-05-19T00:00"}})
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123456789","senha":"1234"})
+
+        self.resp = self.client.post(r("deletarAgendamento"),{ 'cpf': '123456789', 'dia': '2025-05-19T00:00'})
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp, "TemplateDeletarAgendamento.html")
+
+    def test_combobox(self):
+        self.assertContains(self.resp, "<option")
+
+    def __del__(self):
+        self.mongo.deletarByCpf("123456789")
+
+class testeView_CriarTreino_Get(TestCase):
+    def setUp(self):
+
+        sessao = self.client.session
+        sessao["sessao"] = True
+        sessao['tipo_usuario'] = "personal"
+        sessao["cpf"] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+
+
+        self.resp = self.client.get(r("criarTreino"))
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code,200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp,"TemplateCriarTreino.html")
+
+    def test_combobox(self):
+        self.assertContains(self.resp,"<option")
+
+class testeView_CriarTreino_Post(TestCase):
+    def setUp(self):
+        sessao = self.client.session
+        sessao["sessao"] = True
+        sessao['tipo_usuario'] = "personal"
+        sessao["cpf"] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+        
+        self.mongo = ServiceMongo()
+        self.mongo._colecao = self.mongo._mydb['aluno']
+
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123456789","senha":"1234"})
+
+        self.resp = self.client.post(r("criarTreino"),{ 'cpf': '123456789', 'treino': 'Remada'})
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp, "TemplateCriarTreino.html")
+
+    def test_combobox(self):
+        self.assertContains(self.resp, "<option")
+
+    def __del__(self):
+        self.mongo.deletarByCpf("123456789")
+
+class testeView_DeletarTreino_Get(TestCase):
+    def setUp(self):
+
+        sessao = self.client.session
+        sessao["sessao"] = True
+        sessao['tipo_usuario'] = "personal"
+        sessao["cpf"] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+
+
+        self.resp = self.client.get(r("deletarTreino"))
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code,200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp,"TemplateDeletarTreino.html")
+
+    def test_combobox(self):
+        self.assertContains(self.resp,"<option")
+
+class testeView_DeletarTreino_Post(TestCase):
+    def setUp(self):
+        sessao = self.client.session
+        sessao["sessao"] = True
+        sessao['tipo_usuario'] = "personal"
+        sessao["cpf"] = "12345678901"
+        sessao.save()
+
+        self.client.cookies['sessionid'] = sessao.session_key
+        
+        self.mongo = ServiceMongo()
+        self.mongo._colecao = self.mongo._mydb['aluno']
+        self.mongo._colecao.update_one({"cpf":"123456789"},{"$push": {"treinos": "Remada"}})
+        self.id = self.mongo._colecao.insert_one({"nome":"joao mock","cpf":"123456789","senha":"1234"})
+
+        self.resp = self.client.post(r("deletarTreino"),{ 'cpf': '123456789', 'treino': 'Remada'})
+
+    def test_200_response(self):
+        self.assertEqual(self.resp.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp, "TemplateDeletarTreino.html")
+
+    def test_combobox(self):
+        self.assertContains(self.resp, "<option")
+
+    def __del__(self):
+        self.mongo.deletarByCpf("123456789")
 
 
 class testeServiceMongo(TestCase):
@@ -310,6 +473,20 @@ class testeServiceMongo(TestCase):
 
     def test_agendar(self):
         resp = self.mongo.agendar({"cpf":"123654789","dia":"2025-05-06T20:06"})
+        self.assertTrue(resp)
+
+    def test_deletarAgendamento(self):
+        self.mongo.agendar({"cpf":"123654789","dia":"2025-05-06T20:06"})
+        resp = self.mongo.deletarAgendamento({"cpf":"123654789","dia":"2025-05-06T20:06"})
+        self.assertTrue(resp)
+
+    def test_CriarTreinoAluno(self):
+        resp = self.mongo.CriarTreinoAluno("123654789","Crucifixo")
+        self.assertTrue(resp)
+
+    def test_deletarTreinoAluno(self):
+        self.mongo.CriarTreinoAluno("123654789", "Crucifixo")
+        resp = self.mongo.deletarTreinoAluno("123654789","Crucifixo")
         self.assertTrue(resp)
 
     def __del__(self):
