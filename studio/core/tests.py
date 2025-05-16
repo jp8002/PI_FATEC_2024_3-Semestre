@@ -150,7 +150,7 @@ class testeView_CadastrarPersonal(TestCase):
         self.assertEqual(self.resp.status_code,200)
 
     def test_criarNovoPersonal(self):
-        resultado = self.mongo.criarNovoPersonal("joao mock", "mock123", "999999999", "joao@mock.com","12345678910","1000")
+        resultado = self.mongo.criarNovoPersonal("joao mock", "mock123", "999999999", "joao@mock.com","12345678910","1000","funcionario","999999-P/SP")
         self.assertTrue(resultado)
         
     def __del__(self):
@@ -457,7 +457,7 @@ class testeServiceMongo(TestCase):
 
     def test_criarNovoPersonal(self):
         resp = self.mongo.criarNovoPersonal("Otavio", "otavio123", "999999999", "otavio@gmail.com", "12345678910",
-                                            "1500")
+                                            "1500","funcionario","999999-P/SP")
         self.assertTrue(resp)
 
     def test_criarNovoAluno(self):
@@ -489,6 +489,31 @@ class testeServiceMongo(TestCase):
         resp = self.mongo.deletarTreinoAluno("123654789","Crucifixo")
         self.assertTrue(resp)
 
+    def test_listaPersonals(self):
+        resp = self.mongo.listarPersonals()
+
+        self.assertTrue(resp)
+
+    def test_atualizarPersonal(self):
+        cpf="12345678910"
+        self.mongo.criarNovoPersonal("mock peres", "mock123","999999999","peres@mock.com",cpf,"1500","funcionario","999999-P/SP")
+
+        novo_telefone="912345678"
+        novo_email="peres@mock.com"
+        novo_salario="1600"
+        novo_acesso="admin"
+
+        resp = self.mongo.atualizarPersonal(cpf,novo_telefone,novo_email,novo_salario,novo_acesso)
+        self.assertTrue(resp)
+
+        registro_atualizado = self.mongo._colecao.find_one({"cpf": cpf})
+        self.assertEqual(registro_atualizado["telefone"], novo_telefone)
+        self.assertEqual(registro_atualizado["email"], novo_email)
+        self.assertEqual(registro_atualizado["salario"], float(novo_salario))
+        self.assertEqual(registro_atualizado["acesso"], novo_acesso)
+        self.assertEqual(registro_atualizado["nome"], "mock peres") 
+        self.assertEqual(registro_atualizado["cref"], "999999-P/SP")
+    
     def __del__(self):
         self.mongo._colecao.drop()
 

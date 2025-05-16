@@ -101,7 +101,7 @@ def View_CadastrarPersonal(request):
     if request.method == 'POST':
         serviceM = ServiceMongo()
         serviceM._colecao = serviceM._mydb["personal"]
-        serviceM.criarNovoPersonal(request.POST.get('nome'),request.POST.get('senha'),request.POST.get('telefone'),request.POST.get('email'),request.POST.get('cpf'),request.POST.get('salario'))
+        serviceM.criarNovoPersonal(request.POST.get('nome'),request.POST.get('senha'),request.POST.get('telefone'),request.POST.get('email'),request.POST.get('cpf'),request.POST.get('salario'),request.POST.get('acesso'),request.POST.get('cref'))
 
     return render(request, "TemplateCadastrarPersonal.html")
 
@@ -201,3 +201,23 @@ def View_DeletarTreinoAluno(request): # QUAL TELA ESSAS FUNÇÕES FAZEM PARTE???
     contexto = {'alunos': listaAlunos}
 
     return render(request, "TemplateDeletarTreino.html", contexto)
+
+def View_AtualizarPersonal(request):
+    if not Autenticar.checarSessao(request.session):
+        return redirect("paginaInicial")
+    
+    if not Autenticar.checarSessaoPersonal(request.session):
+        return redirect("paginaInicial")
+    
+    serviceM = ServiceMongo()
+    serviceM._colecao = serviceM._mydb["personal"]
+
+    if request.method == 'POST':
+        atualizacao = request.POST.dict()
+        serviceM.atualizarPersonal(atualizacao["cpf"],atualizacao["telefone"],atualizacao["email"],atualizacao["salario"],atualizacao["acesso"])
+
+    listaPersonal = serviceM.listarPersonals()
+
+    contexto = {'personals': listaPersonal}
+
+    return render(request, "TemplateAtualizarPersonal.html", contexto)
