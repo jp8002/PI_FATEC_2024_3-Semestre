@@ -221,6 +221,7 @@ class ServiceMongo:
 
         except Exception as e:
             logging.error("Erro ao adicionar treino: (" + str(e) + ")")
+            return False
 
     def deletarTreinoAluno(self, cpfAluno, treino):
         try:
@@ -236,6 +237,48 @@ class ServiceMongo:
             return True
         except Exception as e:
             logging.error("Erro ao deletar treino: (" + str(e) + ")")
+            return False
+
+    def deletarAluno(self, cpfAluno):
+        if self.consultarCpf(cpfAluno) == False:
+            return False
+
+        try:
+            query = self._colecao.delete_one({"cpf":cpfAluno})
+
+        except Exception as e:
+            logging.error("Erro ao deletar treino: (" + str(e) + ")")
+            return False
+
+        return True
+
+    def editarAluno(self, aluno):
+
+        if self.consultarCpf(aluno.get("cpf",False)) == False:
+            return False
+
+        try:
+            query = {"cpf": aluno.get("cpf")}
+            self._colecao.update_one(query, {"$set": aluno})
+
+        except Exception as e:
+            logging.error("Erro ao editar aluno: (" + str(e) + ")")
+            return False
+
+        return True
+
+    def listarAlunosPorStatus(self, status):
+        try:
+            resp = self._colecao.find({"status": status})
+
+            if not resp.next():
+                raise Exception("Nenhum aluno encontrado.")
+
+        except Exception as e:
+            logging.error("Erro ao listar alunos: (" + str(e) + ")")
+            return False
+        return resp
+
 
     def atualizarPersonal(self,cpf,telefone,email,salario,acesso):
         try:
