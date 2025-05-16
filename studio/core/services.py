@@ -131,7 +131,7 @@ class ServiceMongo:
             raise Exception("Não foi possivel deletar o registro ", e)
             #return False
         
-    def criarNovoPersonal(self, nome, senha, telefone, email, cpf, salario):
+    def criarNovoPersonal(self, nome, senha, telefone, email, cpf, salario, acesso, cref):
         try:
             salario = float(salario)
             self._colecao.insert_one({
@@ -140,7 +140,9 @@ class ServiceMongo:
                 "telefone": telefone,
                 "email": email,
                 "cpf": cpf,
-                "salario": salario
+                "salario": salario,
+                "acesso": acesso,
+                "cref": cref,
             })
             return True
         except Exception as e:
@@ -276,3 +278,38 @@ class ServiceMongo:
             logging.error("Erro ao listar alunos: (" + str(e) + ")")
             return False
         return resp
+
+
+    def atualizarPersonal(self,cpf,telefone,email,salario,acesso):
+        try:
+            salario = float(salario)
+            resultado = self._colecao.update_one(
+                {"cpf": cpf},
+                {
+                    "$set": {
+                        "telefone": telefone,
+                        "email": email,
+                        "salario": salario,
+                        "acesso": acesso,
+                    }
+                },
+                upsert=False
+            )
+
+            if resultado.matched_count == 0:
+                raise Exception(f"Personal Trainer com CPF {cpf} não encontrado")
+                return False
+        
+            return True
+        except Exception as e:
+            logging.error("Erro ao atualizar registro de personal: (" + str(e) + ")")
+
+    def listarPersonals(self):
+        try:
+            query = list(self._colecao.find())
+
+        except Exception as e:
+            logging.error("Erro ao consultar o registro ", e)
+            return False
+
+        return query

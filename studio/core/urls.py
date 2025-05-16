@@ -15,5 +15,6 @@ urlpatterns = [
     path("personal/deletar_agendamento", views.View_DeletarAgendamento, name='deletarAgendamento'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
     path("personal/criar_treino", views.View_CriarTreinoAluno, name='criarTreino'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
     path("personal/deletar_treino", views.View_DeletarTreinoAluno, name='deletarTreino'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
+    path("personal/atualizar_personal", views.View_AtualizarPersonal, name='atualizarPersonal'),
     
 ]
