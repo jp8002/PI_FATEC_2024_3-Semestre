@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Página de Login</h1>
+
+
+    <form method="post" action="{% url "paginaLogin" %}">
+        {% csrf_token %}
+
+        <input type="text" name="cpf" id="dinamico">
+        <br>
+        <input type="password" name="senha">
+        <br>   
+            <input type="radio" name="tipo_usuario" value="aluno" id="aluno" checked >
+            <label for="aluno">Aluno</label><br>
+            
+            <input type="radio" name="tipo_usuario" value="personal" id="personal">
+            <label for="personal">Personal</label>
+        <br>
+        <input type="submit" name="Logar">
+        <br>
+
+    </form>
+</body>
+</html>
