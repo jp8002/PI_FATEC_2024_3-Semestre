@@ -1,0 +1,95 @@
+
+
+
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  {% extends "TemplateNavBar.html" %}
+  <div class="box flex justify-content-center" style="height: 10%; width: 100%; margin-bottom: 5%;">
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="../templates/img/carrossel2.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../templates/img/carrossel2.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../templates/img/carrossel2.png" class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="card-group" style="margin-right:3% ;margin-left: 3%;">
+      <div class="card" style="width: 18rem; margin-right:2%">
+        <img class="card-img-top" src="..." alt="Card image cap">
+      </div>
+
+      <div class="card w-75"  style="margin-left: 2%;">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Button</a>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="card-group">
+    <div class="card">
+      <img class="card-img-top" src="..." alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img-top" src="..." alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img-top" src="..." alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-box">
+    <div class="d-flex align-content-end flex-wrap"><h1>aqui vai o mapa</h1></div>
+  </div>
+  <div class="flex-box">
+    <div class="info1">
+      <img src="" alt="localizacao"><a href="" alt="link local"></a>
+    </div>
+    <div class="info2">
+      <img src="" alt="numero"><a href="" alt="link numero"></a>
+    </div>
+  </div>
+
+
+</body>
+</html>
