@@ -1,1 +1,147 @@
-<h1>Página de cadastro de alunos</h1>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PH Personal - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"><style>
+    body {
+      font-family: 'Reem Kufi Fun', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-white">
+
+    <!-- Header -->
+    <header class="bg-black text-white flex items-center justify-between p-4">
+        <a href="#" class="flex items-center space-x-2">
+        <img src="logo.png" alt="Logo PH Personal" class="h-10" />
+        <span class="text-sm uppercase tracking-widest">PH Personal</span>
+        </a>
+        <a href="#" class="bg-white text-black px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition">
+        <span>Sair</span>
+        <img src="https://img.icons8.com/?size=100&id=arrojWw9F5j5&format=png&color=000000" alt="Sair" class="h-5 mb-1" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10v1" />
+        </svg>
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex flex-col items-left text-left ">
+        <div style="display: flex;">
+                    <a href="{% url 'personalInicial' %}" class="text-black px-4 py-1 rounded-full flex items-center">
+                    <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" class="h-7" />
+                    <span class="font-weight-bold" style="font-size: 24px;">Voltar</span>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10v1" />
+                    </svg>
+                    </a>
+        </div>
+        <div class="" style="padding-left: 5%; padding-right: 5%; padding-bottom: 5%;">               
+            <div class="display: flex-column container">
+                    {% block content %}
+                        <div class="display: flex">
+                            <h1 class="mb-2 mt-4 font-weight-bold display-3">Cadastro de Aluno</h1>
+                        </div>
+                        <div class="container mt-2 rounded-lg p-8" style="background-color: #D9D9D9;">                    
+                            <form method="post" action="{% url 'cadastrarAluno' %}" class="col-11 mx-auto">
+                                {% csrf_token %}
+                                
+                                <!-- Mensagens de erro gerais -->
+                                {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.non_field_errors }}
+                                </div>
+                                {% endif %}
+
+                                <!--  font-weight-bold Nome -->
+                                <div class="form-group mb-4 font-weight-bold h4">
+                                    <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+                                    {{ form.nome }}
+                                    {% if form.nome.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.nome.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!--  font-weight-bold CPF -->
+                                <div class="form-group mb-4 font-weight-bold h4">
+                                    <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
+                                    {{ form.cpf }}
+                                    
+                                    {% if form.cpf.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.cpf.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!--  font-weight-bold Data de Nascimento -->
+                                <div class="form-group mb-4 font-weight-bold h4">
+                                    <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
+                                    {{ form.data_nascimento }}
+                                    {% if form.data_nascimento.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.data_nascimento.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!--  font-weight-bold Email -->
+                                <div class="form-group mb-4 font-weight-bold h4">
+                                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.email.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!--  font-weight-bold Telefone -->
+                                <div class="form-group mb-4 font-weight-bold h4">
+                                    <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
+                                    {{ form.telefone }}
+                                    {% if form.telefone.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.telefone.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!--  font-weight-bold Senha -->
+                                <div class="form-group mb-4 font-weight-bold h4">
+                                    <label for="{{ form.senha.id_for_label }}">{{ form.senha.label }}</label>
+                                    {{ form.senha }}
+                                    {% if form.senha.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.senha.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!--  font-weight-bold Plano -->
+                                <div class="form-group mb-4 font-weight-bold h4">
+                                    <label for="{{ form.plano.id_for_label }}">{{ form.plano.label }}</label>
+                                    {{ form.plano }}
+                                    {% if form.plano.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.plano.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="d-flex justify-content-end pt-8 h4">
+                                    <button type="submit" class="bg-black text-white px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition">Cadastrar</button>
+                                </div>
+                            </form>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

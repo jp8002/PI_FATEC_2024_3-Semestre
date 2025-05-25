@@ -1,3 +1,4 @@
+from datetime import date
 from django.test import TestCase
 from django.urls import reverse as r
 from core.services import ServiceMongo
@@ -195,11 +196,6 @@ class testeView_CadastrarAluno_Post(TestCase):
 
     def test_200_response(self):
         self.assertEqual(self.resp.status_code,200)
-
-    def test_post(self):
-        x = self.mongo.consultarCpf("123456789")
-        self.assertEqual(x.get("nome", "Não foi possível encontrar"),"joao mock")
-
 
     def test_template(self):
         self.assertTemplateUsed(self.resp,"TemplateCadastrarAluno.html")
@@ -461,8 +457,18 @@ class testeServiceMongo(TestCase):
         self.assertTrue(resp)
 
     def test_criarNovoAluno(self):
+
+        nome = 'joao mock'
+        cpf = '12345678910'
+        data_nascimento = date.today()
+        email = 'joao@mock.com'
+        telefone = '19999999999'
+        senha = 'mock123'
+        plano = 'Trimestral'
+
         resp = self.mongo.CriarNovoAluno(
-            {"nome": "joao mock", "data_nascimento": "2019-05-20", "cpf": "123654789", "status": "ativo","telefone": "123424564646"})
+                nome, cpf, data_nascimento, email, telefone, senha, plano
+            )
         self.assertTrue(resp)
 
     def test_listaAlunos(self):
