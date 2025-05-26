@@ -6,6 +6,8 @@ import ipdb
 from core.services import ServiceMongo
 from core.services import Autenticar
 
+from core.forms import CadastrarAlunoForm
+
 # Create your views here.
 def View_Pagina_Inicial(request):
 
@@ -112,14 +114,30 @@ def View_CadastrarAluno(request):
         #ipdb.set_trace()
         return redirect("paginaInicial")
 
-    if request.method == 'GET':
-        return render(request, "TemplateCadastrarAluno.html")
+    if request.method == 'POST':
+        form = CadastrarAlunoForm(request.POST)
+        if form.is_valid():
+            serviceM = ServiceMongo()
+            serviceM._colecao = serviceM._mydb["aluno"]
+            dados=(form.cleaned_data)
 
-    serviceM = ServiceMongo()
-    serviceM._colecao = serviceM._mydb["aluno"]
+            nome = dados['nome']
+            cpf = dados['cpf']
+            data_nascimento = dados['data_nascimento']
+            email = dados['email']
+            telefone = dados['telefone']
+            senha = dados['senha']
+            plano = dados['plano']
 
-    serviceM.CriarNovoAluno(request.POST)
-    return render(request, "TemplateCadastrarAluno.html")
+            serviceM.CriarNovoAluno(
+                nome, cpf, data_nascimento, email, telefone, senha, plano
+            )
+            
+            return redirect('paginaInicial')
+    else:
+        form = CadastrarAlunoForm()
+
+    return render(request, "TemplateCadastrarAluno.html", {'form':form})
 
 
 def View_AgendarTreino(request):
