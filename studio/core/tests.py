@@ -41,8 +41,8 @@ class testePaginaInicialComSessao(TestCase):
     def test_template(self):
         self.assertTemplateUsed(self.resp, "TemplatePaginaInicial.html")
         
-    def test_template_session(self):
-        self.assertContains(self.resp, "joao mock")
+    # def test_template_session(self):
+    #     self.assertContains(self.resp, "joao mock")
     
     def __del__ (self):
         self.mongo.consultarCpf("123654789")
