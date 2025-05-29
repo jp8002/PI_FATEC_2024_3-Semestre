@@ -149,19 +149,18 @@ class ServiceMongo:
             raise Exception("Erro na criação do registro ", e)
             #return False
 
-    def CriarNovoAluno(self, DadosAluno):
+    def CriarNovoAluno(self, nome, cpf, data_nascimento, email, telefone, senha, plano):
         try:
-            nome = DadosAluno["nome"]
-            data_nascimento = DadosAluno["data_nascimento"]
-            cpf = DadosAluno["cpf"]
-            telefone = DadosAluno["telefone"]
+            data_nascimento_mongo = datetime.combine(data_nascimento, datetime.min.time())
 
-            query = {"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "telefone": telefone}
+            query = {"nome": nome, "cpf": cpf, "data_nascimento": data_nascimento_mongo, "email": email, "telefone": telefone, "senha": senha, "plano": plano}
 
             self._colecao.insert_one(query)
+
             return True
         except Exception as e:
-            raise Exception("Não foi possivel criar o registro ", e)
+            logging.error("Não foi possivel criar o registro ", e)
+            return False
 
 
     def listarAlunos(self):
