@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views import View
 
-from core.service import Autenticar
+from core.services.Autenticar import Autenticar
 from core.services import ConexaoMongo
 
 

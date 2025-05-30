@@ -3,7 +3,7 @@ from django.views import View
 
 from core.entity.AlunoEntity import Aluno
 from core.repositories.AlunoRepository import AlunoRepository
-from core.service import Autenticar
+from core.services.Autenticar import Autenticar
 from core.services.ConexaoMongo import ConexaoMongo
 
 

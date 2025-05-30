@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 
 from core.repositories.AlunoRepository import AlunoRepository
-from core.service import Autenticar
+from core.services.Autenticar import Autenticar
 from core.services.ConexaoMongo import ConexaoMongo
 
 
