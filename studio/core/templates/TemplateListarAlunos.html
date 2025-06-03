@@ -73,13 +73,17 @@
                                                         {% csrf_token %}
                                                         <input type="hidden" name="cpf" value="{{ i.cpf }}">
                                                         <button type="submit" class="p-0 border-0 bg-transparent">
-                                                            <img src="src/editIcon.png" alt="Editar" class="h-6 cursor-pointer">
+                                                            <img src="editIcon.png" alt="Editar" class="h-6 cursor-pointer">
                                                         </button>
                                                     </form>
-                                                    
-                                                    <a href="#">
-                                                        <img src="src/removeIcon.png" alt="Remover" class="h-6">
-                                                    </a>
+
+                                                    <form action="#" method="post" class="inline">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="cpf" value="{{ i.cpf }}">
+                                                        <button type="submit" class="p-0 border-0 bg-transparent">
+                                                            <img src="removeIcon.png" alt="Remover" class="h-6 cursor-pointer">
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </li>
                                             {% endfor %}

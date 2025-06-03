@@ -31,3 +31,14 @@ class ListarAlunosView(View):
         }
 
         return render(request, "TemplateListarAlunos.html", contexto)
+    
+    def post(self, request):
+
+        documento = self.alunoRepository.consultarCpf("cpf")
+        
+        id_obj = documento["_id"]
+        
+        id_str = str(id_obj)
+        
+        self.alunoRepository.deletarById(id_str)
+        redirect(ListarAlunosView)
