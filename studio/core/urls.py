@@ -11,6 +11,7 @@ from .views.View_DeletarTreinoAluno import DeletarTreinoAlunoView
 from .views.View_Login import LoginView
 from .views.View_Pagina_Inicial import PaginaInicialView
 from .views.View_PersonalInicial import PersonalInicialView
+from .views.View_ListarAlunos import ListarAlunosView
 
 urlpatterns = [
     path('', PaginaInicialView.as_view(), name="paginaInicial"),
@@ -27,5 +28,6 @@ urlpatterns = [
     path("personal/criar_treino", CriarTreinoAlunoView.as_view(), name='criarTreino'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
     path("personal/deletar_treino", DeletarTreinoAlunoView.as_view(), name='deletarTreino'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
     path("personal/atualizar_personal", AtualizarPersonalView.as_view(), name='atualizarPersonal'),
+    path("personal/listar_alunos", ListarAlunosView.as_view(), name='listarAlunos'),
     
 ]
