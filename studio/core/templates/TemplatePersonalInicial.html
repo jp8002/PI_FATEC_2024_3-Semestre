@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PH Personal - Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
   <style>
@@ -15,18 +16,10 @@
 <body class="bg-white">
 
   <!-- Header -->
-  <header class="bg-black text-white flex items-center justify-between p-4">
-    <a href="#" class="flex items-center space-x-2">
-      <img src="logo.png" alt="Logo PH Personal" class="h-10" />
-      <span class="text-sm uppercase tracking-widest">PH Personal</span>
-    </a>
-    <a href="#" class="bg-white text-black px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition">
-      <span>Sair</span>
-      <img src="https://img.icons8.com/?size=100&id=arrojWw9F5j5&format=png&color=000000" alt="Sair" class="h-5 mb-1" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10v1" />
-      </svg>
-    </a>
-  </header>
+  {% block template %}
+    {% include "TemplateNavBar.html" %}
+  {% endblock %}
+
 
   <!-- Main Content -->
   <main class="flex flex-col items-center text-center py-10 px-4">
@@ -35,19 +28,19 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl w-full">
 
       <!-- Agendar treinos -->
-      <a href="#" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
+      <a href="{% url "agendarTreino" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
         <img src="https://img.icons8.com/ios-filled/100/000000/calendar.png" alt="Agendar treinos" class="h-16 mb-4" />
         <span class="text-lg font-semibold">Agendar treinos</span>
       </a>
 
       <!-- Cadastrar alunos -->
-      <a href="#" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
+      <a href="{% url "cadastrarAluno" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
         <img src="https://img.icons8.com/ios-filled/100/000000/add-user-group-man-man.png" alt="Cadastrar alunos" class="h-16 mb-4" />
         <span class="text-lg font-semibold">Cadastrar alunos</span>
       </a>
 
       <!-- Criar plano de treino -->
-      <a href="#" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
+      <a href="{% url "criarTreino" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
         <img src="https://img.icons8.com/?size=100&id=107640&format=png&color=000000" alt="Criar plano de treino" class="h-16 mb-4" />
         <span class="text-lg font-semibold">Criar plano de treino</span>
       </a>
@@ -61,12 +54,16 @@
 
     <!-- Cadastrar Personal (linha única) -->
     <div class="mt-6 max-w-xs w-full">
-      <a href="#" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
+      <a href="{% url "cadastrarPersonal" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
         <img src="https://img.icons8.com/ios-filled/100/000000/biceps.png" alt="Cadastrar Personal" class="h-16 mb-4" />
         <span class="text-lg font-semibold">Cadastrar Personal</span>
       </a>
     </div>
   </main>
 
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>

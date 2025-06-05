@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+    {% block template %}
+        {% include "TemplateNavBar.html" %}
+    {% endblock %}
     <h1>Datas Agendadas</h1>
         {% for data in datas%}
         <li>{{ data }}</li>
