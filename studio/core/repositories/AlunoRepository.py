@@ -5,6 +5,7 @@ import ipdb
 from bson import ObjectId
 from dns.e164 import query
 
+from core.entity import AlunoEntity
 from core.interfaces.InterfaceRepository import InterfaceRepository
 from core.entity.AlunoEntity import Aluno
 
@@ -48,14 +49,18 @@ class AlunoRepository(InterfaceRepository):
 
 
     def listarTodos(self):
+        lista=[]
         try:
             query = list(self.mongo._colecao.find())
+
+            for aluno in query:
+                lista.append(Aluno(aluno))
 
         except Exception as e:
             raise Exception("Erro ao consultar o registro ", e)
 
 
-        return query
+        return lista
 
     def consultarId(self, id):
         query = self.mongo._colecao.find_one(ObjectId(id))
@@ -104,11 +109,14 @@ class AlunoRepository(InterfaceRepository):
 
         try:
             dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
+
+
         except Exception as e:
             raise Exception("Erro ao converter o dia ", e)
 
         try:
-            self.mongo._colecao.update_one({"_id": id}, {"$push": {"sessoes": dia}})
+            self.mongo._colecao.update_one({"_id": ObjectId(id)}, {"$push": {"sessoes": dia}})
+
 
         except Exception as e:
             raise Exception("Erro ao atualizar dia ", e)

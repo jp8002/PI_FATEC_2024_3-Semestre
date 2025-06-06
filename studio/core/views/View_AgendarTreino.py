@@ -1,3 +1,4 @@
+import ipdb
 from django.shortcuts import redirect, render
 from django.views import View
 
@@ -22,6 +23,8 @@ class AgendarTreinoView(View):
             return redirect("paginaInicial")
 
         listaAlunos = self.alunoRepository.listarTodos()
+
+
 
         contexto = {'alunos': listaAlunos}
 

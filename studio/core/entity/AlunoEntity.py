@@ -1,7 +1,7 @@
 
 class Aluno():
     def __init__(self, aluno):
-        self.id = aluno.get("id")
+        self.id = aluno.get("_id")
         self.nome = aluno.get('nome')
         self.telefone = aluno.get('telefone')
         self.cpf = aluno.get('cpf')
