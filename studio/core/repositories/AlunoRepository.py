@@ -101,6 +101,7 @@ class AlunoRepository(InterfaceRepository):
     def agendar(self, Agendamento):
         id = Agendamento["id"]
         dia = Agendamento["dia"]
+        exercicios = Agendamento["exercicios"]
 
         alunoRepository = AlunoRepository(self.mongo)
 
@@ -115,7 +116,8 @@ class AlunoRepository(InterfaceRepository):
             raise Exception("Erro ao converter o dia ", e)
 
         try:
-            self.mongo._colecao.update_one({"_id": ObjectId(id)}, {"$push": {"sessoes": dia}})
+                       #db.aluno.updateOne({ _id : ObjectId("id")}, {$push:{sessoes:{"dia":0,"exercicios":["xxx","yyy"]}}})
+            self.mongo._colecao.update_one({"_id": ObjectId(id)}, {"$push":{"sessoes":{"dia":dia,"exercicios":exercicios}}})
 
 
         except Exception as e:

@@ -34,6 +34,8 @@ class AgendarTreinoView(View):
 
         agendamento = request.POST.dict()
 
+        agendamento["exercicios"] = agendamento["exercicios"].split(";")
+
         self.alunoRepository.agendar(agendamento)
 
         listaAlunos = self.alunoRepository.listarTodos()
