@@ -16,6 +16,7 @@ class AlunoRepository(InterfaceRepository):
     def criar(self,  entity):
         try:
             dados = entity.__dict__
+            dados["data_nascimento"] = datetime.combine(dados["data_nascimento"], datetime.min.time())
             resp = self.mongo._colecao.insert_one(dados)
 
             return True
