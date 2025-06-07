@@ -2,6 +2,15 @@ from django import forms
 from django.core.validators import RegexValidator
 
 class CadastrarAlunoForm(forms.Form):
+    def clean(self):
+        cleaned_data = super().clean()
+        ignorar = ['email','senha']
+        for campo, valor in cleaned_data.items():
+            if campo not in ignorar and isinstance(valor, str):
+                cleaned_data[campo] = valor.title()
+
+        return cleaned_data
+
     nome = forms.CharField(
         label='Nome Completo',
         max_length=100,
@@ -57,6 +66,13 @@ class CadastrarAlunoForm(forms.Form):
 
     plano = forms.CharField(
         label='Plano',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control p-10',
+        })
+    )
+
+    personal = forms.CharField(
+        label='Personal',
         widget=forms.TextInput(attrs={
             'class': 'form-control p-10',
         })
