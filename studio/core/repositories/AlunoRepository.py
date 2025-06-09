@@ -149,36 +149,6 @@ class AlunoRepository(InterfaceRepository):
 
         return True
 
-    def CriarTreinoAluno(self, idAluno, treino):
-        try:
-            treinoAdicao = self.mongo._colecao.update_one(
-                {"_id": ObjectId(idAluno)},
-                {"$push": {"treinos": treino}}
-            )
-
-            if treinoAdicao.modified_count == 0:
-                raise Exception("Erro ao criar treino")
-            return True
-
-        except Exception as e:
-            raise Exception(str(e))
-
-    def deletarTreinoAluno(self, idAluno, treino):
-
-        try:
-            treinoRemocao = self.mongo._colecao.update_one(
-                {"_id": ObjectId(idAluno)},
-                {"$pull": {"treinos": treino}}
-            )
-
-            if treinoRemocao.modified_count == 0:
-                raise Exception(f"Treino '{treino}' não encontrado para o Id {idAluno}")
-
-            return True
-
-        except Exception as e:
-            raise Exception("Erro ao deletar treino: (" + str(e) + ")")
-
 
     def listarAlunosPorStatus(self, status):
         try:
