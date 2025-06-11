@@ -1,7 +1,17 @@
 from django import forms
-from django.core.validators import RegexValidator
+from core.repositories.PersonalRepository import PersonalRepository
+from core.services.ConexaoMongo import ConexaoMongo
 
 class CadastrarAlunoForm(forms.Form):
+    def listar_personal():
+        serviceM = ConexaoMongo()
+        serviceM._colecao = serviceM._mydb["personal"]
+        repository = PersonalRepository(serviceM)
+        
+        personais = repository.listarTodos()
+        print(personais)
+        return [(str(p['nome']), p['nome']) for p in personais]
+
     def clean(self):
         cleaned_data = super().clean()
         ignorar = ['email','senha']
@@ -14,6 +24,7 @@ class CadastrarAlunoForm(forms.Form):
     nome = forms.CharField(
         label='Nome Completo',
         max_length=100,
+        required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control p-10',
         })
@@ -22,7 +33,7 @@ class CadastrarAlunoForm(forms.Form):
     cpf = forms.CharField(
         label='CPF',
         max_length=14,
-        
+        required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control p-10',
             'placeholder': 'xxx.xxx.xxx-xx'
@@ -31,6 +42,7 @@ class CadastrarAlunoForm(forms.Form):
 
     data_nascimento = forms.DateField(
         label='Data de Nascimento',
+        required=True,
         widget=forms.DateInput(
             attrs={
                 'type': 'date',
@@ -41,6 +53,7 @@ class CadastrarAlunoForm(forms.Form):
 
     email = forms.EmailField(
         label='E-mail',
+        required=True,
         widget=forms.EmailInput(attrs={
             'class': 'form-control p-10',
             'placeholder': 'exemplo@email.com'
@@ -50,17 +63,10 @@ class CadastrarAlunoForm(forms.Form):
     telefone = forms.CharField(
         label='Telefone',
         max_length=15,
-        
+        required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control p-10',
             'placeholder': 'xx.xxxxx-xxxx'
-        })
-    )
-
-    senha = forms.CharField(
-        label='Senha',
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control p-10',
         })
     )
 
@@ -71,9 +77,10 @@ class CadastrarAlunoForm(forms.Form):
         })
     )
 
-    personal = forms.CharField(
-        label='Personal',
-        widget=forms.TextInput(attrs={
-            'class': 'form-control p-10',
+    personal = forms.ChoiceField(
+        choices=listar_personal,
+        label='Personal Responsável',
+        widget=forms.Select(attrs={
+            'class': 'form-control p-7',
         })
     )
