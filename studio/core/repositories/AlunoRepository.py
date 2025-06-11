@@ -16,6 +16,7 @@ class AlunoRepository(InterfaceRepository):
     def criar(self,  entity):
         try:
             dados = entity.__dict__
+            del dados['id']
             dados["data_nascimento"] = datetime.combine(dados["data_nascimento"], datetime.min.time())
             resp = self.mongo._colecao.insert_one(dados)
 
@@ -148,7 +149,6 @@ class AlunoRepository(InterfaceRepository):
             raise Exception("Erro ao deletar agendamento ", e)
 
         return True
-
 
     def listarAlunosPorStatus(self, status):
         try:

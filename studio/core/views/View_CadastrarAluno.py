@@ -33,4 +33,4 @@ class CadastrarAlunoView(View):
             repository = AlunoRepository(serviceM)
 
             repository.criar(aluno)
-            return render(request, "TemplateCadastrarAluno.html", {'form': form})
+            return redirect('cadastrarAluno')

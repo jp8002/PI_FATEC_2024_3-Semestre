@@ -6,6 +6,7 @@ from core.entity.PersonalEntity import PersonalEntity
 from core.repositories.AlunoRepository import AlunoRepository
 from core.repositories.PersonalRepository import PersonalRepository
 from core.services.ConexaoMongo import ConexaoMongo
+from datetime import datetime
 
 class TesteServiceMongo(TestCase):
     def setUp(self):
@@ -57,7 +58,7 @@ class TesteServiceMongo(TestCase):
 
     def test_criarNovoAluno(self):
 
-        novo = {"nome": "joao mock", "data_nascimento": "2019-05-20", "cpf": "123654789", "status": "ativo",
+        novo = {"nome": "joao mock", "data_nascimento": datetime(2002,2,1), "cpf": "123654789", "status": "ativo",
              "telefone": "123424564646"}
 
         self.alunoEntity = Aluno(novo)
@@ -73,21 +74,12 @@ class TesteServiceMongo(TestCase):
         self.assertTrue(resp)
 
     def test_agendar(self):
-        resp = self.alunoRepository.agendar({"id": self.id.inserted_id, "dia": "2025-05-06T20:06"})
+        resp = self.alunoRepository.agendar({"id": self.id.inserted_id, "dia": "2025-05-06T20:06",'exercicios':['coxa','perna']})
         self.assertTrue(resp)
 
     def test_deletarAgendamento(self):
-        self.alunoRepository.agendar({"id": self.id.inserted_id, "dia": "2025-05-06T20:06"})
+        self.alunoRepository.agendar({"id": self.id.inserted_id, "dia": "2025-05-06T20:06",'exercicios':['coxa','perna']})
         resp = self.alunoRepository.deletarAgendamento({"cpf": "123654789", "dia": "2025-05-06T20:06"})
-        self.assertTrue(resp)
-
-    def test_CriarTreinoAluno(self):
-        resp = self.alunoRepository.CriarTreinoAluno(self.id.inserted_id, "Crucifixo")
-        self.assertTrue(resp)
-
-    def test_deletarTreinoAluno(self):
-        self.alunoRepository.CriarTreinoAluno(self.id.inserted_id, "Crucifixo")
-        resp = self.alunoRepository.deletarTreinoAluno(self.id.inserted_id, "Crucifixo")
         self.assertTrue(resp)
 
     def test_listaPersonals(self):

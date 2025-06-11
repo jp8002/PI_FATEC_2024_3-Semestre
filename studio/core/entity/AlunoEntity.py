@@ -1,4 +1,4 @@
-
+from datetime import datetime
 class Aluno():
     def __init__(self, aluno):
         self.id = aluno.get("_id")

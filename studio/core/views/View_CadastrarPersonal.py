@@ -1,8 +1,11 @@
 from django.shortcuts import redirect, render
 from django.views import View
+from core.entity.PersonalEntity import PersonalEntity
+from core.repositories.PersonalRepository import PersonalRepository
 
 from core.services.Autenticar import Autenticar
-from core.services import ConexaoMongo
+from core.services.ConexaoMongo import ConexaoMongo
+from core.forms import CadastrarPersonalForm
 
 
 class CadastrarPersonalView(View):
@@ -13,11 +16,21 @@ class CadastrarPersonalView(View):
         return render(request, "TemplateCadastrarPersonal.html")
 
     def post(self, request):
-        serviceM = ConexaoMongo()
-        serviceM._colecao = serviceM._mydb["personal"]
-        serviceM.criarNovoPersonal(request.POST.get('nome'), request.POST.get('senha'),
-                                   request.POST.get('telefone'), request.POST.get('email'), request.POST.get('cpf'),
-                                   request.POST.get('salario'), request.POST.get('acesso'),
-                                   request.POST.get('cref'))
+        form = CadastrarPersonalForm(request.POST)
 
-        return render(request, "TemplateCadastrarPersonal.html")
+        if form.is_valid():
+            serviceM = ConexaoMongo()
+            serviceM._colecao = serviceM._mydb["personal"]
+            personal = PersonalEntity(form.cleaned_data)
+            personal_repository = PersonalRepository(serviceM)
+            personal_repository.criar(personal)
+            # serviceM.criarNovoPersonal(request.POST.get('nome'), request.POST.get('senha'),
+            #                            request.POST.get('telefone'), request.POST.get('email'), request.POST.get('cpf'),
+            #                            request.POST.get('salario'), request.POST.get('acesso'),
+            #                            request.POST.get('cref'))
+            return redirect("cadastrarPersonal")
+        else:
+            context={'errors':form.errors}
+            #raise Exception(form.errors)
+            return render(request, "TemplateCadastrarPersonal.html", context)
+        
