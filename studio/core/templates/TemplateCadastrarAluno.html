@@ -10,6 +10,9 @@
     body {
       font-family: 'Reem Kufi Fun', sans-serif;
     }
+    select.form-control {
+    height: auto;
+    }
   </style>
 </head>
 <body class="bg-white">
@@ -98,16 +101,6 @@
                                 </div>
 
                                 <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.senha.id_for_label }}">{{ form.senha.label }}</label>
-                                    {{ form.senha }}
-                                    {% if form.senha.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.senha.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
                                     <label for="{{ form.plano.id_for_label }}">{{ form.plano.label }}</label>
                                     {{ form.plano }}
                                     {% if form.plano.errors %}
@@ -120,7 +113,7 @@
                                 <div class="form-group mb-4 font-weight-bold h4">
                                     <label for="{{ form.personal.id_for_label }}">{{ form.personal.label }}</label>
                                     {{ form.personal }}
-                                    {% if form.plano.errors %}
+                                    {% if form.personal.errors %}
                                         <div class="invalid-feedback">
                                             {{ form.personal.errors|first }}
                                         </div>
