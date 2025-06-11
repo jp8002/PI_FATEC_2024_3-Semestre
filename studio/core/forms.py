@@ -84,3 +84,35 @@ class CadastrarAlunoForm(forms.Form):
             'class': 'form-control p-7',
         })
     )
+
+class CadastrarPersonalForm(forms.Form):
+        nome = forms.CharField(label='Nome completo',
+        max_length=255)
+
+        cpf = forms.CharField(label='cpf',
+        max_length=10)
+
+        cref = forms.CharField(label='cref do personal',
+        max_length=10)
+
+        email = forms.EmailField(label='Email',
+        )
+
+        telefone = forms.CharField(label='telefone',
+        max_length=11)
+
+        senha = forms.CharField(label='senha',
+        max_length=255)
+
+        salario = forms.FloatField(label='salario')
+        
+        acesso = forms.ChoiceField(label='acesso', choices=[('adm','adm'),('funcionario','funcionario')])
+        
+        def clean_cpf(self):
+            cpf = self.cleaned_data.get('cpf')
+            cpf = cpf.replace('-','')
+            cpf = cpf.replace('.','')
+            
+            return cpf
+            
+

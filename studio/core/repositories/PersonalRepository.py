@@ -14,6 +14,10 @@ class PersonalRepository(InterfaceRepository):
         self.mongo = mongo
 
     def criar(self, entity):
+        
+        if self.consultarCpf(entity.cpf):
+            raise Exception('Esse personal já está cadastrado')
+            
         try:
             dados = entity.__dict__
             self.mongo._colecao.insert_one(dados)
@@ -26,7 +30,6 @@ class PersonalRepository(InterfaceRepository):
 
         try:
             query = self.mongo._colecao.find_one({"cpf": cpf})
-            list(query)
 
         except Exception as e:
             raise Exception("Erro ao consultar cpf (" + str(e) + ")")

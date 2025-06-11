@@ -2,6 +2,7 @@ import ipdb
 from django.test import TestCase
 from django.urls import reverse
 
+from datetime import datetime
 from core.entity.AlunoEntity import Aluno
 from core.repositories.AlunoRepository import AlunoRepository
 from core.services.ConexaoMongo import ConexaoMongo
@@ -14,7 +15,7 @@ class TestePaginaInicialComSessao(TestCase):
         self.conn = ConexaoMongo()
         self.conn._colecao = self.conn._mydb['aluno']
 
-        self.alunoEntity = Aluno({"nome": "joao mock", "cpf": "123654789", "senha": "1234"})
+        self.alunoEntity = Aluno({"nome": "joao mock", 'data_nascimento':datetime(2002,4,5),"cpf": "123654789", "senha": "1234"})
         self.alunoRepository = AlunoRepository(self.conn)
 
         self.id = self.alunoRepository.criar(self.alunoEntity)

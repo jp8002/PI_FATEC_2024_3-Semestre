@@ -22,16 +22,13 @@ class TesteViewAgendarTreinoPost(TestCase):
 
         self.id = self.mongo._colecao.insert_one({"nome": "joao mock", "cpf": "123654789", "senha": "1234", "sessoes":[]})
 
-        self.resp = self.client.post(reverse("agendarTreino") ,{ 'id': self.id.inserted_id, 'dia': '2025-05-19T00:00'})
+        self.resp = self.client.post(reverse("agendarTreino") ,{ 'id': self.id.inserted_id, 'dia': '2025-05-19T00:00','exercicios':['perna','coxa']})
 
     def test_200_response(self):
-        self.assertEqual(self.resp.status_code, 200)
+        self.assertEqual(self.resp.status_code, 302)
 
     def test_template(self):
-        self.assertTemplateUsed(self.resp, "TemplateAgendarTreino.html")
-
-    def test_combobox(self):
-        self.assertContains(self.resp, "<option")
+        self.assertRedirects(self.resp, reverse('agendarTreino'), status_code=302, target_status_code=200, fetch_redirect_response=True)
 
     def __del__(self):
         self.mongo._colecao.delete_many({'cpf':'123654789'})
