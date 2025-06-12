@@ -14,6 +14,7 @@
         background-color: #ffffff;
         font-size: 20px;
     }
+
     .lista-com-scroll {
       max-height: 500px;
       padding: 10px;
@@ -22,17 +23,45 @@
       scrollbar-color: #656565 rgba(255, 166, 0, 0);
       scrollbar-width: thick;
     }
-    .cursor-pointer {
-      cursor: pointer;
+
+    #verAlunos:hover{
+        opacity: 50%;
+    }
+
+    #verAlunos{
+        text-decoration: none;
+        color: black;
     }
     .gap-2 > * {
       margin-right: 0.5rem;
     }
-    .h-6 {
-      height: 1.5rem;
+
+    #editarPersonal:hover{
+        opacity: 80%;
+    }
+    #editarPersonal{
+        background-color: #D9D9D9;
+        text-decoration: none;
+        color: black;
     }
     .h-7 {
       height: 1.75rem;
+    }
+
+    .icones{
+        text-align: center;
+    }
+    @media screen and (max-width:600px) {
+        body {
+            font-size: 16px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+        h3 {
+            font-size: 24px;
+        }
     }
   </style>
 </head>
@@ -72,19 +101,19 @@
 
                     <thead>
                         <tr>
-                          <th scope="col">Nome</th>
-                          <th scope="col">Editar</th>
-                          <th scope="col">Alunos</th>
+                          <th scope="col" class="w-75">Nome</th>
+                          <th scope="col" class="text-center">Editar</th>
+                          <th scope="col" class="text-center">Alunos</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="lista-personais">
 
                     {% for i in personais %}
                       <div class="d-flex gap-2">
                             <tr>
-                              <th >{{ i.nome }}</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
+                              <th >{{ i.nome }}</th >
+                              <td class="icones"><a id="editarPersonal" href="#" class="fa-solid fa-pencil border rounded-circle p-2 " ></a></td>
+                              <td class="icones"><a id="verAlunos" href="#" class="fa-solid fa-user"></a></td>
                             </tr>
                       </div>
                     {% endfor %}
@@ -112,11 +141,11 @@
 
       function ordenarLista() {
         const lista = document.getElementById('lista-personais');
-        const itens = [...lista.querySelectorAll('li')];
+        const itens = [...lista.querySelectorAll('tr')];
 
         itens.sort((a, b) => {
-          const nomeA = a.querySelector('span').textContent.trim().toLowerCase();
-          const nomeB = b.querySelector('span').textContent.trim().toLowerCase();
+          const nomeA = a.querySelector('th').textContent.trim().toLowerCase();
+          const nomeB = b.querySelector('th').textContent.trim().toLowerCase();
           return ordemAscendente ? nomeA.localeCompare(nomeB) : nomeB.localeCompare(nomeA);
         });
 

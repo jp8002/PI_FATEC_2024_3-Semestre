@@ -1,3 +1,4 @@
+import ipdb
 from django.test import TestCase
 from django.urls import reverse
 from core.services.ConexaoMongo import ConexaoMongo
@@ -17,7 +18,7 @@ class TesteViewCadastrarAlunoPost(TestCase):
         self.mongo = ConexaoMongo()
         self.mongo._colecao = self.mongo._mydb['aluno']
 
-        aluno = {"nome": "joao mock", "data_nascimento": "2019-05-20", 'senha':'1234',"cpf": "1234567897867", "telefone": "123456",'email':'joaomock@gmail.com','plano':'trimestral','personal':'carlos'}
+        aluno = {"nome": "joao mock", "data_nascimento": "2019-05-20", 'senha':'1234',"cpf": "1234567897867", "telefone": "123456",'email':'joaomock@gmail.com','plano':'trimestral','personal':'Joana Costa'}
 
         self.resp = self.client.post(reverse("cadastrarAluno"), aluno)
 
@@ -30,7 +31,7 @@ class TesteViewCadastrarAlunoPost(TestCase):
         self.assertEqual(x.get("nome", "Não foi possível encontrar"), "Joao Mock")
 
     def test_template(self):
-        #self.assertTemplateUsed(self.resp, "TemplateCadastrarAluno.html")
+
         self.assertRedirects(self.resp, reverse('cadastrarAluno'), status_code=302, target_status_code=200, fetch_redirect_response=True)
 
     def __del__(self):

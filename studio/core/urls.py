@@ -5,9 +5,8 @@ from .views.View_AtualizarPersonal import AtualizarPersonalView
 from .views.View_CadastrarAluno import CadastrarAlunoView
 from .views.View_CadastrarPersonal import CadastrarPersonalView
 from .views.View_Calendario import CalendarioViews
-from .views.View_CriarTreinoAluno import CriarTreinoAlunoView
 from .views.View_DeletarAgendamento import DeletarAgendamentoView
-from .views.View_DeletarTreinoAluno import DeletarTreinoAlunoView
+
 from .views.View_Login import LoginView
 from .views.View_Pagina_Inicial import PaginaInicialView
 from .views.View_PersonalInicial import PersonalInicialView
@@ -27,8 +26,6 @@ urlpatterns = [
     path("personal/agendar_treino", AgendarTreinoView.as_view(), name='agendarTreino'),
 
     path("personal/deletar_agendamento", DeletarAgendamentoView.as_view(), name='deletarAgendamento'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
-    path("personal/criar_treino", CriarTreinoAlunoView.as_view(), name='criarTreino'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
-    path("personal/deletar_treino", DeletarTreinoAlunoView.as_view(), name='deletarTreino'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
     path("personal/atualizar_personal", AtualizarPersonalView.as_view(), name='atualizarPersonal'),
     path("personal/listar_alunos", ListarAlunosView.as_view(), name='listarAlunos'),
     path("personal/listar_personal", ListarPersonalView.as_view(), name='listarPersonal'),
