@@ -30,6 +30,7 @@ class PersonalRepository(InterfaceRepository):
 
         try:
             query = self.mongo._colecao.find_one({"cpf": cpf})
+            list(query)
 
         except Exception as e:
             raise Exception("Erro ao consultar cpf (" + str(e) + ")")
@@ -39,6 +40,18 @@ class PersonalRepository(InterfaceRepository):
     def deletarById(self, entity):
         try:
             self.mongo._colecao.delete_many({"cpf": entity.cpf})
+            return True
+
+        except Exception as e:
+            raise Exception("Não foi possivel deletar o registro ", e)
+
+    def deletarByCpf(self, cpf):
+        try:
+            query = self.mongo._colecao.delete_many({"cpf": cpf})
+
+            if(query.deleted_count == 0):
+                raise Exception(f"CPF: {cpf} não encontrado")
+
             return True
 
         except Exception as e:
@@ -67,12 +80,16 @@ class PersonalRepository(InterfaceRepository):
         return query
 
     def atualizar(self, entity):
+        if '_id' in dados:
+            del dados['_id']
+
         try:
-            query = self.mongo._colecao.replace_one({"cpf": entity.cpf}, entity.__dict__)
+            query = self.mongo._colecao.update_one({"cpf": entity.cpf}, {"$set": dados})
             return query
 
         except Exception as e:
             raise Exception("Erro ao atualizar o registro ", e)
+            return False
 
 
 

@@ -90,16 +90,16 @@ class CadastrarPersonalForm(forms.Form):
         max_length=255)
 
         cpf = forms.CharField(label='cpf',
-        max_length=10)
+        max_length=11)
 
         cref = forms.CharField(label='cref do personal',
-        max_length=10)
+        max_length=15)
 
         email = forms.EmailField(label='Email',
         )
 
         telefone = forms.CharField(label='telefone',
-        max_length=11)
+        max_length=20)
 
         senha = forms.CharField(label='senha',
         max_length=255)
