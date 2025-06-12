@@ -17,9 +17,8 @@
 
   <!-- Header -->
   {% block template %}
-    {% include "TemplateNavBar.html" %}
-  {% endblock %}
-
+        {% include "TemplateNavBar.html" %}
+    {% endblock %}
 
   <!-- Main Content -->
   <main class="flex flex-col items-center text-center py-10 px-4">
@@ -27,38 +26,46 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl w-full">
 
-      <!-- Agendar treinos -->
-      <a href="{% url "agendarTreino" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
-        <img src="https://img.icons8.com/ios-filled/100/000000/calendar.png" alt="Agendar treinos" class="h-16 mb-4" />
-        <span class="text-lg font-semibold">Agendar treinos</span>
-      </a>
-
       <!-- Cadastrar alunos -->
       <a href="{% url "cadastrarAluno" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
         <img src="https://img.icons8.com/ios-filled/100/000000/add-user-group-man-man.png" alt="Cadastrar alunos" class="h-16 mb-4" />
         <span class="text-lg font-semibold">Cadastrar alunos</span>
       </a>
 
-      <!-- Criar plano de treino -->
-      <a href="{% url "criarTreino" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
-        <img src="https://img.icons8.com/?size=100&id=107640&format=png&color=000000" alt="Criar plano de treino" class="h-16 mb-4" />
-        <span class="text-lg font-semibold">Criar plano de treino</span>
+      <!-- Agendar treinos -->
+      <a href="{% url "agendarTreino" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
+        <img src="https://img.icons8.com/ios-filled/100/000000/calendar.png" alt="Agendar treinos" class="h-16 mb-4" />
+        <span class="text-lg font-semibold">Agendar treinos</span>
       </a>
 
-      <!-- Acompanhar progresso -->
-      <a href="#" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
-        <img src="https://img.icons8.com/ios-filled/100/000000/deadlift.png" alt="Acompanhar progresso" class="h-16 mb-4" />
-        <span class="text-lg font-semibold">Acompanhar progresso</span>
-      </a>
-    </div>
 
-    <!-- Cadastrar Personal (linha única) -->
-    <div class="mt-6 max-w-xs w-full">
+      <!-- Administrar Alunos  -->
+      <a href="{% url "listarAlunos" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
+        <img src="https://img.icons8.com/?size=100&id=Of3mVxVcK1jc&format=png&color=000000" alt="Administrar Alunos" class="h-16 mb-4" />
+        <span class="text-lg font-semibold">Administrar Alunos</span>
+      </a>
+
+      <!-- Cadastrar Personal -->
       <a href="{% url "cadastrarPersonal" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
         <img src="https://img.icons8.com/ios-filled/100/000000/biceps.png" alt="Cadastrar Personal" class="h-16 mb-4" />
         <span class="text-lg font-semibold">Cadastrar Personal</span>
       </a>
+
+      <!-- Listar Personais  -->
+      <a href="{% url "listarPersonal" %}" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
+        <img src="https://img.icons8.com/?size=100&id=8800&format=png&color=000000" alt="Listar Personais" class="h-16 mb-4" />
+        <span class="text-lg font-semibold">Listar Personais</span>
+      </a>
+
+      <!-- Dashboard ** -->
+      <a href="#" class="bg-gray-200 p-8 rounded-lg shadow hover:shadow-lg transition flex flex-col items-center">
+        <img src="https://img.icons8.com/?size=100&id=8322&format=png&color=000000" alt="Dashboard" class="h-16 mb-4" />
+        <span class="text-lg font-semibold">Dashboard</span>
+      </a>
+
     </div>
+
+    
   </main>
 
 
