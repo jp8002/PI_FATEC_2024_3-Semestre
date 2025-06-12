@@ -48,6 +48,18 @@ class AlunoRepository(InterfaceRepository):
 
         except Exception as e:
             raise Exception("Não foi possivel deletar o registro ", e)
+        
+    def deletarByCpf(self, cpf):
+        try:
+            query = self.mongo._colecao.delete_many({"cpf": cpf})
+
+            if(query.deleted_count == 0):
+                raise Exception(f"CPF: {cpf} não encontrado")
+
+            return True
+
+        except Exception as e:
+            raise Exception("Não foi possivel deletar o registro ", e)
 
 
     def listarTodos(self):
@@ -73,9 +85,13 @@ class AlunoRepository(InterfaceRepository):
         return query
 
     def atualizar(self, entity):
+        dados = entity.__dict__
+
+        if '_id' in dados:
+            del dados['_id']
 
         try:
-            query = self.mongo._colecao.replace_one({"cpf": entity.cpf}, entity.__dict__)
+            query = self.mongo._colecao.update_one({"cpf": entity.cpf}, {"$set": dados})
             return query
 
         except Exception as e:

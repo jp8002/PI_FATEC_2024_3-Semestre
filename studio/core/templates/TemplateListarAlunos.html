@@ -59,8 +59,7 @@
                                                 <span class="font-weight-bold h5">•{{ i.nome }}</span>
                                                 <div class="flex gap-2">
                                                     
-                                                    <!-- action="{ porcentagem url 'nome_da_url_edicao' porcentagem }"  EDITAR URL QUANDO CRIADA-->
-                                                    <form action="" method="post" class="inline">
+                                                    <form action="{% url 'editarAluno' i.cpf %}" method="get" class="inline">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="cpf" value="{{ i.cpf }}">
                                                         <button type="submit" class="p-0 border-0 bg-transparent">
