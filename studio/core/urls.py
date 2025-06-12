@@ -1,4 +1,6 @@
 from django.urls import path
+
+from .views.GerenciamentoTreinosView import GerenciamentoTreinosView
 from .views.View_AgendarTreino import AgendarTreinoView
 from .views.View_AlunoInicial import AlunoInicialView
 from .views.View_AtualizarPersonal import AtualizarPersonalView
@@ -24,6 +26,8 @@ urlpatterns = [
     path('personal/', PersonalInicialView.as_view(), name='personalInicial'),
     path('personal/cadastrar_aluno', CadastrarAlunoView.as_view(), name='cadastrarAluno'),
     path('personal/editar_aluno/<str:cpf>/', EditarAlunoView.as_view(), name='editarAluno'),
+
+    path('personal/gerenciamento_treinos/<id>', GerenciamentoTreinosView.as_view(), name='gerenciamentoTreinos'),
 
     path("personal/agendar_treino", AgendarTreinoView.as_view(), name='agendarTreino'),
 

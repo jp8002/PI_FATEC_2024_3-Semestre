@@ -178,3 +178,12 @@ class AlunoRepository(InterfaceRepository):
 
 
         return resp
+
+    def listarSessoes(self,id):
+        try:
+            resp = self.mongo._colecao.find_one({"_id": ObjectId(id)},{'_id':1,"sessoes":1,'nome':1})
+
+            return resp
+
+        except Exception as e:
+            raise Exception("Erro ao listar sessoes: (" + str(e) + ")")

@@ -25,7 +25,6 @@ class AgendarTreinoView(View):
         listaAlunos = self.alunoRepository.listarTodos()
 
 
-
         contexto = {'alunos': listaAlunos}
 
         return render(request, "TemplateAgendarTreino.html", contexto)
@@ -33,7 +32,7 @@ class AgendarTreinoView(View):
     def post(self, request):
         if not Autenticar.checarSessao(request.session):
             return redirect("paginaInicial")
-        
+
         agendamento = request.POST.dict()
 
         agendamento["exercicios"] = agendamento["exercicios"].split(";")

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:div="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PH Personal - Personais</title>
+  <script src="https://kit.fontawesome.com/cc7beb20bf.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+  <style>
+    body {
+        font-family: 'Reem Kufi Fun', sans-serif;
+        background-color: #ffffff;
+        font-size: 20px;
+    }
+
+    .container{
+        background-color: #D9D9D9;
+    }
+
+    @media screen and (max-width:600px) {
+        body {
+            font-size: 16px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+        h3 {
+            font-size: 24px;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  {% block template %}
+      {% include "TemplateNavBar.html" %}
+  {% endblock %}
+
+  <div class="container">
+
+      {% for i in listaSessoes.sessoes  %}
+        {{ i.dia }}
+      {% endfor %}
+
+  </div>
+
+</body>
+</html>
