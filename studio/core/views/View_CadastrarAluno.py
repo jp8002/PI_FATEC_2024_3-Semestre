@@ -34,3 +34,5 @@ class CadastrarAlunoView(View):
 
             repository.criar(aluno)
             return redirect('cadastrarAluno')
+
+        return render(request, "TemplateCadastrarAluno.html", {'errors':form.errors})
