@@ -25,7 +25,7 @@
     <!-- Main Content -->
     <main class="flex flex-col items-left text-left ">
         <div style="display: flex;">
-                    <a href="{% url 'personalInicial' %}" class="text-black px-4 py-1 rounded-full flex items-center">
+                    <a href="{% url 'listarAlunos' %}" class="text-black px-4 py-1 rounded-full flex items-center">
                     <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" class="h-7" />
                     <span class="font-weight-bold" style="font-size: 24px;">Voltar</span>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10v1" />
@@ -36,10 +36,10 @@
             <div class="display: flex-column container">
                     {% block content %}
                         <div class="display: flex">
-                            <h1 class="mb-2 mt-4 font-weight-bold display-3">Cadastro de Aluno</h1>
+                            <h1 class="mb-2 mt-4 font-weight-bold display-3">Editar Alunos</h1>
                         </div>
                         <div class="container mt-2 rounded-lg p-8" style="background-color: #D9D9D9;">                    
-                            <form method="post" action="{% url 'cadastrarAluno' %}" class="col-11 mx-auto">
+                            <form method="post" action="{% url 'editarAluno' cpf %}" class="col-11 mx-auto" id="main-form">
                                 {% csrf_token %}
                                 
                                 <!-- Mensagens de erro gerais -->
@@ -120,8 +120,14 @@
                                     {% endif %}
                                 </div>
                                 
-                                <div class="d-flex justify-content-end pt-8 h4">
-                                    <button type="submit" class="bg-primary text-white px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition">Cadastrar</button>
+                                <div class="d-flex flex-row-reverse">
+                                    <div class="d-flex justify-content-end pt-8 h4 ">
+                                        <button type="submit" class="bg-primary text-white px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition", name="action", value="salvar">Salvar</button>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end pt-8 h4 mr-4">
+                                        <button type="submit" class="bg-danger text-white px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition", name="action", value="excluir", onclick="return confirm('Tem certeza que deseja excluir este aluno? Esta ação não poderá ser desfeita.')">Excluir</button>
+                                    </div>
                                 </div>
                             </form>
                     {% endblock %}

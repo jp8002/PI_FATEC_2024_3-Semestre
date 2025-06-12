@@ -13,6 +13,7 @@ from .views.View_PersonalInicial import PersonalInicialView
 from .views.View_ListarAlunos import ListarAlunosView
 from .views.View_ListarPersonal import ListarPersonalView
 from .views.View_Sair import SairView
+from .views.View_EditarAluno import EditarAlunoView
 
 urlpatterns = [
     path('', PaginaInicialView.as_view(), name="paginaInicial"),
@@ -22,6 +23,7 @@ urlpatterns = [
     path('cadastrarPersonal/', CadastrarPersonalView.as_view(), name="cadastrarPersonal"),
     path('personal/', PersonalInicialView.as_view(), name='personalInicial'),
     path('personal/cadastrar_aluno', CadastrarAlunoView.as_view(), name='cadastrarAluno'),
+    path('personal/editar_aluno/<str:cpf>/', EditarAlunoView.as_view(), name='editarAluno'),
 
     path("personal/agendar_treino", AgendarTreinoView.as_view(), name='agendarTreino'),
 
