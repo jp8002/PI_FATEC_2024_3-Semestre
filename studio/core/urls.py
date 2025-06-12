@@ -12,6 +12,7 @@ from .views.View_Login import LoginView
 from .views.View_Pagina_Inicial import PaginaInicialView
 from .views.View_PersonalInicial import PersonalInicialView
 from .views.View_ListarAlunos import ListarAlunosView
+from .views.View_ListarPersonal import ListarPersonalView
 from .views.View_Sair import SairView
 from .views.View_EditarAluno import EditarAlunoView
 
@@ -32,6 +33,7 @@ urlpatterns = [
     path("personal/deletar_treino", DeletarTreinoAlunoView.as_view(), name='deletarTreino'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
     path("personal/atualizar_personal", AtualizarPersonalView.as_view(), name='atualizarPersonal'),
     path("personal/listar_alunos", ListarAlunosView.as_view(), name='listarAlunos'),
+    path("personal/listar_personal", ListarPersonalView.as_view(), name='listarPersonal'),
     path("sair", SairView.as_view(), name="sair")
     
 ]

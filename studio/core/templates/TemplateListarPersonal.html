@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PH Personal - Personais</title>
+  <script src="https://kit.fontawesome.com/cc7beb20bf.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+  <style>
+    body {
+        font-family: 'Reem Kufi Fun', sans-serif;
+        background-color: #ffffff;
+        font-size: 20px;
+    }
+    .lista-com-scroll {
+      max-height: 500px;
+      padding: 10px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      scrollbar-color: #656565 rgba(255, 166, 0, 0);
+      scrollbar-width: thick;
+    }
+    .cursor-pointer {
+      cursor: pointer;
+    }
+    .gap-2 > * {
+      margin-right: 0.5rem;
+    }
+    .h-6 {
+      height: 1.5rem;
+    }
+    .h-7 {
+      height: 1.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  {% block template %}
+      {% include "TemplateNavBar.html" %}
+  {% endblock %}
+
+  <!-- Main Content -->
+  <main class="text-left">
+    <div class="d-flex">
+      <a href="{% url 'personalInicial' %}" class="text-dark rounded d-flex align-items-center">
+        <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" class="h-7 mr-2" />
+        <span class="font-weight-bold" >Voltar</span>
+      </a>
+    </div>
+
+    <div>
+      <div class="container d-flex flex-column">
+        {% block content %}
+        <div class="d-flex">
+          <h1 class="mb-2 mt-4 font-weight-bold ">Personais</h1>
+        </div>
+
+        <div class="container mt-2 rounded p-4" style="background-color: #D9D9D9;">
+          <h3 class="mb-4 mt-4 font-weight-bold ">Total de Personais: {{total_personal}}</h3>
+
+          <i id="btn-ordenar" class="btn font-weight-bold btn-lg">
+            Ordem Alfabética A-Z
+          </i>
+
+          <div class="container mt-2 rounded p-4 bg-white">
+            <div class="lista-com-scroll">
+                <table class="table table-bordered">
+
+                    <thead>
+                        <tr>
+                          <th scope="col">Nome</th>
+                          <th scope="col">Editar</th>
+                          <th scope="col">Alunos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for i in personais %}
+                      <div class="d-flex gap-2">
+                            <tr>
+                              <th >{{ i.nome }}</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                            </tr>
+                      </div>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+        {% endblock %}
+      </div>
+    </div>
+  </main>
+
+  <!-- JS ordenação -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnOrdenar = document.getElementById('btn-ordenar');
+      let ordemAscendente = true;
+
+      btnOrdenar.addEventListener('click', () => {
+        ordemAscendente = !ordemAscendente;
+        btnOrdenar.textContent = ordemAscendente ? 'Ordem Alfabética A-Z' : 'Ordem Alfabética Z-A';
+        ordenarLista();
+      });
+
+      function ordenarLista() {
+        const lista = document.getElementById('lista-personais');
+        const itens = [...lista.querySelectorAll('li')];
+
+        itens.sort((a, b) => {
+          const nomeA = a.querySelector('span').textContent.trim().toLowerCase();
+          const nomeB = b.querySelector('span').textContent.trim().toLowerCase();
+          return ordemAscendente ? nomeA.localeCompare(nomeB) : nomeB.localeCompare(nomeA);
+        });
+
+        itens.forEach(item => lista.appendChild(item));
+      }
+    });
+  </script>
+
+</body>
+</html>

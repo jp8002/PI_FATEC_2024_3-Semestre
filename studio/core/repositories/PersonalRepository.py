@@ -46,7 +46,7 @@ class PersonalRepository(InterfaceRepository):
 
     def listarTodos(self):
         try:
-            query = list(self.mongo._colecao.find())
+            query = self.mongo._colecao.find()
 
         except Exception as e:
             raise Exception("Erro ao consultar o registro ", e)
