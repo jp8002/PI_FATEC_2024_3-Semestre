@@ -15,8 +15,18 @@
         font-size: 20px;
     }
 
-    .container{
-        background-color: #D9D9D9;
+    #voltar{
+      text-decoration: none;
+      color: black;
+    }
+
+    .sessoes{
+      background-color: #D9D9D9;
+      gap: 2rem;
+    }
+
+    .botoes{
+      gap: 1rem;
     }
 
     @media screen and (max-width:600px) {
@@ -39,12 +49,54 @@
       {% include "TemplateNavBar.html" %}
   {% endblock %}
 
+  <div class="d-flex">
+    <a class="ml-2" id="voltar" href="{% url "personalInicial" %}"><i class="fa-solid fa-arrow-left "></i><b>Voltar</b></a>
+  </div>
+
   <div class="container">
 
-      {% for i in listaSessoes.sessoes  %}
-        {{ i.dia }}
-      {% endfor %}
+    <h1><b>Gerenciamento de treinos</b></h1>
+    
+    <div class="sessoes p-3 d-flex flex-column">
+      <h2 > Aluno: {{ listaSessoes.nome }} </h2>
 
+      
+      {% for i in listaSessoes.sessoes  %}
+        <form action="#" method="post">
+          {% csrf_token %}
+          <div class="card ">
+            <div class="card-header">
+              <input type="datetime-local" name="dia" id="" value="{{ i.dia }}">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Exercicios</h5>
+              <ul class="list-group list-group-flush">
+                
+                <input type="hidden" name="idSessao" value="{{ i.idSessao }}">
+
+                {% for j in i.exercicios %}
+                  <li class="list-group-item"> {{ j }} </li>
+                {% endfor %}
+    
+              </ul>
+
+              <div class="form-group">
+                <label for="edicaoExercicios">Edite os exercicios abaixo:</label>
+                <textarea class="form-control mb-3" id="edicaoExercicios" aria-label="Com textarea" name="exercicios"> {{ i.exerciciosList}} </textarea>
+              </div>
+                
+              
+              
+              <div class="botoes d-flex flex-row">
+                <input type="submit" class="ml-auto btn btn-danger" name='acao' value="Excluir">
+                <input type="submit" class="btn btn-primary" name='acao' value="Salvar">
+              </div>
+              
+            </div>
+          </div>
+        </form>
+      {% endfor %}
+    </div>
   </div>
 
 </body>
