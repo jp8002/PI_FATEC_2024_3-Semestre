@@ -80,6 +80,8 @@ class PersonalRepository(InterfaceRepository):
         return query
 
     def atualizar(self, entity):
+        dados = entity.__dict__
+
         if '_id' in dados:
             del dados['_id']
 

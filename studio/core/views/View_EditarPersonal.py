@@ -1,8 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views import View
-from datetime import datetime
 
-from core.entity import PersonalEntity
+from core.entity.PersonalEntity import PersonalEntity
 from core.repositories.PersonalRepository import PersonalRepository
 from core.services.Autenticar import Autenticar
 from core.services.ConexaoMongo import ConexaoMongo
@@ -41,12 +40,12 @@ class EditarPersonalView(View):
             return redirect("listarPersonal")
 
         personal_existente = repository.consultarCpf(cpf)
-        
+        print(request.POST)
         form = CadastrarPersonalForm(request.POST)
         if form.is_valid():
             dados = form.cleaned_data
-
-            personal = personal(dados)
+            
+            personal = PersonalEntity(dados)
             #personal.status = personal_existente.get('status')
             #personal.data_assinatura = personal_existente.get('data_assinatura')
             #personal.data_renovacao = personal_existente.get('data_renovacao')

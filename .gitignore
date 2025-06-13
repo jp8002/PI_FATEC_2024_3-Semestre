@@ -1,2 +1,5 @@
 *.pyc
 .venv
+*.pyc
+/studio/core/__pycache__
+/studio/core/__pycache__
