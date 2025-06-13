@@ -5,6 +5,7 @@ from django.views import View
 from core.repositories.AlunoRepository import AlunoRepository
 from core.services.Autenticar import Autenticar
 from core.services.ConexaoMongo import ConexaoMongo
+from core.services.sequenciaTolista import sequenciaTolista
 
 
 class AgendarTreinoView(View):
@@ -35,7 +36,8 @@ class AgendarTreinoView(View):
 
         agendamento = request.POST.dict()
 
-        agendamento["exercicios"] = agendamento["exercicios"].split(";")
+        # agendamento["exercicios"] = agendamento["exercicios"].split(";")
+        agendamento["exercicios"] = sequenciaTolista.strTolista(agendamento["exercicios"])
 
         self.alunoRepository.agendar(agendamento)
 

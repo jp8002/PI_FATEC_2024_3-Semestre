@@ -144,13 +144,13 @@ class AlunoRepository(InterfaceRepository):
         return True
 
     def deletarAgendamento(self, Agendamento):
-        cpf = Agendamento["cpf"]
+        id = Agendamento["id"]
         dia = Agendamento["dia"]
 
         alunoRepository = AlunoRepository(self.mongo)
 
-        if (alunoRepository.consultarCpf(cpf) == False):
-            raise Exception("Esse cpf não existe")
+        alunoRepository.consultarId(id)
+
 
         try:
             dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
@@ -159,7 +159,7 @@ class AlunoRepository(InterfaceRepository):
             raise Exception("Erro ao converter o dia ", e)
 
         try:
-            self.mongo._colecao.update_one({"cpf": cpf}, {"$pull": {"sessoes": dia}})
+            self.mongo._colecao.update_one({"_id": ObjectId(id)}, {"$pull": {"sessoes":{ 'dia':dia}}})
 
         except Exception as e:
             raise Exception("Erro ao deletar agendamento ", e)
@@ -187,3 +187,24 @@ class AlunoRepository(InterfaceRepository):
 
         except Exception as e:
             raise Exception("Erro ao listar sessoes: (" + str(e) + ")")
+
+    def atualizarAgendamento(self, agendamento):
+        id = ObjectId(agendamento['id'])
+
+        dia = agendamento["dia"]
+        dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
+
+        exercicios = agendamento["exercicios"]
+        idSessao = agendamento["idSessao"]
+
+        self.consultarId(agendamento["id"])
+
+
+
+        try:
+            self.mongo._colecao.update_one({'_id':id},{'$set':{f'sessoes.{idSessao}.dia':dia,
+                                                               f'sessoes.{idSessao}.exercicios': exercicios
+                                                               }})
+
+        except Exception as e:
+            raise Exception("Erro ao atualizar agendamento ", e)
