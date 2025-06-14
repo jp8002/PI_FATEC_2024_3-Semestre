@@ -1,25 +1,33 @@
+ {% load static %}
+
+
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"><meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      .tudo{
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
     <title>Document</title>
 </head>
 <body>
-  {% block template %}
-    {% include "TemplateNavBar.html" %}
-  {% endblock %}
-
-  <div class="box flex justify-content-center" style="height: 10%; width: 100%; margin-bottom: 5%;">
+<div class="tudo" >
+  <div class="box flex justify-content-center" style="height: 29%; width: 100%; margin-bottom: 5%;">
     <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="../templates/img/carrossel2.png" class="d-block w-100" alt="...">
+            <img src="{% static 'gym.jpg' %}" class="d-block w-100" alt="..." >
           </div>
           <div class="carousel-item">
-            <img src="../templates/img/carrossel2.png" class="d-block w-100" alt="...">
+            <img src="{% static 'gym.jpg' %}" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="../templates/img/carrossel2.png" class="d-block w-100" alt="...">
+            <img src="{% static 'gym.jpg' %}" class="d-block w-100" alt="...">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -33,19 +41,24 @@
       </div>
     </div>
 
-    <div class="card-group" style="margin-right:3% ;margin-left: 3%;">
-      <div class="card" style="width: 18rem; margin-right:2%">
-        <img class="card-img-top" src="..." alt="Card image cap">
-      </div>
 
-      <div class="card w-75"  style="margin-left: 2%;">
+    <div class="card-group" style="padding-right: 10%; padding-left: 10%; ">
+      
+        <img class="card-img-top" src="{% static 'treino.jpg' %}" alt="Card image cap" style="width: 40%; height: 40%; margin-right:2% ; align-items: center;overflow: hidden; border: 1px black solid;; border-radius: 75px; box-shadow: 25px 25px black;">
+      
+
+      <div class="card"  style="margin-left: 2%; width: 40%; max-width: 80%;">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Button</a>
+          <h5 class="card-title">Sobre Mim</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor, tortor vel malesuada pretium, libero ipsum pulvinar ligula, in accumsan tortor orci eu ante. Proin at vestibulum orci, nec interdum enim. Maecenas blandit ultrices elit, ac feugiat metus vulputate sed. Donec ullamcorper risus ac nulla hendrerit, ut vulputate erat feugiat. Cras porta dui elit, id dapibus velit aliquam vitae. Etiam sodales ligula et justo consequat, ac tempus quam sodales. Phasellus lacus est, vehicula vel nibh et, ullamcorper gravida elit. Nullam accumsan posuere erat ut aliquet. Integer ornare tempor nisl, sed faucibus neque rutrum id. Fusce non ex a nunc tempus faucibus. Fusce imperdiet lacus vel lacus porttitor, non congue massa tristique. Proin dignissim turpis eget erat consequat accumsan. Aenean a nibh tempor, tristique mauris id, vulputate turpis. Sed enim quam, vestibulum eu enim vel, interdum condimentum purus. Duis tempor metus vel viverra iaculis. Quisque vitae ante malesuada, imperdiet elit et, porta ipsum.
+
+            Quisque lacinia erat ac urna mollis venenatis. Maecenas eros eros, tincidunt sed maximus eget, ultricies at orci. Vestibulum eu enim ut tellus congue consectetur. Pellentesque a eleifend sapien, at ullamcorper erat. Proin vulputate diam ipsum, iaculis cursus ante fermentum non. Curabitur porttitor gravida nulla, ut malesuada metus ullamcorper ut. Praesent pretium dictum justo, non posuere eros egestas in. Quisque sagittis urna vel maximus imperdiet. Integer posuere dictum neque vitae congue. Nunc at elementum est, id mollis ligula. Cras auctor nec elit sed tempus. Sed eget eleifend massa, in ultricies enim. Ut molestie, purus ut interdum tincidunt, nibh neque consectetur risus, vitae porta ante mi non lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eros quam, pretium id mi finibus, pulvinar lacinia dui. Sed vel vehicula purus, in malesuada nisl.
+            
+            Duis in vulputate ligula. Nam et tortor a diam suscipit pretium. Vestibulum imperdiet, mauris eu rutrum sodales, sem neque bibendum libero, et luctus ex mi placerat velit. Sed vel velit consectetur, sagittis tortor vel, sollicitudin velit. Donec sit amet tortor eget turpis rhoncus facilisis a non eros. Suspendisse sodales ex a nunc dapibus dictum. Nullam commodo nunc ipsum, in hendrerit diam vestibulum vitae. Proin condimentum orci eu imperdiet pretium. Mauris hendrerit tincidunt nisl at congue. Sed ultricies ullamcorper risus ut varius. Ut nec convallis mauris, id egestas quam. Vestibulum blandit porta euismod.</p>
         </div>
       </div>
     </div>
+
 
 
 
@@ -88,8 +101,6 @@
     </div>
   </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</div>  
 </body>
 </html>
