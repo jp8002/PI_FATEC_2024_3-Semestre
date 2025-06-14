@@ -208,3 +208,19 @@ class AlunoRepository(InterfaceRepository):
 
         except Exception as e:
             raise Exception("Erro ao atualizar agendamento ", e)
+    
+    def TodosAlunosPorStatus(self):
+        try:
+            pipeline = [{"$group":{"_id":"$status","qtd":{"$sum":1}}}]
+            return self.mongo._colecao.aggregate(pipeline)
+        
+        except Exception as e:
+            raise Exception('Não foi possível agrupar alunos por status', e)
+    
+    def TodosAlunosPorPersonal(self):
+        try:
+            pipeline = [{"$group":{"_id":"$personal","qtd":{"$sum":1}}}]
+            return self.mongo._colecao.aggregate(pipeline)
+
+        except Exception as e:
+            raise Exception('Não foi possível agrupar alunos por personal', e)

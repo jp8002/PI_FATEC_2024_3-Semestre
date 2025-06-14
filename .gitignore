@@ -1,4 +1,5 @@
 *.pyc
+__pycache__/
 .venv
 *.pyc
 /studio/core/__pycache__
