@@ -14,21 +14,17 @@ class Autenticar:
 
         cpf = usuario.get("cpf", None)
         senha = usuario.get("senha", None)
-        tipo_usuario = usuario.get("tipo_usuario", None)
 
-        if not cpf or not senha or not tipo_usuario:
+        if not cpf or not senha:
             raise Exception("Os campos não foram completamente preenchidos")
 
         MongoClient = ConexaoMongo()
-        MongoClient._colecao = MongoClient._mydb[tipo_usuario]
+        MongoClient._colecao = MongoClient._mydb['personal']
 
         #esdras
-        if tipo_usuario == "aluno":
-            alunoRepository = AlunoRepository(MongoClient)
-            query = alunoRepository.consultarCpf(cpf)
-        else:
-            personalRepository = PersonalRepository(MongoClient)
-            query = personalRepository.consultarCpf(cpf)
+        
+        personalRepository = PersonalRepository(MongoClient)
+        query = personalRepository.consultarCpf(cpf)
 
         if not (query.get("senha") == senha):
             raise Exception("Senha errada")
@@ -43,25 +39,8 @@ class Autenticar:
             return False
         
         return True
-    
-    def checarSessaoAluno(sessao):
-        if not sessao.get("tipo_usuario", False) == "aluno":
-            return False
-
-        MongoClient = ConexaoMongo()
-        MongoClient._colecao = MongoClient._mydb["aluno"]
-
-        alunoRepository = AlunoRepository(MongoClient)
-
-        if not alunoRepository.consultarCpf(sessao.get("cpf",False)):
-            return False
-
-        return True
         
     def checarSessaoPersonal(sessao):
-        if not sessao.get("tipo_usuario", False) == "personal":
-            return False
-
         MongoClient = ConexaoMongo()
         MongoClient._colecao = MongoClient._mydb["personal"]
 
