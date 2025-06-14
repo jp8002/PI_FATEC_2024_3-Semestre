@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plano de treino</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Reem Kufi Fun', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-white p-6">
+
+    {% block template %}
+        {% include "TemplateNavBar.html" %}
+    {% endblock %}
+
+  <a href="#" class="text-sm text-black font-semibold mb-4 inline-block">&larr; Voltar</a>
+  <h1 class="text-3xl font-bold mb-4">Plano de treino</h1>
+
+  <div class="bg-gray-300 p-4 rounded-md space-y-4">
+    <div id="infoUsuario" class="bg-gray-400 p-3 rounded text-sm">
+      <p><strong>Nome:</strong> Abmael Jesus da Silva</p>
+      <p><strong>Tipo do treino:</strong> Hipertrofia</p>
+      <p><strong>Duração:</strong> 4 semanas</p>
+    </div>
+
+    <div id="diasTreino" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="bg-white p-4 rounded">
+        <h2 class="font-bold mb-2">Dia 1</h2>
+        <ul class="list-disc list-inside space-y-1">
+          <li>Supino reto com barra</li>
+          <li>Supino inclinado com halteres</li>
+          <li>Crucifixo reto</li>
+          <li>Tríceps testa</li>
+          <li>Tríceps corda</li>
+        </ul>
+      </div>
+      <div class="bg-white p-4 rounded">
+        <h2 class="font-bold mb-2">Dia 2</h2>
+        <ul class="list-disc list-inside space-y-1">
+          <li>Puxada frente na polia</li>
+          <li>Remada curvada com barra</li>
+          <li>Remada unilateral com halteres</li>
+          <li>Rosca direta com barra</li>
+          <li>Rosca alternada com halteres</li>
+        </ul>
+      </div>
+      <div class="bg-white p-4 rounded">
+        <h2 class="font-bold mb-2">Dia 3</h2>
+        <ul class="list-disc list-inside space-y-1">
+          <li>Agachamento livre</li>
+          <li>Leg press</li>
+          <li>Cadeira extensora</li>
+          <li>Mesa flexora</li>
+          <li>Elevação de panturrilha</li>
+        </ul>
+      </div>
+      <div class="bg-white p-4 rounded">
+        <h2 class="font-bold mb-2">Dia 4</h2>
+        <ul class="list-disc list-inside space-y-1">
+          <li>Desenvolvimento com halteres</li>
+          <li>Elevação lateral</li>
+          <li>Elevação frontal</li>
+          <li>Encolhimento de ombros</li>
+          <li>Prancha abdominal</li>
+          <li>Abdominal infra</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // MOCK
+    const treino = {
+      nome: "Abmael Jesus da Silva",
+      tipo: "Hipertrofia",
+      duracao: "4 semanas",
+      dias: {
+        "Dia 1": [
+          "Supino reto com barra",
+          "Supino inclinado com halteres",
+          "Crucifixo reto",
+          "Tríceps testa",
+          "Tríceps corda"
+        ],
+        "Dia 2": [
+          "Puxada frente na polia",
+          "Remada curvada com barra",
+          "Remada unilateral com halteres",
+          "Rosca direta com barra",
+          "Rosca alternada com halteres"
+        ],
+        "Dia 3": [
+          "Agachamento livre",
+          "Leg press",
+          "Cadeira extensora",
+          "Mesa flexora",
+          "Elevação de panturrilha"
+        ],
+        "Dia 4": [
+          "Desenvolvimento com halteres",
+          "Elevação lateral",
+          "Elevação frontal",
+          "Encolhimento de ombros",
+          "Prancha abdominal",
+          "Abdominal infra"
+        ]
+      }
+    };
+
+    // consulta via fetch
+    /*
+    fetch('/api/treino?id=')
+      .then(response => response.json())
+      .then(treino => renderTreino(treino))
+      .catch(error => console.error("Erro ao carregar treino:", error));
+    */
+
+    // Exibe os dados
+    renderTreino(treino);
+
+    function renderTreino(treino) {
+      const info = document.getElementById("infoUsuario");
+      info.innerHTML = `
+        <p><strong>Nome:</strong> ${treino.nome}</p>
+        <p><strong>Tipo do treino:</strong> ${treino.tipo}</p>
+        <p><strong>Duração:</strong> ${treino.duracao}</p>
+      `;
+
+      const dias = document.getElementById("diasTreino");
+      dias.innerHTML = ''; // limpa mock inicial
+
+      for (const [dia, exercicios] of Object.entries(treino.dias)) {
+        const div = document.createElement("div");
+        div.className = "bg-white p-4 rounded";
+        div.innerHTML = `
+          <h2 class="font-bold mb-2">${dia}</h2>
+          <ul class="list-disc list-inside space-y-1">
+            ${exercicios.map(ex => `<li>${ex}</li>`).join('')}
+          </ul>
+        `;
+        dias.appendChild(div);
+      }
+    }
+  </script>
+
+</body>
+</html>

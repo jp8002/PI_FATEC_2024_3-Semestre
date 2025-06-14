@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PH Personal - Personais</title>
+  <script src="https://kit.fontawesome.com/cc7beb20bf.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+  <style>
+    body {
+        font-family: 'Reem Kufi Fun', sans-serif;
+        background-color: #ffffff;
+        font-size: 20px;
+    }
+
+    .lista-com-scroll {
+      max-height: 500px;
+      padding: 10px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      scrollbar-color: #656565 rgba(255, 166, 0, 0);
+      scrollbar-width: thick;
+    }
+
+    #verAlunos:hover{
+        opacity: 50%;
+    }
+
+    #verAlunos{
+        text-decoration: none;
+        color: black;
+    }
+    .gap-2 > * {
+      margin-right: 0.5rem;
+    }
+
+    #editarPersonal:hover{
+        opacity: 80%;
+    }
+    #editarPersonal{
+        background-color: #D9D9D9;
+        text-decoration: none;
+        color: black;
+    }
+    .h-7 {
+      height: 1.75rem;
+    }
+
+    .icones{
+        text-align: center;
+    }
+    @media screen and (max-width:600px) {
+        body {
+            font-size: 16px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+        h3 {
+            font-size: 24px;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  {% block template %}
+      {% include "TemplateNavBar.html" %}
+  {% endblock %}
+
+  <!-- Main Content -->
+  <main class="text-left">
+    <div class="d-flex">
+      <a href="{% url 'personalInicial' %}" class="text-dark rounded d-flex align-items-center">
+        <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" class="h-7 mr-2" />
+        <span class="font-weight-bold" >Voltar</span>
+      </a>
+    </div>
+
+    <div>
+      <div class="container d-flex flex-column">
+        {% block content %}
+        <div class="d-flex">
+          <h1 class="mb-2 mt-4 font-weight-bold ">Personais</h1>
+        </div>
+
+        <div class="container mt-2 rounded p-4" style="background-color: #D9D9D9;">
+          <h3 class="mb-4 mt-4 font-weight-bold ">Total de Personais: {{total_personal}}</h3>
+
+          <i id="btn-ordenar" class="btn font-weight-bold btn-lg">
+            Ordem Alfabética A-Z
+          </i>
+
+          <div class="container mt-2 rounded p-4 bg-white">
+            <div class="lista-com-scroll">
+                <table class="table table-bordered">
+
+                    <thead>
+                        <tr>
+                          <th scope="col" class="w-75">Nome</th>
+                          <th scope="col" class="text-center">Editar</th>
+                          <th scope="col" class="text-center">Alunos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-personais">
+
+                    {% for i in personais %}
+                      <div class="d-flex gap-2">
+                            <tr>
+                              <th >{{ i.nome }}</th >
+                              <td class="icones"><a id="editarPersonal" href="{% url 'editarPersonal' i.cpf %}" class="fa-solid fa-pencil border rounded-circle p-2 " ></a></td>
+                              <td class="icones"><a id="verAlunos" href="#" class="fa-solid fa-user"></a></td>
+                            </tr>
+                      </div>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+        {% endblock %}
+      </div>
+    </div>
+  </main>
+
+  <!-- JS ordenação -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnOrdenar = document.getElementById('btn-ordenar');
+      let ordemAscendente = true;
+
+      btnOrdenar.addEventListener('click', () => {
+        ordemAscendente = !ordemAscendente;
+        btnOrdenar.textContent = ordemAscendente ? 'Ordem Alfabética A-Z' : 'Ordem Alfabética Z-A';
+        ordenarLista();
+      });
+
+      function ordenarLista() {
+        const lista = document.getElementById('lista-personais');
+        const itens = [...lista.querySelectorAll('tr')];
+
+        itens.sort((a, b) => {
+          const nomeA = a.querySelector('th').textContent.trim().toLowerCase();
+          const nomeB = b.querySelector('th').textContent.trim().toLowerCase();
+          return ordemAscendente ? nomeA.localeCompare(nomeB) : nomeB.localeCompare(nomeA);
+        });
+
+        itens.forEach(item => lista.appendChild(item));
+      }
+    });
+  </script>
+
+</body>
+</html>
