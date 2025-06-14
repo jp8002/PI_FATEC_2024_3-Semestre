@@ -14,6 +14,7 @@ from .views.View_Pagina_Inicial import PaginaInicialView
 from .views.View_PersonalInicial import PersonalInicialView
 from .views.View_ListarAlunos import ListarAlunosView
 from .views.View_ListarPersonal import ListarPersonalView
+from .views.View_Dashboard import DashboardView
 from .views.View_Sair import SairView
 from .views.View_EditarAluno import EditarAlunoView
 
@@ -35,6 +36,7 @@ urlpatterns = [
     path("personal/atualizar_personal", AtualizarPersonalView.as_view(), name='atualizarPersonal'),
     path("personal/listar_alunos", ListarAlunosView.as_view(), name='listarAlunos'),
     path("personal/listar_personal", ListarPersonalView.as_view(), name='listarPersonal'),
+    path('personal/dashboard/', DashboardView.as_view(), name='dashboard'),
     path("sair", SairView.as_view(), name="sair")
     
 ]
