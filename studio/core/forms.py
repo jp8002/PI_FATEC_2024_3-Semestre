@@ -86,27 +86,27 @@ class CadastrarAlunoForm(forms.Form):
     )
 
 class CadastrarPersonalForm(forms.Form):
-        nome = forms.CharField(label='Nome completo',
+        nome = forms.CharField(label='Nome Completo',
         max_length=255)
 
-        cpf = forms.CharField(label='cpf',
-        max_length=10)
+        cpf = forms.CharField(label='CPF',
+        max_length=11)
 
-        cref = forms.CharField(label='cref do personal',
-        max_length=10)
+        cref = forms.CharField(label='CREF do Personal',
+        max_length=15)
 
         email = forms.EmailField(label='Email',
         )
 
-        telefone = forms.CharField(label='telefone',
-        max_length=11)
+        telefone = forms.CharField(label='Telefone',
+        max_length=20)
 
-        senha = forms.CharField(label='senha',
+        senha = forms.CharField(label='Senha',
         max_length=255)
 
-        salario = forms.FloatField(label='salario')
+        salario = forms.FloatField(label='Salario')
         
-        acesso = forms.ChoiceField(label='acesso', choices=[('adm','adm'),('funcionario','funcionario')])
+        acesso = forms.ChoiceField(label='Acesso', choices=[('adm','adm'),('funcionario','funcionario')])
         
         def clean_cpf(self):
             cpf = self.cleaned_data.get('cpf')

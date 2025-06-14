@@ -112,7 +112,7 @@
                       <div class="d-flex gap-2">
                             <tr>
                               <th >{{ i.nome }}</th >
-                              <td class="icones"><a id="editarPersonal" href="#" class="fa-solid fa-pencil border rounded-circle p-2 " ></a></td>
+                              <td class="icones"><a id="editarPersonal" href="{% url 'editarPersonal' i.cpf %}" class="fa-solid fa-pencil border rounded-circle p-2 " ></a></td>
                               <td class="icones"><a id="verAlunos" href="#" class="fa-solid fa-user"></a></td>
                             </tr>
                       </div>
