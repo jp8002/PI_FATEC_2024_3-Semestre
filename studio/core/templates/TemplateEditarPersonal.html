@@ -4,18 +4,155 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PH acesso - Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"><style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <style>
     body {
       font-family: 'Reem Kufi Fun', sans-serif;
+      background-color: #ffffff;
     }
     select.form-control {
-    height: auto;
+      height: auto;
+    }
+    .custom-container {
+      padding-left: 5%; 
+      padding-right: 5%; 
+      padding-bottom: 5%;
+    }
+    .custom-card {
+      background-color: #D9D9D9;
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .form-label {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+    .form-control {
+      padding: 10px;
+      font-size: 1.2rem;
+    }
+    .custom-title {
+      font-weight: bold;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+    }
+    .btn-custom {
+      font-size: 1.5rem;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-custom img {
+      height: 28px;
+      margin-right: 8px;
+    }
+    .btn-primary-custom {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-danger-custom {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-primary-custom:hover, .btn-danger-custom:hover {
+      background-color: #e9ecef;
+      color: #212529;
+    }
+    .back-link {
+      color: #000000;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: none;
+      color: #000000;
+    }
+    .action-buttons {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 2rem;
+    }
+    .action-buttons .btn {
+      margin-left: 1rem;
+    }
+    .invalid-feedback {
+      display: block;
+      font-size: 1rem;
+      color: #dc3545;
+    }
+    .mt-3 {
+      margin-top: 1rem !important;
+    }
+    .col-12 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+    .container-fluid {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    .container {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    @media (min-width: 576px) {
+      .container {
+        max-width: 540px;
+      }
+    }
+    @media (min-width: 768px) {
+      .container {
+        max-width: 720px;
+      }
+    }
+    @media (min-width: 992px) {
+      .container {
+        max-width: 960px;
+      }
+    }
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1140px;
+      }
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .alert-danger {
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid transparent;
+      border-radius: 0.25rem;
     }
   </style>
 </head>
-<body class="bg-white">
+<body>
 
     <!-- Header -->
     {% block template %}
@@ -23,172 +160,177 @@
     {% endblock %}
 
     <!-- Main Content -->
-    <main class="flex flex-col items-left text-left ">
-        <div style="display: flex;">
-                    <a href="{% url 'listarPersonal' %}" class="text-black px-4 py-1 rounded-full flex items-center">
-                    <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" class="h-7" />
-                    <span class="font-weight-bold" style="font-size: 24px;">Voltar</span>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10v1" />
-                    </svg>
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 mt-3">
+                    <a href="{% url 'listarPersonal' %}" class="back-link">
+                        <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" />
+                        <span>Voltar</span>
                     </a>
-        </div>
-        <div class="" style="padding-left: 5%; padding-right: 5%; padding-bottom: 5%;">               
-            <div class="display: flex-column container">
-                    {% block content %}
-                        <div class="display: flex">
-                            <h1 class="mb-2 mt-4 font-weight-bold display-3">Editar Personal</h1>
-                        </div>
-                        <div class="container mt-2 rounded-lg p-8" style="background-color: #D9D9D9;">                    
-                            <form method="post" action="{% url 'editarPersonal' cpf %}" class="col-11 mx-auto" id="main-form">
-                                {% csrf_token %}
-                                
-                                <!-- Mensagens de erro gerais -->
-                                {% if form.non_field_errors %}
-                                <div class="alert alert-danger">
-                                    {{ form.non_field_errors }}
-                                </div>
-                                {% endif %}
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
-                                    <input 
-                                        type="text" 
-                                        name="{{ form.nome.name }}" 
-                                        id="{{ form.nome.id_for_label }}" 
-                                        class="form-control p-10"
-                                        value="{{ form.nome.value|default_if_none:'' }}" 
-                                    >
-                                    {% if form.nome.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.nome.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
-                                    <input 
-                                        type="text" 
-                                        name="{{ form.cpf.name }}" 
-                                        id="{{ form.cpf.id_for_label }}" 
-                                        class="form-control p-10"
-                                        value="{{ form.cpf.value|default_if_none:'' }}" 
-                                    >
-                                    {% if form.cpf.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.cpf.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.cref.id_for_label }}">{{ form.cref.label }}</label>
-                                    <input 
-                                        type="text" 
-                                        name="{{ form.cref.name }}" 
-                                        id="{{ form.cref.id_for_label }}" 
-                                        class="form-control p-10"
-                                        value="{{ form.cref.value|default_if_none:'' }}" 
-                                    >
-                                    {% if form.cref.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.cref.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                                    <input 
-                                        type="text" 
-                                        name="{{ form.email.name }}" 
-                                        id="{{ form.email.id_for_label }}" 
-                                        class="form-control p-10"
-                                        value="{{ form.email.value|default_if_none:'' }}" 
-                                    >
-                                    {% if form.email.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.email.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
-                                    <input 
-                                        type="text" 
-                                        name="{{ form.telefone.name }}" 
-                                        id="{{ form.telefone.id_for_label }}" 
-                                        class="form-control p-10"
-                                        value="{{ form.telefone.value|default_if_none:'' }}" 
-                                    >
-                                    {% if form.telefone.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.telefone.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.senha.id_for_label }}">{{ form.senha.label }}</label>
-                                    <input 
-                                        type="text" 
-                                        name="{{ form.senha.name }}" 
-                                        id="{{ form.senha.id_for_label }}" 
-                                        class="form-control p-10"
-                                        value="{{ form.senha.value|default_if_none:'' }}" 
-                                    >
-                                    {% if form.senha.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.senha.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.acesso.id_for_label }}">{{ form.acesso.label }}</label>
-                                    <input 
-                                        type="text" 
-                                        name="{{ form.acesso.name }}" 
-                                        id="{{ form.acesso.id_for_label }}" 
-                                        class="form-control p-10"
-                                        value="{{ form.acesso.value|default_if_none:'' }}" 
-                                    >
-                                    {% if form.acesso.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.acesso.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.salario.id_for_label }}">{{ form.salario.label }}</label>
-                                    <input 
-                                        type="text" 
-                                        name="{{ form.salario.name }}" 
-                                        id="{{ form.salario.id_for_label }}" 
-                                        class="form-control p-10"
-                                        value="{{ form.salario.value|default_if_none:'' }}" 
-                                    >
-                                    {% if form.salario.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.salario.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                
-                                <div class="d-flex flex-row-reverse">
-                                    <div class="d-flex justify-content-end pt-8 h4 ">
-                                        <button type="submit" class="bg-primary text-white px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition", name="action", value="salvar">Salvar</button>
-                                    </div>
-
-                                    <div class="d-flex justify-content-end pt-8 h4 mr-4">
-                                        <button type="submit" class="bg-danger text-white px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition", name="action", value="excluir", onclick="return confirm('Tem certeza que deseja excluir este aluno? Esta ação não poderá ser desfeita.')">Excluir</button>
-                                    </div>
-                                </div>
-                            </form>
-                    {% endblock %}
                 </div>
+            </div>
+        </div>
+        
+        <div class="custom-container">
+            <div class="container">
+                {% block content %}
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="custom-title">Editar Personal</h1>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="custom-card">                    
+                                <form method="post" action="{% url 'editarPersonal' cpf %}" class="mx-auto" id="main-form" style="width: 91.666%;">
+                                    {% csrf_token %}
+                                    
+                                    <!-- Mensagens de erro gerais -->
+                                    {% if form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        {{ form.non_field_errors }}
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="form-group mb-4">
+                                        <label for="{{ form.nome.id_for_label }}" class="form-label">{{ form.nome.label }}</label>
+                                        <input 
+                                            type="text" 
+                                            name="{{ form.nome.name }}" 
+                                            id="{{ form.nome.id_for_label }}" 
+                                            class="form-control"
+                                            value="{{ form.nome.value|default_if_none:'' }}" 
+                                        >
+                                        {% if form.nome.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.nome.errors|first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="{{ form.cpf.id_for_label }}" class="form-label">{{ form.cpf.label }}</label>
+                                        <input 
+                                            type="text" 
+                                            name="{{ form.cpf.name }}" 
+                                            id="{{ form.cpf.id_for_label }}" 
+                                            class="form-control"
+                                            value="{{ form.cpf.value|default_if_none:'' }}" 
+                                        >
+                                        {% if form.cpf.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.cpf.errors|first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="{{ form.cref.id_for_label }}" class="form-label">{{ form.cref.label }}</label>
+                                        <input 
+                                            type="text" 
+                                            name="{{ form.cref.name }}" 
+                                            id="{{ form.cref.id_for_label }}" 
+                                            class="form-control"
+                                            value="{{ form.cref.value|default_if_none:'' }}" 
+                                        >
+                                        {% if form.cref.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.cref.errors|first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                                        <input 
+                                            type="text" 
+                                            name="{{ form.email.name }}" 
+                                            id="{{ form.email.id_for_label }}" 
+                                            class="form-control"
+                                            value="{{ form.email.value|default_if_none:'' }}" 
+                                        >
+                                        {% if form.email.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.email.errors|first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="{{ form.telefone.id_for_label }}" class="form-label">{{ form.telefone.label }}</label>
+                                        <input 
+                                            type="text" 
+                                            name="{{ form.telefone.name }}" 
+                                            id="{{ form.telefone.id_for_label }}" 
+                                            class="form-control"
+                                            value="{{ form.telefone.value|default_if_none:'' }}" 
+                                        >
+                                        {% if form.telefone.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.telefone.errors|first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="{{ form.senha.id_for_label }}" class="form-label">{{ form.senha.label }}</label>
+                                        <input 
+                                            type="text" 
+                                            name="{{ form.senha.name }}" 
+                                            id="{{ form.senha.id_for_label }}" 
+                                            class="form-control"
+                                            value="{{ form.senha.value|default_if_none:'' }}" 
+                                        >
+                                        {% if form.senha.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.senha.errors|first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="{{ form.acesso.id_for_label }}" class="form-label">{{ form.acesso.label }}</label>
+                                        <input 
+                                            type="text" 
+                                            name="{{ form.acesso.name }}" 
+                                            id="{{ form.acesso.id_for_label }}" 
+                                            class="form-control"
+                                            value="{{ form.acesso.value|default_if_none:'' }}" 
+                                        >
+                                        {% if form.acesso.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.acesso.errors|first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="{{ form.salario.id_for_label }}" class="form-label">{{ form.salario.label }}</label>
+                                        <input 
+                                            type="text" 
+                                            name="{{ form.salario.name }}" 
+                                            id="{{ form.salario.id_for_label }}" 
+                                            class="form-control"
+                                            value="{{ form.salario.value|default_if_none:'' }}" 
+                                        >
+                                        {% if form.salario.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.salario.errors|first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="action-buttons">
+                                        <button type="submit" class="btn-custom btn-primary-custom" name="action" value="salvar">Salvar</button>
+                                        <button type="submit" class="btn-custom btn-danger-custom" name="action" value="excluir" onclick="return confirm('Tem certeza que deseja excluir este aluno? Esta ação não poderá ser desfeita.')">Excluir</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endblock %}
             </div>
         </div>
     </main>

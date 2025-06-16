@@ -133,6 +133,12 @@
       const btnOrdenar = document.getElementById('btn-ordenar');
       let ordemAscendente = true;
 
+        // Atualiza o texto do botão inicialmente
+      btnOrdenar.textContent = ordemAscendente 
+            ? 'Ordem Alfabética A-Z' 
+            : 'Ordem Alfabética Z-A';
+      ordenarLista(); // <--- ADICIONE ESTA LINHA
+
       btnOrdenar.addEventListener('click', () => {
         ordemAscendente = !ordemAscendente;
         btnOrdenar.textContent = ordemAscendente ? 'Ordem Alfabética A-Z' : 'Ordem Alfabética Z-A';
