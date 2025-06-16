@@ -85,6 +85,14 @@ class CadastrarAlunoForm(forms.Form):
         })
     )
 
+    status = forms.BooleanField(
+        required=False,
+        label='Status',
+        widget=forms.CheckboxInput(attrs={
+            'class': 'status-checkbox',
+        })
+    )
+
 class CadastrarPersonalForm(forms.Form):
         nome = forms.CharField(label='Nome Completo',
         max_length=255)

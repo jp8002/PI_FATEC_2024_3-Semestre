@@ -224,3 +224,15 @@ class AlunoRepository(InterfaceRepository):
 
         except Exception as e:
             raise Exception('Não foi possível agrupar alunos por personal', e)
+        
+    def AlterarStatus(self,novo_status, cpf):
+            try:
+                status_banco = "Ativo" if novo_status == "on" else "Cancelado"
+                result = self.mongo._colecao.update_one(
+                    {'cpf': cpf},
+                    {'$set': {'status': status_banco}}
+                )
+                return result.modified_count > 0
+            except Exception as e:
+                raise Exception("Erro ao atualizar Status ", e)
+                return False

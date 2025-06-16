@@ -123,7 +123,23 @@
                             <tr>
                               <th >{{ i.nome }}</th >
                               <td class="icones"><a id="editarAluno" href="{% url 'editarAluno' i.cpf %}" class="fa-solid fa-pencil border rounded-circle p-2 " ></a></td>
-                              <td class="icones"><a id="verAlunos" href="#" class="fa-solid fa-user"></a></td>
+
+                              <td class="icones">
+                                  <form method="post">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="cpf" value="{{ i.cpf }}">
+                                      <div class="form-check form-switch d-flex justify-content-center">
+                                          <input 
+                                              class="form-check-input status-checkbox" 
+                                              type="checkbox" 
+                                              name="status"
+                                              {% if i.status == 'Ativo' %}checked{% endif %}
+                                              style="width: 20px; height: 20px; transform: scale(1.5); margin-top: 5px;" 
+                                          >
+                                      </div>
+                                  </form>
+                              </td>
+
                               <td class="icones"><a id="gerenciarTreino" href="#" class="fa-solid fa-dumbbell border rounded-circle p-2"></a></td>
                             </tr>
                       </div>
@@ -170,6 +186,16 @@
         itens.forEach(item => lista.appendChild(item));
       }
     });
+
+    // JS para enviar o formulário automaticamente ao alterar o status
+    document.addEventListener('DOMContentLoaded', () => {
+    // Alterar status
+    document.querySelectorAll('.status-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            this.closest('form').submit();
+        });
+    })});
+
   </script>
 
   

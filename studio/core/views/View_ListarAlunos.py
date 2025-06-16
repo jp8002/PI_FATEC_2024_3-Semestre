@@ -4,7 +4,7 @@ from django.views import View
 from core.repositories.AlunoRepository import AlunoRepository
 from core.services.Autenticar import Autenticar
 from core.services.ConexaoMongo import ConexaoMongo
-
+from core.forms import CadastrarAlunoForm
 
 class ListarAlunosView(View):
     
@@ -25,20 +25,31 @@ class ListarAlunosView(View):
         listaAlunos = self.alunoRepository.listarTodos()
         total_alunos = len(listaAlunos)
 
+        form = CadastrarAlunoForm()
+
         contexto = {
             'alunos': listaAlunos,
-            'total_alunos': total_alunos
+            'total_alunos': total_alunos,
+            'form': form
         }
 
-        return render(request, "TemplateListarAlunos.html", contexto)
+        return render(request, "TemplateListarAlunos.html",contexto)
     
     def post(self, request):
-
-        documento = self.alunoRepository.consultarCpf("cpf")
+        if not Autenticar.checarSessao(request.session):
+            return redirect("paginaInicial")
+        if not Autenticar.checarSessaoPersonal(request.session):
+            return redirect("paginaInicial")
         
-        id_obj = documento["_id"]
-        
-        id_str = str(id_obj)
-        
-        self.alunoRepository.deletarById(id_str)
-        redirect(ListarAlunosView)
+        if 'cpf' in request.POST and 'status' in request.POST:
+            self.alunoRepository.AlterarStatus(
+                request.POST['status'],
+                request.POST['cpf']
+        )
+        elif 'cpf' in request.POST and 'status' not in request.POST:
+            status = 'off'
+            self.alunoRepository.AlterarStatus(
+                status,
+                request.POST['cpf']
+            )
+        return redirect('listarAlunos')
