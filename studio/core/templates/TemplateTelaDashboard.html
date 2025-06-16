@@ -22,10 +22,11 @@
 
     main{
         background-color: #D9D9D9;
+        padding: 3rem!important;
     }
 
-    #columnchart_material{
-        height: 20rem;
+    #columnchart_values{
+        height: 30rem;
         border-radius: 10px;
         overflow: hidden;
         width: 100%;
@@ -41,12 +42,24 @@
         overflow: hidden;
     }
 
-    #chart_div{
-        height: 20rem;
-    }
-
     main{
         row-gap: 3rem;
+    }
+
+    #linechart{
+        height: 30rem;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    #series_chart_div{
+        height: 30rem;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    #linechart,#donutchart1,#donutchart2,#columnchart_values,#series_chart_div{
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
     }
 
     @media screen and (max-width:600px) {
@@ -60,12 +73,39 @@
         h3 {
             font-size: 24px;
         }
+
+        #columnchart_values{
+            height: 15rem;
+        }
+
+        #donutchart1,#donutchart2{
+            height: 15rem;
+        }
+
+        #linechart{
+            height: 15rem;
+        }
+
+        #series_chart_div{
+            height: 45rem;
+        }
+        #conjuntoRosca{
+            flex-direction: column!important;
+        }
+
+        #grafico2,#grafico3{
+            width: 100%!important;
+
+        }
+        main{
+            padding: 0.5rem !important;
+        }
     }
   </style>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-  google.charts.load('current', {'packages':['bar',"corechart","annotationchart"]});
+  google.charts.load('current', {'packages':['bar',"corechart"]});
   google.charts.setOnLoadCallback(drawCharts);
 
   function drawCharts(){
@@ -73,92 +113,110 @@
     drawChart2();
     drawChart3();
     drawChart4();
+    drawChart5();
   };
 
   function drawChart1() {
     let todosAlunos = {{ balancoAlunos.1.qtd }} + {{ balancoAlunos.0.qtd }};
     var data = google.visualization.arrayToDataTable([
-      ['Alunos', 'Todos', 'Ativos', 'cancelados'],
-      ['2014', todosAlunos, {{ balancoAlunos.1.qtd }}, {{ balancoAlunos.0.qtd }}],
+      ['Alunos', 'Todos', 'Ativos', 'Cancelados'],
+      ['Status', todosAlunos, {{ balancoAlunos.0.qtd }}, {{ balancoAlunos.1.qtd }}],
     ]);
-
+    var view = new google.visualization.DataView(data);
     var options = {
       chart: {
-        title: 'Balanço de alunos',
-      }
+        title: 'Balanço de alunos'
+
+      },
+      legend: { position: 'bottom' },
     };
 
-    var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+    var chart = new google.visualization.ColumnChart(document.getElementById('columnchart_values'));
 
-    chart.draw(data, google.charts.Bar.convertOptions(options));
+
+    chart.draw(view, options);
   };
 
   function drawChart2() {
         var data = google.visualization.arrayToDataTable([
             ['alunos', 'personal'],
             {% for i in alunosPorPersonal %}
-                ['{{i.id}}', {{ i.qtd }}],
+                ['{{ i.id }}', {{ i.qtd }}],
             {% endfor %}
         ]);
 
         var options = {
-          pieHole: 0.4
+          pieHole: 0.4,
+            legend: { position: 'bottom' },
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('donutchart1'));
         chart.draw(data, options);
-};
-function drawChart3() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
+  };
+
+  function drawChart3() {
+    var data = google.visualization.arrayToDataTable([
+            ['alunos', 'plano'],
+            {% for i in alunosPorPlano %}
+                ['{{i.id}}', {{ i.qtd }}],
+            {% endfor %}
         ]);
 
-        var options = {
-          pieHole: 0.4,
-        };
+    var options = {
+      pieHole: 0.4,
+       legend: { position: 'bottom' },
+    };
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart2'));
-        chart.draw(data, options);
-      }
+    var chart = new google.visualization.PieChart(document.getElementById('donutchart2'));
+    chart.draw(data, options);
+  }
 
-      function drawChart4() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('date', 'Date');
-        data.addColumn('number', 'Kepler-22b mission');
-        data.addColumn('string', 'Kepler title');
-        data.addColumn('string', 'Kepler text');
-        data.addColumn('number', 'Gliese 163 mission');
-        data.addColumn('string', 'Gliese title');
-        data.addColumn('string', 'Gliese text');
-        data.addRows([
-          [new Date(2314, 2, 15), 12400, undefined, undefined,
-                                  10645, undefined, undefined],
-          [new Date(2314, 2, 16), 24045, 'Lalibertines', 'First encounter',
-                                  12374, undefined, undefined],
-          [new Date(2314, 2, 17), 35022, 'Lalibertines', 'They are very tall',
-                                  15766, 'Gallantors', 'First Encounter'],
-          [new Date(2314, 2, 18), 12284, 'Lalibertines', 'Attack on our crew!',
-                                  34334, 'Gallantors', 'Statement of shared principles'],
-          [new Date(2314, 2, 19), 8476, 'Lalibertines', 'Heavy casualties',
-                                  66467, 'Gallantors', 'Mysteries revealed'],
-          [new Date(2314, 2, 20), 0, 'Lalibertines', 'All crew lost',
-                                  79463, 'Gallantors', 'Omniscience achieved']
-        ]);
+  function drawChart4() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Mes');
+      data.addColumn('number', 'Novas assinaturas');
+      data.addColumn('number', 'Renovacoes');
+      data.addColumn('number', 'Cancelamentos');
 
-        var chart = new google.visualization.AnnotationChart(document.getElementById('chart_div'));
+      data.addRows([
+        {% for i in tendenciaMeses %}
+          ['{{ i.mes }}', {{ i.novas }}, {{ i.renovacoes }}, {{ i.cancelados }}],
+        {% endfor %}
+      ]);
 
-        var options = {
-          displayAnnotations: true
-        };
+      var options = {
+        title: 'Tendência de Assinaturas',
+        hAxis: { title: 'Mês' },
+        vAxis: { title: 'Total' },
+        legend: { position: 'bottom' },
+          chartArea: {width: '90%'},
+      };
 
-        chart.draw(data, options);
-      }
+      var chart = new google.visualization.LineChart(document.getElementById('linechart'));
+      chart.draw(data, options);
+  }
 
+  function drawChart5() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['ID','Quantidade', 'Idade'],
+          {% for i in alunosPorIdade %}
+            ['',{{ i.qtd }}, {{ i.idade }}],
+          {% endfor %}
+      ]);
+
+      var options = {
+        title: 'Quantidade de alunos por faixa etária',
+        hAxis: {title: 'Quantidade'},
+        vAxis: {title: 'Idade'},
+        bubble: {textStyle: {fontSize: 11}}
+      };
+
+      var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
+      chart.draw(data, options);
+    }
+
+    window.addEventListener('resize', drawCharts);
 </script>
 </head>
 <body>
@@ -176,10 +234,10 @@ function drawChart3() {
   <div class="container">
     <h1><b>Estatísticas</b></h1>
 
-    <main class="container rounded p-5 d-flex flex-column">
+    <main class="container rounded d-flex flex-column">
         <div id="grafico1">
             <h3 class="mt-2">Atividade de Alunos </h3>
-            <div id="columnchart_material"></div>
+            <div id="columnchart_values"></div>
         </div>
         <div id="conjuntoRosca" class="container-fluid d-flex flex-row">
             <div class="w-50 " id="grafico2">
@@ -193,9 +251,13 @@ function drawChart3() {
         </div>
         <div id="grafico4" class="container-fluid">
             <h3>Tendencia de Assinaturas</h3>
-            <div id='chart_div'></div>
+            <div id='linechart' class="w-100"></div>
         </div>
-        
+        <div id="grafico5" class="container-fluid">
+            <h3>Idade dos Alunos</h3>
+            <div id="series_chart_div"></div>
+        </div>
+
     </main>
   </div>
 

@@ -6,11 +6,11 @@ from core.services.Autenticar import Autenticar
 
 class LoginView(View):
     def get(self, request):
-        if Autenticar.checarSessaoPersonal(request.session):
+        if  Autenticar.checarSessao(request.session):
             return redirect("personalInicial")
 
-        if (request.method == "GET"):
-            return render(request, "TemplateLogin.html")
+
+        return render(request, "TemplateLogin.html")
 
     def post(self, request):
         usuario = request.POST

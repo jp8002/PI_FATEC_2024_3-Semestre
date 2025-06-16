@@ -9,21 +9,8 @@ from core.services.ConexaoMongo import ConexaoMongo
 class PaginaInicialView(View):
 
     def get(self, request):
-        if Autenticar.checarSessaoPersonal(request.session):
-            return redirect("personalInicial")
-
-        contexto = {}
 
         if Autenticar.checarSessao(request.session):
-            cpf = request.session.get("cpf", False)
-            serviceM = ConexaoMongo()
+            return redirect("personalInicial")
 
-            serviceM._colecao = serviceM._mydb["aluno"]
-
-            alunoRepository = AlunoRepository(serviceM)
-
-            aluno = alunoRepository.consultarCpf(cpf)
-
-            contexto = {'aluno': aluno}
-
-        return render(request, "TemplatePaginaInicial.html", contexto)
+        return render(request, "TemplatePaginaInicial.html", )

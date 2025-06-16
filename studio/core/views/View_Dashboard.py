@@ -1,7 +1,11 @@
+import calendar
+
 from django.views import View
 from django.shortcuts import render, redirect
 from core.services.ConexaoMongo import ConexaoMongo
 from core.repositories.AlunoRepository import AlunoRepository
+from core.services.MontarTendencias import montarTendencias
+from core.services.convert_id import convert_idTo
 
 
 class DashboardView(View):
@@ -11,14 +15,27 @@ class DashboardView(View):
         self.alunoRepository = AlunoRepository(self.mongoClinte)
 
     def get(self,request):
-        balancoAlunos = self.alunoRepository.TodosAlunosPorStatus().to_list()
+        balancoAlunos = self.alunoRepository.TodosAlunosPorStatus()
         
-        alunosPorPersonal = self.alunoRepository.TodosAlunosPorPersonal().to_list()
-        for i in alunosPorPersonal:
-            i["id"] = i.get("_id")
-       
+        alunosPorPersonal = self.alunoRepository.TodosAlunosPorPersonal()
+        convert_idTo('id', alunosPorPersonal)
+
+
+        alunosPorPlano = self.alunoRepository.TodosAlunosPorPlano()
+        convert_idTo('id', alunosPorPlano)
+
+        tendenciaAssinaturas = self.alunoRepository.tendenciaAssinatura()
+
+
+        alunosPorIdade = self.alunoRepository.alunoPorIdade()
+        convert_idTo('idade', alunosPorIdade)
+
         context = {"balancoAlunos":balancoAlunos,
-                    "alunosPorPersonal":alunosPorPersonal}
+                    "alunosPorPersonal":alunosPorPersonal,
+                    "alunosPorPlano":alunosPorPlano,
+                   'tendenciaMeses':montarTendencias(tendenciaAssinaturas),
+                   'alunosPorIdade':alunosPorIdade,
+                   }
 
         return render(request, "TemplateTelaDashboard.html",context)
 
