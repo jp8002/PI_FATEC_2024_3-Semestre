@@ -4,18 +4,119 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PH Personal - Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"><style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <style>
     body {
       font-family: 'Reem Kufi Fun', sans-serif;
+      background-color: white;
     }
+    
     select.form-control {
-    height: auto;
+      height: auto;
+    }
+    
+    .back-button {
+      color: black;
+      padding: 0.25rem 1rem;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      text-decoration: none !important;
+    }
+    
+    .back-button img {
+      height: 28px;
+      margin-right: 0.5rem;
+    }
+    
+    .back-button span {
+      font-weight: bold;
+      font-size: 24px;
+    }
+    
+    .form-container {
+      background-color: #D9D9D9;
+      border-radius: 8px;
+      padding: 2.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .page-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      margin-top: 1.5rem;
+      font-size: 2.5rem; /* Adaptação para display-4 */
+    }
+    
+    .form-group label {
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 2rem;
+    }
+    
+    .btn-custom {
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      transition: background-color 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn-save {
+      background-color: #007bff;
+      color: white;
+    }
+    
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+      margin-right: 1rem;
+    }
+    
+    .btn-custom:hover {
+      background-color: #e9ecef;
+      color: #343a40;
+    }
+    
+    .invalid-feedback {
+      display: block;
+      color: #dc3545;
+      font-size: 1.1rem;
+      margin-top: 0.25rem;
+    }
+    
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 1.5rem;
+      }
+      
+      .form-group label {
+        font-size: 1.25rem;
+      }
+      
+      .btn-custom {
+        font-size: 1.25rem;
+        padding: 0.4rem 1.25rem;
+      }
+      
+      .page-title {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
-<body class="bg-white">
+<body>
 
     <!-- Header -->
     {% block template %}
@@ -23,115 +124,115 @@
     {% endblock %}
 
     <!-- Main Content -->
-    <main class="flex flex-col items-left text-left ">
-        <div style="display: flex;">
-                    <a href="{% url 'listarAlunos' %}" class="text-black px-4 py-1 rounded-full flex items-center">
-                    <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" class="h-7" />
-                    <span class="font-weight-bold" style="font-size: 24px;">Voltar</span>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10v1" />
-                    </svg>
-                    </a>
-        </div>
-        <div class="" style="padding-left: 5%; padding-right: 5%; padding-bottom: 5%;">               
-            <div class="display: flex-column container">
-                    {% block content %}
-                        <div class="display: flex">
-                            <h1 class="mb-2 mt-4 font-weight-bold display-3">Editar Alunos</h1>
-                        </div>
-                        <div class="container mt-2 rounded-lg p-8" style="background-color: #D9D9D9;">                    
-                            <form method="post" action="{% url 'editarAluno' cpf %}" class="col-11 mx-auto" id="main-form">
-                                {% csrf_token %}
-                                
-                                <!-- Mensagens de erro gerais -->
-                                {% if form.non_field_errors %}
-                                <div class="alert alert-danger">
-                                    {{ form.non_field_errors }}
-                                </div>
+    <main class="text-left">
+        <div class="container">
+            <div class="d-flex">
+                <a href="{% url 'listarAlunos' %}" class="back-button">
+                    <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" />
+                    <span>Voltar</span>
+                </a>
+            </div>
+            
+            <div class="container py-4 px-0">
+                {% block content %}
+                    <div>
+                        <h1 class="page-title font-weight-bold">Editar Alunos</h1>
+                    </div>
+                    
+                    <div class="form-container">                    
+                        <form method="post" action="{% url 'editarAluno' cpf %}" class="col-11 mx-auto" id="main-form">
+                            {% csrf_token %}
+                            
+                            <!-- Mensagens de erro gerais -->
+                            {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                            {% endif %}
+
+                            <div class="form-group mb-4">
+                                <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+                                {{ form.nome }}
+                                {% if form.nome.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ form.nome.errors|first }}
+                                    </div>
                                 {% endif %}
+                            </div>
 
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
-                                    {{ form.nome }}
-                                    {% if form.nome.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.nome.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
-                                    {{ form.cpf }}
-                                    
-                                    {% if form.cpf.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.cpf.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
-                                    {{ form.data_nascimento }}
-                                    {% if form.data_nascimento.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.data_nascimento.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                                    {{ form.email }}
-                                    {% if form.email.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.email.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
-                                    {{ form.telefone }}
-                                    {% if form.telefone.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.telefone.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.plano.id_for_label }}">{{ form.plano.label }}</label>
-                                    {{ form.plano }}
-                                    {% if form.plano.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.plano.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <div class="form-group mb-4 font-weight-bold h4">
-                                    <label for="{{ form.personal.id_for_label }}">{{ form.personal.label }}</label>
-                                    {{ form.personal }}
-                                    {% if form.personal.errors %}
-                                        <div class="invalid-feedback">
-                                            {{ form.personal.errors|first }}
-                                        </div>
-                                    {% endif %}
-                                </div>
+                            <div class="form-group mb-4">
+                                <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
+                                {{ form.cpf }}
                                 
-                                <div class="d-flex flex-row-reverse">
-                                    <div class="d-flex justify-content-end pt-8 h4 ">
-                                        <button type="submit" class="bg-primary text-white px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition", name="action", value="salvar">Salvar</button>
+                                {% if form.cpf.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ form.cpf.errors|first }}
                                     </div>
+                                {% endif %}
+                            </div>
 
-                                    <div class="d-flex justify-content-end pt-8 h4 mr-4">
-                                        <button type="submit" class="bg-danger text-white px-4 py-1 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition", name="action", value="excluir", onclick="return confirm('Tem certeza que deseja excluir este aluno? Esta ação não poderá ser desfeita.')">Excluir</button>
+                            <div class="form-group mb-4">
+                                <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
+                                {{ form.data_nascimento }}
+                                {% if form.data_nascimento.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ form.data_nascimento.errors|first }}
                                     </div>
-                                </div>
-                            </form>
-                    {% endblock %}
-                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ form.email.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
+                                {{ form.telefone }}
+                                {% if form.telefone.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ form.telefone.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="{{ form.plano.id_for_label }}">{{ form.plano.label }}</label>
+                                {{ form.plano }}
+                                {% if form.plano.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ form.plano.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="{{ form.personal.id_for_label }}">{{ form.personal.label }}</label>
+                                {{ form.personal }}
+                                {% if form.personal.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ form.personal.errors|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="action-buttons">
+                                <button type="submit" class="btn-custom btn-delete" name="action" value="excluir" onclick="return confirm('Tem certeza que deseja excluir este aluno? Esta ação não poderá ser desfeita.')">
+                                    Excluir
+                                </button>
+                                
+                                <button type="submit" class="btn-custom btn-save" name="action" value="salvar">
+                                    Salvar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {% endblock %}
             </div>
         </div>
     </main>
