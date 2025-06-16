@@ -212,15 +212,15 @@ class AlunoRepository(InterfaceRepository):
     def TodosAlunosPorStatus(self):
         try:
             pipeline = [{'$group':{"_id":"$status","qtd":{"$sum":1}}},{'$sort':{'_id':1}}]
-            return self.mongo._colecao.aggregate(pipeline)
+            return self.mongo._colecao.aggregate(pipeline).to_list()
         
         except Exception as e:
             raise Exception('Não foi possível agrupar alunos por status', e)
     
     def TodosAlunosPorPersonal(self):
         try:
-            pipeline = [{"$group":{"_id":"$personal","qtd":{"$sum":1}}}]
-            return self.mongo._colecao.aggregate(pipeline)
+            pipeline = [{"$group":{"_id":"$personal","qtd":{"$sum":1}}},{"$sort":{'_id':1}}]
+            return self.mongo._colecao.aggregate(pipeline).to_list()
 
         except Exception as e:
             raise Exception('Não foi possível agrupar alunos por personal', e)
@@ -228,7 +228,7 @@ class AlunoRepository(InterfaceRepository):
     def TodosAlunosPorPlano(self):
         try:
             pipeline = [{'$group':{'_id':'$plano','qtd':{'$sum':1}}},{'$sort':{'_id':1}}]
-            return self.mongo._colecao.aggregate(pipeline)
+            return self.mongo._colecao.aggregate(pipeline).to_list()
 
         except Exception as e:
             raise Exception('Não foi possível agrupar alunos por plano', e)
@@ -267,6 +267,6 @@ class AlunoRepository(InterfaceRepository):
     def alunoPorIdade(self):
         try:
             pipeline = [{'$group':{'_id':"$idade",'qtd':{'$sum':1}}},{'$sort':{'_id':1}}]
-            return self.mongo._colecao.aggregate(pipeline)
+            return self.mongo._colecao.aggregate(pipeline).to_list()
         except Exception as e:
             raise Exception('Não foi possível agregar por idade', e)
