@@ -211,7 +211,7 @@ class AlunoRepository(InterfaceRepository):
     
     def TodosAlunosPorStatus(self):
         try:
-            pipeline = [{"$group":{"_id":"$status","qtd":{"$sum":1}}}]
+            pipeline = [{'$group':{"_id":"$status","qtd":{"$sum":1}}},{'$sort':{'_id':1}}]
             return self.mongo._colecao.aggregate(pipeline)
         
         except Exception as e:
@@ -224,3 +224,49 @@ class AlunoRepository(InterfaceRepository):
 
         except Exception as e:
             raise Exception('Não foi possível agrupar alunos por personal', e)
+
+    def TodosAlunosPorPlano(self):
+        try:
+            pipeline = [{'$group':{'_id':'$plano','qtd':{'$sum':1}}},{'$sort':{'_id':1}}]
+            return self.mongo._colecao.aggregate(pipeline)
+
+        except Exception as e:
+            raise Exception('Não foi possível agrupar alunos por plano', e)
+
+    def tendenciaAssinatura(self):
+        try:
+            pipeline=[
+                {
+                    "$facet": {
+                        "novas_assinaturas": [
+                            {"$match": {"status": "ativo"}},
+                            {"$project": {"mes": {"$month": "$data_assinatura"}}},
+                            {"$group": {"_id": "$mes", "qtd": {"$sum": 1}}},
+                            {"$sort": {"_id": 1}}
+                        ],
+                        "renovacoes": [
+                            {"$match": {"status": "ativo"}},
+                            {"$project": {"mes": {"$month": "$data_renovacao"}}},
+                            {"$group": {"_id": "$mes", "qtd": {"$sum": 1}}},
+                            {"$sort": {"_id": 1}}
+                        ],
+                        "cancelamentos": [
+                            {"$match": {"status": "cancelado"}},
+                            {"$project": {"mes": {"$month": "$data_cancelamento"}}},
+                            {"$group": {"_id": "$mes", "qtd": {"$sum": 1}}},
+                            {"$sort": {"_id": 1}}
+                        ]
+                    }
+                }
+
+            ]
+            return self.mongo._colecao.aggregate(pipeline).next()
+        except Exception as e:
+            raise Exception('Não foi possível agrupar assinaturas', e)
+
+    def alunoPorIdade(self):
+        try:
+            pipeline = [{'$group':{'_id':"$idade",'qtd':{'$sum':1}}},{'$sort':{'_id':1}}]
+            return self.mongo._colecao.aggregate(pipeline)
+        except Exception as e:
+            raise Exception('Não foi possível agregar por idade', e)
