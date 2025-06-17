@@ -63,19 +63,16 @@ class AlunoRepository(InterfaceRepository):
 
 
     def listarTodos(self):
-        lista=[]
+
         try:
             query = list(self.mongo._colecao.find())
 
-            for aluno in query:
-                lista.append(Aluno(aluno))
 
         except Exception as e:
             raise Exception("Erro ao consultar o registro ", e)
 
 
-        return lista
-
+        return query
     def consultarId(self, id):
         query = self.mongo._colecao.find_one(ObjectId(id))
 
@@ -282,3 +279,11 @@ class AlunoRepository(InterfaceRepository):
             except Exception as e:
                 raise Exception("Erro ao atualizar Status ", e)
                 return False
+
+    def alunoPorPersonal(self, personal):
+        try:
+            result = self.mongo._colecao.find({"personal":personal},{}).to_list()
+        except Exception as e:
+             raise Exception('Nenhum aluno encontrar', e)
+
+        return result

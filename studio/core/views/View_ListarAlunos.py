@@ -5,6 +5,8 @@ from core.repositories.AlunoRepository import AlunoRepository
 from core.services.Autenticar import Autenticar
 from core.services.ConexaoMongo import ConexaoMongo
 from core.forms import CadastrarAlunoForm
+from core.services.convert_id import convert_idTo
+
 
 class ListarAlunosView(View):
     
@@ -24,7 +26,7 @@ class ListarAlunosView(View):
 
         listaAlunos = self.alunoRepository.listarTodos()
         total_alunos = len(listaAlunos)
-
+        convert_idTo("id",listaAlunos)
         form = CadastrarAlunoForm()
 
         contexto = {

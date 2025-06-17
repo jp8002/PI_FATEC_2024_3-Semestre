@@ -6,6 +6,5 @@ class ConexaoMongo:
         try:
             self._client = pymongo.MongoClient('mongodb://' + host + ':' + port + '/')
             self._mydb = self._client[db]
-            self._colecao = None
         except Exception as e:
             raise Exception("Erro ao conectar o banco de dados: " + str(e))
