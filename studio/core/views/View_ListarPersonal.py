@@ -29,3 +29,16 @@ class ListarPersonalView(View):
         }
 
         return render(request, "TemplateListarPersonal.html", contexto)
+
+    def post(self, request):
+        if not Autenticar.checarSessao(request.session):
+            return redirect("paginaInicial")
+
+        if not Autenticar.checarSessaoPersonal(request.session):
+            return redirect("paginaInicial")
+
+        action = request.POST.get("action",None)
+
+        if action == "excluir":
+            self.personalRepository.deletarByCpf(request.POST.get("cpf"))
+            return redirect("listarPersonal")

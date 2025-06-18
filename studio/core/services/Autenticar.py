@@ -6,7 +6,7 @@ from core.services.ConexaoMongo import ConexaoMongo
 
 class Autenticar():
 
-    def checarSessao(self,sessao):
+    def checarSessao(sessao):
         if (not sessao.get('sessao',False) or not  sessao.get("cpf",False)):
             return False
 

@@ -42,11 +42,17 @@ class ListarAlunosView(View):
             return redirect("paginaInicial")
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
-        
+
+        action = request.POST.get("action",None)
+
+        if action == "excluir":
+            self.alunoRepository.deletarByCpf(request.POST['cpf'])
+            return redirect("listarAlunos")
+
         if 'cpf' in request.POST and 'status' in request.POST:
             self.alunoRepository.AlterarStatus(
                 request.POST['status'],
-                request.POST['cpf']
+
         )
         elif 'cpf' in request.POST and 'status' not in request.POST:
             status = 'off'
