@@ -16,14 +16,19 @@ class AlunoRepository(InterfaceRepository):
     def criar(self,  entity):
         try:
             dados = entity.__dict__
-            #del dados['id']
-            dados["data_nascimento"] = datetime.combine(dados["data_nascimento"], datetime.min.time())
-            resp = self.mongo._colecao.insert_one(dados)
 
+            if '_id' in dados:
+                del dados['_id']
+
+            if self.consultarCpf(entity.cpf):
+                raise Exception('Um aluno com esse cpf já exite')
+
+            dados["data_nascimento"] = datetime.combine(dados["data_nascimento"], datetime.min.time())
+            self.mongo._colecao.insert_one(dados)
             return True
 
         except Exception as e:
-            raise Exception("Não foi possivel criar o registro ", e)
+            raise Exception("Não foi possivel criar o registro: ", e)
 
     def consultarCpf(self, cpf):
 
@@ -32,7 +37,7 @@ class AlunoRepository(InterfaceRepository):
             list(query)
 
         except Exception as e:
-            raise Exception("Esse cpf não existe (" + str(e) + ")")
+            return False
 
         return query
 
@@ -114,14 +119,14 @@ class AlunoRepository(InterfaceRepository):
         return datas_agendadas
 
     def agendar(self, Agendamento):
-        id = Agendamento["id"]
+        cpf = Agendamento['cpf']
         dia = Agendamento["dia"]
         exercicios = Agendamento["exercicios"]
 
         alunoRepository = AlunoRepository(self.mongo)
 
-        if (alunoRepository.consultarId(id) == False):
-            raise Exception("Esse id não existe", id)
+        if (alunoRepository.consultarCpf(cpf) == False):
+            raise Exception("Esse cpf não existe", cpf)
 
         try:
             dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
@@ -132,8 +137,7 @@ class AlunoRepository(InterfaceRepository):
 
         try:
                        #db.aluno.updateOne({ _id : ObjectId("id")}, {$push:{sessoes:{"dia":0,"exercicios":["xxx","yyy"]}}})
-            self.mongo._colecao.update_one({"_id": ObjectId(id)}, {"$push":{"sessoes":{"dia":dia,"exercicios":exercicios}}})
-
+            self.mongo._colecao.update_one({"cpf": cpf}, {"$push":{"sessoes":{"dia":dia,"exercicios":exercicios}}})
 
         except Exception as e:
             raise Exception("Erro ao atualizar dia ", e)
@@ -141,12 +145,12 @@ class AlunoRepository(InterfaceRepository):
         return True
 
     def deletarAgendamento(self, Agendamento):
-        id = Agendamento["id"]
+        cpf = Agendamento['cpf']
         dia = Agendamento["dia"]
 
         alunoRepository = AlunoRepository(self.mongo)
 
-        alunoRepository.consultarId(id)
+        alunoRepository.consultarCpf(cpf)
 
 
         try:
@@ -156,7 +160,7 @@ class AlunoRepository(InterfaceRepository):
             raise Exception("Erro ao converter o dia ", e)
 
         try:
-            self.mongo._colecao.update_one({"_id": ObjectId(id)}, {"$pull": {"sessoes":{ 'dia':dia}}})
+            self.mongo._colecao.update_one({"cpf": cpf}, {"$pull": {"sessoes":{ 'dia':dia}}})
 
         except Exception as e:
             raise Exception("Erro ao deletar agendamento ", e)
@@ -176,9 +180,9 @@ class AlunoRepository(InterfaceRepository):
 
         return resp
 
-    def listarSessoes(self,id):
+    def listarSessoes(self,cpf):
         try:
-            resp = self.mongo._colecao.find_one({"_id": ObjectId(id)},{'_id':1,"sessoes":1,'nome':1})
+            resp = self.mongo._colecao.find_one({"cpf": cpf},{'cpf':1,"sessoes":1,'nome':1})
 
             return resp
 
@@ -186,7 +190,7 @@ class AlunoRepository(InterfaceRepository):
             raise Exception("Erro ao listar sessoes: (" + str(e) + ")")
 
     def atualizarAgendamento(self, agendamento):
-        id = ObjectId(agendamento['id'])
+        cpf = agendamento['cpf']
 
         dia = agendamento["dia"]
         dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
@@ -194,12 +198,10 @@ class AlunoRepository(InterfaceRepository):
         exercicios = agendamento["exercicios"]
         idSessao = agendamento["idSessao"]
 
-        self.consultarId(agendamento["id"])
-
-
+        self.consultarCpf(cpf)
 
         try:
-            self.mongo._colecao.update_one({'_id':id},{'$set':{f'sessoes.{idSessao}.dia':dia,
+            self.mongo._colecao.update_one({'cpf':cpf},{'$set':{f'sessoes.{idSessao}.dia':dia,
                                                                f'sessoes.{idSessao}.exercicios': exercicios
                                                                }})
 

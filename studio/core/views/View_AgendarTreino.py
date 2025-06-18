@@ -36,13 +36,9 @@ class AgendarTreinoView(View):
 
         agendamento = request.POST.dict()
 
-        # agendamento["exercicios"] = agendamento["exercicios"].split(";")
+
         agendamento["exercicios"] = sequenciaTolista.strTolista(agendamento["exercicios"])
 
         self.alunoRepository.agendar(agendamento)
-
-        listaAlunos = self.alunoRepository.listarTodos()
-
-        contexto = {'alunos': listaAlunos}
 
         return redirect("agendarTreino")

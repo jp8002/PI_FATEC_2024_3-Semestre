@@ -33,23 +33,11 @@ class EditarPersonalView(View):
         serviceM._colecao = serviceM._mydb["personal"]
         repository = PersonalRepository(serviceM)
 
-        action = request.POST.get('action')
-
-        if action == 'excluir':
-            repository.deletarByCpf(cpf)
-            return redirect("listarPersonal")
-
-        personal_existente = repository.consultarCpf(cpf)
-        print(request.POST)
         form = CadastrarPersonalForm(request.POST)
         if form.is_valid():
             dados = form.cleaned_data
             
             personal = PersonalEntity(dados)
-            #personal.status = personal_existente.get('status')
-            #personal.data_assinatura = personal_existente.get('data_assinatura')
-            #personal.data_renovacao = personal_existente.get('data_renovacao')
-            #personal.sessoes = personal_existente.get('sessoes')
             
             repository.atualizar(personal)
             return redirect("listarPersonal")

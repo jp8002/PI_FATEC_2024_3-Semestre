@@ -31,7 +31,7 @@ urlpatterns = [
     path('personal/editar_aluno/<str:cpf>/', EditarAlunoView.as_view(), name='editarAluno'),
     path('personal/editar_personal/<str:cpf>/', EditarPersonalView.as_view(), name='editarPersonal'),
 
-    path('personal/gerenciamento_treinos/<str:id>', GerenciamentoTreinosView.as_view(), name='gerenciamentoTreinos'),
+    path('personal/gerenciamento_treinos/<str:cpf>', GerenciamentoTreinosView.as_view(), name='gerenciamentoTreinos'),
 
     path("personal/agendar_treino", AgendarTreinoView.as_view(), name='agendarTreino'),
 

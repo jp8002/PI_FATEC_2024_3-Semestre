@@ -114,7 +114,7 @@
                             <tr>
                               <th >{{ i.nome }}</th >
                               <td class="icones"><a id="editarPersonal" href="{% url 'editarPersonal' i.cpf %}" class="fa-solid fa-pencil border rounded-circle p-2 " ></a></td>
-                              <td class="icones"><a id="verAlunos" href="#" class="fa-solid fa-user"></a></td>
+                              <td class="icones"><a id="verAlunos" href="{% url 'alunopersonal' i.nome %}" class="fa-solid fa-user"></a></td>
                                 <td class="icones"> <i class="fa-solid fa-trash border rounded-circle p-2"
                                                style="cursor:pointer"
                                                data-toggle="modal"

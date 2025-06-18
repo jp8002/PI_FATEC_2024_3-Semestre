@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 from core.repositories.AlunoRepository import AlunoRepository
 from core.services.Autenticar import Autenticar
 from core.services.ConexaoMongo import ConexaoMongo
-from datetime import datetime
 
 from core.services.sequenciaTolista import sequenciaTolista
 
@@ -19,13 +18,13 @@ class GerenciamentoTreinosView(View):
 
         self.alunoRepository = AlunoRepository(self.mongoClinte)
 
-    def get(self,request,id):
+    def get(self,request,cpf):
         if not Autenticar.checarSessao(request.session):
             return redirect("paginaInicial")
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
 
-        listaSessoes = self.alunoRepository.listarSessoes(id)
+        listaSessoes = self.alunoRepository.listarSessoes(cpf)
         
         for index, i in enumerate(listaSessoes.get('sessoes')):
             i["idSessao"] = index
@@ -36,18 +35,19 @@ class GerenciamentoTreinosView(View):
 
         return render(request, 'TemplateGerenciamentoTreinos.html',context)
     
-    def post(self, request,id):
+    def post(self, request,cpf):
         if not Autenticar.checarSessao(request.session):
             return redirect("paginaInicial")
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
 
         agendamento = {
-                        'id':id,
+                        'cpf':cpf,
                         'dia':request.POST.get('dia'),
                         'exercicios': sequenciaTolista.strTolista(request.POST.get('exercicios')),
                         'idSessao': request.POST.get('idSessao'),
         }
+
         acao = request.POST.get('acao')
         match acao:
             case 'Excluir':
@@ -55,11 +55,7 @@ class GerenciamentoTreinosView(View):
 
             case 'Salvar':
                 self.alunoRepository.atualizarAgendamento(agendamento)
-
-
-
-        print(request.POST , id)
         
-        return redirect("gerenciamentoTreinos",id=id)
+        return redirect("gerenciamentoTreinos",cpf=cpf)
 
 

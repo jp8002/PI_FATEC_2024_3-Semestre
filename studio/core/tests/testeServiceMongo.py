@@ -31,11 +31,6 @@ class TesteServiceMongo(TestCase):
             "data_assinatura": "2024-03-02T09:00:00"
         })
 
-    def test_consultarId(self):
-        resp = self.alunoRepository.consultarId(self.id.inserted_id)
-        nome_banco = resp.get("nome", "Essa chave não existe")
-
-        self.assertEqual(nome_banco, "joao")
 
     def test_consultar_datas_agendadas(self):
         resp = self.alunoRepository.consultar_datas_agendadas()

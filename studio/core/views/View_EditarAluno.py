@@ -34,12 +34,6 @@ class EditarAlunoView(View):
         serviceM._colecao = serviceM._mydb["aluno"]
         repository = AlunoRepository(serviceM)
 
-        action = request.POST.get('action')
-
-        if action == 'excluir':
-            repository.deletarByCpf(cpf)
-            return redirect("listarAlunos")
-
         aluno_existente = repository.consultarCpf(cpf)
         
         form = CadastrarAlunoForm(request.POST)

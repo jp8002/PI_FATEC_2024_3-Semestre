@@ -27,6 +27,7 @@ class CadastrarAlunoView(View):
             dados = (form.cleaned_data) 
             dados["status"] = "Ativo"
             dados["data_assinatura"] = datetime.now()
+            dados['idade'] =  datetime.now().year - dados['data_nascimento'].year
 
             aluno = Aluno(dados)
 

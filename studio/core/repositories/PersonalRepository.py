@@ -30,7 +30,9 @@ class PersonalRepository(InterfaceRepository):
 
         try:
             query = self.mongo._colecao.find_one({"cpf": cpf})
-            list(query)
+            if not query:
+                return False
+
 
         except Exception as e:
             raise Exception("Erro ao consultar cpf (" + str(e) + ")")

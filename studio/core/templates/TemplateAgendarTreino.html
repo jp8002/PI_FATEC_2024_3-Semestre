@@ -18,7 +18,7 @@
             border-radius: 15px;
         }
 
-        #id{
+        #cpf{
             height: 3rem;
         }
 
@@ -66,19 +66,19 @@
                 {% csrf_token %}
                     <div class="form-group d-flex flex-column">
                         <label for="id">Aluno</label>
-                        <select class="custom-select " id="id" name="id">
+                        <select class="custom-select " id="cpf" name="cpf" required>
                             {% for i in alunos %}
-                                <option value="{{ i.id }}"> {{ i.nome }} </option>
+                                <option value="{{ i.cpf }}"> {{ i.nome }} </option>
                             {% endfor %}
                           </select>
                     </div>
                     <div class="form-group d-flex flex-column ">
                         <label  for="dia">Horário da aula</label>
-                        <input class="form-control " type="datetime-local" id="dia" name="dia">
+                        <input class="form-control " type="datetime-local" id="dia" name="dia" required>
                     </div>
                     <div class="form-group d-flex flex-column ">
                         <label  for="exercicios">Exercicios</label>
-                        <textarea class="form-control" id="exercicios" rows="3" name="exercicios" placeholder="Use ponto e vírgula (;) para separar os exercicios"></textarea>
+                        <textarea class="form-control" id="exercicios" rows="3" name="exercicios" placeholder="Use ponto e vírgula (;) para separar os exercicios" required></textarea>
                         <small id="exercicioshelp" class="form-text text-muted">
                             <p class="text-danger">Use ponto e vírgula (;) para separar os exercicios</p>
                         </small>
