@@ -241,6 +241,7 @@ class AlunoRepository(InterfaceRepository):
             self.mongo._colecao.update_one({'cpf':cpf},{'$set':{f'sessoes.{idSessao}.dia':dia,
                                                                f'sessoes.{idSessao}.exercicios': exercicios
                                                                }})
+            return True
 
         except Exception as e:
             raise Exception("Erro ao atualizar agendamento ", e)

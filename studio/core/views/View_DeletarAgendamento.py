@@ -31,7 +31,7 @@ class DeletarAgendamentoView(View):
 
         agendamento = request.POST.dict()
 
-        self.alunoRepository.deletarAgendamento(agendamento)
+        self.alunoRepository.deletarAgendamento(agendamento['cpf'],agendamento['dia'])
 
         listaAlunos = self.alunoRepository.listarTodos()
 

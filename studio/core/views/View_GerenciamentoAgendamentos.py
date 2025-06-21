@@ -1,4 +1,3 @@
-import ipdb
 from django.core.paginator import Paginator
 from django.views import View
 from django.shortcuts import render, redirect
