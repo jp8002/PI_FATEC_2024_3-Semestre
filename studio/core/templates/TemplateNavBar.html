@@ -12,6 +12,7 @@
 
         .navbar{
           background-color: black;
+            font-size: 18px;
         }
 
         .navbar-nav{
@@ -43,7 +44,7 @@
 
           {% else %}
           <li class="nav-item">
-              <a href="{% url "sair" %}" type="button" id="btn-login" class="btn btn-light rounded " >Sair<i class="fa-solid fa-right-from-bracket"></i></a>
+              <a href="{% url "sair" %}" type="button" id="btn-login" class="btn btn-light rounded " ><b>Sair</b></a>
           </li>
           {% endif %}
         </ul>

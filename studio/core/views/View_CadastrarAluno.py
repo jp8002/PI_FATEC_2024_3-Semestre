@@ -20,6 +20,8 @@ class CadastrarAlunoView(View):
 
 
     def post(self, request):
+
+        errors = None
         form = CadastrarAlunoForm(request.POST)
         if form.is_valid():
             serviceM = ConexaoMongo()
@@ -33,7 +35,11 @@ class CadastrarAlunoView(View):
 
             repository = AlunoRepository(serviceM)
 
-            repository.criar(aluno)
-            return redirect('cadastrarAluno')
+            try:
+                repository.criar(aluno)
+                return redirect('cadastrarAluno')
+            except Exception as e:
+                errors = str(e)
+
 
         return render(request, "TemplateCadastrarAluno.html", {'errors':form.errors})

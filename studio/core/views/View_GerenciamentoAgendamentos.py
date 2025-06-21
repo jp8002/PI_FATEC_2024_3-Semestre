@@ -11,7 +11,7 @@ from core.services.ConexaoMongo import ConexaoMongo
 from core.services.sequenciaTolista import sequenciaTolista
 
 
-class GerenciamentoTreinosView(View):
+class GerenciamentoAgendamentosView(View):
     def __init__(self,**kwargs):
 
         self.mongoClinte = ConexaoMongo()
@@ -66,7 +66,7 @@ class GerenciamentoTreinosView(View):
         match acao:
             case 'Excluir':
                 self.alunoRepository.deletarAgendamento(cpf, request.POST.get('dia'))
-                return redirect("gerenciamentoTreinos", cpf=cpf)
+                return redirect("gerenciamentoAgendamentos", cpf=cpf)
 
             case 'Salvar':
                 agendamento = {
@@ -76,13 +76,13 @@ class GerenciamentoTreinosView(View):
                     'idSessao': request.POST.get('idSessao'),
                 }
                 self.alunoRepository.atualizarAgendamento(agendamento)
-                return redirect("gerenciamentoTreinos", cpf=cpf)
+                return redirect("gerenciamentoAgendamentos", cpf=cpf)
 
             case 'filtrar':
                 try :
                     self.listaSessoes = self.alunoRepository.listarSessaoPorDia(cpf,request.POST.get('dataEscolhida'))
                 except:
-                    return redirect("gerenciamentoTreinos", cpf=cpf)
+                    return redirect("gerenciamentoAgendamentos", cpf=cpf)
 
 
         for index, i in enumerate(self.listaSessoes.get('sessoes')):

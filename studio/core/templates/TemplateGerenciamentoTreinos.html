@@ -40,11 +40,6 @@
       box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
     }
 
-    #paginator{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 
     @media screen and (max-width:600px) {
         body {
@@ -115,11 +110,10 @@
                 <label for="edicaoExercicios">Edite os exercicios abaixo:</label>
                 <textarea class="form-control mb-3" id="edicaoExercicios" aria-label="Com textarea" name="exercicios"> {{ i.exerciciosList}} </textarea>
               </div>
-                
-              
-              
+
               <div class="botoes d-flex flex-row">
-                <input type="submit" class="ml-auto btn btn-outline-danger" name='acao' value="Excluir">
+
+                  <b type="button" data-toggle="modal" class="ml-auto btn btn-outline-danger" data-target="#modalExcluir{{ i.idSessao }}">Excluir</b>
                 <input type="submit" class="btn btn-primary" name='acao' value="Salvar">
               </div>
               
@@ -168,8 +162,6 @@
                {% endif %}
            {% endif %}
 
-
-
         {% endif %}
 
         <li class="page-item{% if not sessoes.has_next %} disabled {% endif %}">
@@ -179,8 +171,39 @@
     </nav>
 
 
+        {% for i in sessoes %}
+          <!-- Modal  -->
+          <div class="modal fade" id="modalExcluir{{ i.idSessao }}" tabindex="-1" role="dialog" aria-labelledby="TituloModal{{ i.idSessao }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <form id="formExcluir{{ i.idSessao }}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="dia" value="{{ i.dia }}">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModal{{ i.idSessao }}">Confirmar exclusão do treino do dia {{ i.dia }}?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Tem certeza que deseja excluir este treino?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" name="acao" value="Excluir" class="btn btn-danger">Excluir</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+
+
     </div>
   </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 </body>
 </html>

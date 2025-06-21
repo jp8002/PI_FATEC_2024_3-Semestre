@@ -3,8 +3,9 @@
   <head>
     <!-- Meta tags Obrigatórias -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <script src="https://kit.fontawesome.com/cc7beb20bf.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
@@ -26,9 +27,25 @@
             height: 3rem;
             font-size: 24px;
         }
-        #voltar{
-            text-decoration: none;
-            color: black;
+        .back-link {
+          display: flex;
+          align-items: center;
+          color: #000000;
+          padding: 0.5rem 1rem;
+          text-decoration: none;
+          font-weight: bold;
+          font-size: 1.5rem;
+
+        }
+
+        .back-link img {
+          height: 28px;
+          margin-right: 8px;
+        }
+
+        .back-link:hover {
+          text-decoration: none;
+          color: #000000;
         }
 
         @media screen and (max-width:600px){
@@ -52,9 +69,15 @@
         {% include "TemplateNavBar.html" %}
     {% endblock %}
     
-    <div class="d-flex">
-        <a class="ml-2" id="voltar" href="{% url "personalInicial" %}"><i class="fa-solid fa-arrow-left "></i><b>Voltar</b></a>
-    </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <a href="{% url 'personalInicial' %}" class="back-link">
+                        <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" />
+                        <span>Voltar</span>
+                    </a>
+                </div>
+            </div>
 
     <div class="container d-flex justify-content-center">
         <div class="col-10 d-flex flex-column ">

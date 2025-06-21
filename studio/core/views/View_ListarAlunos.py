@@ -51,7 +51,7 @@ class ListarAlunosView(View):
 
         if 'cpf' in request.POST and 'status' in request.POST:
             self.alunoRepository.AlterarStatus(
-                request.POST['status'],
+                request.POST['status'],cpf=request.POST['cpf']
 
         )
         elif 'cpf' in request.POST and 'status' not in request.POST:

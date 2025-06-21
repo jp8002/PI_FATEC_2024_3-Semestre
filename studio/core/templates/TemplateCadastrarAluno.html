@@ -12,18 +12,10 @@
       background-color: #ffffff;
     }
     
-    select.form-control {
+    select {
       height: auto;
     }
-    
-    .rounded-lg {
-      border-radius: 0.5rem;
-    }
-    
-    .btn-rounded {
-      border-radius: 50px;
-    }
-    
+
     .custom-container {
       padding-left: 5%;
       padding-right: 5%;
@@ -63,7 +55,7 @@
       border: none;
       display: inline-flex;
       align-items: center;
-      /* gap: 8px; Removido por incompatibilidade com versões antigas */
+
     }
     
     .submit-btn:hover {
@@ -76,7 +68,7 @@
     }
     
     .form-title {
-      font-size: 3.5rem;
+      font-size: 2.5rem;
       font-weight: bold;
       margin-bottom: 1rem;
       margin-top: 1.5rem;
@@ -96,14 +88,6 @@
       display: flex !important;
     }
     
-    .justify-content-end {
-      justify-content: flex-end !important;
-    }
-    
-    .align-items-center {
-      align-items: center !important;
-    }
-    
     .mx-auto {
       margin-left: auto !important;
       margin-right: auto !important;
@@ -121,9 +105,7 @@
       margin-top: 1rem !important;
     }
     
-    .mb-4 {
-      margin-bottom: 1.5rem !important;
-    }
+
   </style>
 </head>
 <body>
@@ -145,8 +127,8 @@
                 </div>
             </div>
             
-            <div class="custom-container">
-                <div class="container">
+            <div class="container d-flex justify-content-center">
+                <div class=" col-10">
                     {% block content %}
                         <div class="row">
                             <div class="col">
@@ -157,7 +139,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-container">                    
-                                    <form method="post" action="{% url 'cadastrarAluno' %}" class="col-md-9 mx-auto">
+                                    <form method="post" action="{% url 'cadastrarAluno' %}" class="p-lg-3 mx-auto">
                                         {% csrf_token %}
                                         
                                         <!-- Mensagens de erro gerais -->

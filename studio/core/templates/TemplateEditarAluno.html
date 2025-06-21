@@ -15,7 +15,27 @@
     select.form-control {
       height: auto;
     }
-    
+
+    .back-link {
+      display: flex;
+      align-items: center;
+      color: #000000;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .back-link img {
+      height: 28px;
+      margin-right: 8px;
+    }
+
+    .back-link:hover {
+      text-decoration: none;
+      color: #000000;
+    }
+
     .back-button {
       color: black;
       padding: 0.25rem 1rem;
@@ -125,112 +145,117 @@
 
     <!-- Main Content -->
     <main class="text-left">
-        <div class="container">
-            <div class="d-flex">
-                <a href="{% url 'listarAlunos' %}" class="back-button">
+        <div class="row mt-3">
+            <div class="col">
+                <a href="{% url 'personalInicial' %}" class="back-link">
                     <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" />
                     <span>Voltar</span>
                 </a>
             </div>
-            
-            <div class="container py-4 px-0">
+        </div>
+
+
+            <div class="container py-4 px-0  d-flex justify-content-center">
                 {% block content %}
-                    <div>
-                        <h1 class="page-title font-weight-bold">Editar Alunos</h1>
-                    </div>
-                    
-                    <div class="form-container">                    
-                        <form method="post" action="{% url 'editarAluno' cpf %}" class="col-11 mx-auto" id="main-form">
-                            {% csrf_token %}
-                            
-                            <!-- Mensagens de erro gerais -->
-                            {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                {{ form.non_field_errors }}
-                            </div>
-                            {% endif %}
+                    <div class="col-10">
 
-                            <div class="form-group mb-4">
-                                <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
-                                {{ form.nome }}
-                                {% if form.nome.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ form.nome.errors|first }}
-                                    </div>
-                                {% endif %}
-                            </div>
+                        <div>
+                            <h1 class="page-title font-weight-bold">Editar Alunos</h1>
+                        </div>
 
-                            <div class="form-group mb-4">
-                                <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
-                                {{ form.cpf }}
-                                
-                                {% if form.cpf.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ form.cpf.errors|first }}
-                                    </div>
-                                {% endif %}
-                            </div>
+                        <div class="form-container ">
+                            <form method="post" action="{% url 'editarAluno' cpf %}" class="col-11 mx-auto" id="main-form">
+                                {% csrf_token %}
 
-                            <div class="form-group mb-4">
-                                <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
-                                {{ form.data_nascimento }}
-                                {% if form.data_nascimento.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ form.data_nascimento.errors|first }}
-                                    </div>
+                                <!-- Mensagens de erro gerais -->
+                                {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.non_field_errors }}
+                                </div>
                                 {% endif %}
-                            </div>
 
-                            <div class="form-group mb-4">
-                                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ form.email.errors|first }}
-                                    </div>
-                                {% endif %}
-                            </div>
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+                                    {{ form.nome }}
+                                    {% if form.nome.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.nome.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
 
-                            <div class="form-group mb-4">
-                                <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
-                                {{ form.telefone }}
-                                {% if form.telefone.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ form.telefone.errors|first }}
-                                    </div>
-                                {% endif %}
-                            </div>
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
+                                    {{ form.cpf }}
 
-                            <div class="form-group mb-4">
-                                <label for="{{ form.plano.id_for_label }}">{{ form.plano.label }}</label>
-                                {{ form.plano }}
-                                {% if form.plano.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ form.plano.errors|first }}
-                                    </div>
-                                {% endif %}
-                            </div>
+                                    {% if form.cpf.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.cpf.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
 
-                            <div class="form-group mb-4">
-                                <label for="{{ form.personal.id_for_label }}">{{ form.personal.label }}</label>
-                                {{ form.personal }}
-                                {% if form.personal.errors %}
-                                    <div class="invalid-feedback">
-                                        {{ form.personal.errors|first }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="action-buttons">
-                                <button type="submit" class="btn-custom btn-save" >
-                                    Salvar
-                                </button>
-                            </div>
-                        </form>
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
+                                    {{ form.data_nascimento }}
+                                    {% if form.data_nascimento.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.data_nascimento.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.email.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
+                                    {{ form.telefone }}
+                                    {% if form.telefone.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.telefone.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.plano.id_for_label }}">{{ form.plano.label }}</label>
+                                    {{ form.plano }}
+                                    {% if form.plano.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.plano.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="{{ form.personal.id_for_label }}">{{ form.personal.label }}</label>
+                                    {{ form.personal }}
+                                    {% if form.personal.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.personal.errors|first }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="action-buttons">
+                                    <button type="submit" class="btn-custom btn-save" >
+                                        Salvar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 {% endblock %}
             </div>
-        </div>
+
     </main>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

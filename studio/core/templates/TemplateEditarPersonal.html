@@ -104,13 +104,6 @@
       margin-right: -15px;
       margin-left: -15px;
     }
-    .container-fluid {
-      width: 100%;
-      padding-right: 15px;
-      padding-left: 15px;
-      margin-right: auto;
-      margin-left: auto;
-    }
     .container {
       width: 100%;
       padding-right: 15px;
@@ -118,6 +111,27 @@
       margin-right: auto;
       margin-left: auto;
     }
+
+     .back-link {
+          display: flex;
+          align-items: center;
+          color: #000000;
+          padding: 0.5rem 1rem;
+          text-decoration: none;
+          font-weight: bold;
+          font-size: 1.5rem;
+
+        }
+
+        .back-link img {
+          height: 28px;
+          margin-right: 8px;
+        }
+
+        .back-link:hover {
+          text-decoration: none;
+          color: #000000;
+        }
     @media (min-width: 576px) {
       .container {
         max-width: 540px;
@@ -161,15 +175,13 @@
 
     <!-- Main Content -->
     <main>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 mt-3">
-                    <a href="{% url 'listarPersonal' %}" class="back-link">
+        <div class="row mt-3">
+                <div class="col">
+                    <a href="{% url 'personalInicial' %}" class="back-link">
                         <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" />
                         <span>Voltar</span>
                     </a>
                 </div>
-            </div>
         </div>
         
         <div class="custom-container">
