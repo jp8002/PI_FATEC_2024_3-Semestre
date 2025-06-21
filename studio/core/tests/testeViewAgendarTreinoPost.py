@@ -22,7 +22,7 @@ class TesteViewAgendarTreinoPost(TestCase):
 
         self.id = self.mongo._colecao.insert_one({"nome": "joao mock", "cpf": "123654789", "senha": "1234", "sessoes":[]})
 
-        self.resp = self.client.post(reverse("agendarTreino") ,{ 'id': self.id.inserted_id, 'dia': '2025-05-19T00:00','exercicios':['perna','coxa']})
+        self.resp = self.client.post(reverse("agendarTreino") ,{ 'cpf': "123654789", 'dia': '2025-05-19T00:00','exercicios':['perna','coxa']})
 
     def test_200_response(self):
         self.assertEqual(self.resp.status_code, 302)

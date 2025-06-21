@@ -42,7 +42,7 @@ class TesteServiceMongo(TestCase):
         self.assertEqual(resp.get("nome", "Não foi encontrado"), "joao")
 
     def test_criarNovoPersonal(self):
-        Novo = {'nome':"Otavio", 'senha':"otavio123", 'telefone':"999999999", 'email':"otavio@gmail.com", 'cpf':"12345678910",
+        Novo = {'nome':"Otavio", 'senha':"otavio123", 'telefone':"999999999", 'email':"otavio@gmail.com", 'cpf':"2",
                                             'salario':"1500", 'acesso':"funcionario", 'cref':"999999-P/SP"}
 
         self.personalEntity = PersonalEntity(Novo)
@@ -53,7 +53,7 @@ class TesteServiceMongo(TestCase):
 
     def test_criarNovoAluno(self):
 
-        novo = {"nome": "joao mock", "data_nascimento": datetime(2002,2,1), "cpf": "123654789", "status": "ativo",
+        novo = {"nome": "joao mock", "data_nascimento": datetime(2002,2,1), "cpf": "1", "status": "ativo",
              "telefone": "123424564646"}
 
         self.alunoEntity = Aluno(novo)
@@ -69,12 +69,12 @@ class TesteServiceMongo(TestCase):
         self.assertTrue(resp)
 
     def test_agendar(self):
-        resp = self.alunoRepository.agendar({"id": self.id.inserted_id, "dia": "2025-05-06T20:06",'exercicios':['coxa','perna']})
+        resp = self.alunoRepository.agendar({"cpf": "123654789", "dia": "2025-05-06T20:06",'exercicios':['coxa','perna']})
         self.assertTrue(resp)
 
     def test_deletarAgendamento(self):
-        self.alunoRepository.agendar({"id": self.id.inserted_id, "dia": "2025-05-06T20:06",'exercicios':['coxa','perna']})
-        resp = self.alunoRepository.deletarAgendamento({"cpf": "123654789", "dia": "2025-05-06T20:06"})
+        self.alunoRepository.agendar({"cpf": "123654789", "dia": "2025-05-06T20:06",'exercicios':['coxa','perna']})
+        resp = self.alunoRepository.deletarAgendamento(cpf = "123654789", dia = "2025-05-06T20:06")
         self.assertTrue(resp)
 
     def test_listaPersonals(self):

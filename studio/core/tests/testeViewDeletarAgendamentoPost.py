@@ -19,6 +19,9 @@ class TesteViewDeletarAgendamentoPost(TestCase):
         self.mongo._colecao.update_one({"cpf" :"123456789"} ,{"$push": {"sessoes": "2025-05-19T00:00"}})
         self.id = self.mongo._colecao.insert_one({"nome" :"joao mock" ,"cpf" :"123456789" ,"senha" :"1234"})
 
+        cpf = "123456789"
+        dia = "2025-05-19T00:00"
+
         self.resp = self.client.post(reverse("deletarAgendamento") ,{ 'cpf': '123456789', 'dia': '2025-05-19T00:00'})
 
     def test_200_response(self):
