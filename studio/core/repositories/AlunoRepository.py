@@ -144,14 +144,11 @@ class AlunoRepository(InterfaceRepository):
 
         return True
 
-    def deletarAgendamento(self, Agendamento):
-        cpf = Agendamento['cpf']
-        dia = Agendamento["dia"]
+    def deletarAgendamento(self, cpf,dia):
 
         alunoRepository = AlunoRepository(self.mongo)
 
         alunoRepository.consultarCpf(cpf)
-
 
         try:
             dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
@@ -186,6 +183,46 @@ class AlunoRepository(InterfaceRepository):
 
             return resp
 
+        except Exception as e:
+            raise Exception("Erro ao listar sessoes: (" + str(e) + ")")
+
+
+    def listarSessaoPorDia(self, cpf, dia):
+
+        try:
+            pipeline = [{
+                            "$unwind": "$sessoes"
+                          },
+                          {
+                            "$addFields":
+                            {
+                              "data":
+                              {
+                                "$dateToString":
+                                {
+                                  'date':"$sessoes.dia","format":"%Y-%m-%d"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            '$match':
+                            {
+                              "cpf":cpf, "data":dia
+                            }
+                          },
+                          {
+                            '$group':
+                            {
+                              '_id':"$_id",
+                              'cpf':{'$first':"$cpf"},
+                              'nome':{'$first':"$nome"},
+                              'sessoes':{'$push':"$sessoes"}
+                            }
+                          }
+                        ]
+
+            return self.mongo._colecao.aggregate(pipeline).next()
         except Exception as e:
             raise Exception("Erro ao listar sessoes: (" + str(e) + ")")
 

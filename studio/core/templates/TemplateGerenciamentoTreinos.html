@@ -40,6 +40,12 @@
       box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
     }
 
+    #paginator{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     @media screen and (max-width:600px) {
         body {
             font-size: 16px;
@@ -61,7 +67,7 @@
   {% endblock %}
 
   <div class="d-flex">
-    <a class="ml-2" id="voltar" href="{% url "personalInicial" %}"><i class="fa-solid fa-arrow-left "></i><b>Voltar</b></a>
+    <a class="ml-2" id="voltar" href="{% url "listarAlunos" %}"><i class="fa-solid fa-arrow-left "></i><b>Voltar</b></a>
   </div>
 
   <div class="container">
@@ -69,8 +75,24 @@
     <h1><b>Gerenciamento de treinos</b></h1>
     
     <div class="sessoes p-3 d-flex flex-column">
-      <h2 > Aluno: {{ listaSessoes.nome }} </h2>
-      {% for i in listaSessoes.sessoes  %}
+
+        <div class="d-flex flex-row" id="cabecalho=lista">
+            <h2 > Aluno: {{ aluno.nome }} </h2>
+            <form class="ml-auto" action="#" method="post">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <button type="submit" class="input-group-text btn btn-outline-primary" name='acao' value="filtrar">Filtrar Data</button>
+                  </div>
+                  <input type="date" class="form-control"  aria-describedby="basic-addon1"  value="{{ dataEscolhida }}" name="dataEscolhida">
+                </div>
+            </form>
+
+        </div>
+
+
+
+      {% for i in sessoes  %}
         <form action="#" method="post" id="forms">
           {% csrf_token %}
           <div class="card ">
@@ -97,7 +119,7 @@
               
               
               <div class="botoes d-flex flex-row">
-                <input type="submit" class="ml-auto btn btn-danger" name='acao' value="Excluir">
+                <input type="submit" class="ml-auto btn btn-outline-danger" name='acao' value="Excluir">
                 <input type="submit" class="btn btn-primary" name='acao' value="Salvar">
               </div>
               
@@ -105,6 +127,58 @@
           </div>
         </form>
       {% endfor %}
+
+    <nav aria-label="...">
+      <ul class="pagination d-flex flex-row justify-content-center">
+        <li class="page-item {% if not sessoes.has_previous %} disabled {% endif %} ">
+          <a class="page-link" {% if sessoes.has_previous %} href="?page={{ sessoes.previous_page_number}}&dataEscolhida={{ dataEscolhida }}" {% else %} tabindex="-1" {% endif %} >Anterior</a>
+        </li>
+
+        {% if sessoes.paginator.num_pages < 7 %}
+            {% for i in sessoes.paginator.page_range %}
+                {% if i == sessoes.number %}
+                    <li class="page-item active teste">
+                      <a class="page-link" href="#">{{ i }} <span class="sr-only">(atual)</span></a>
+                    </li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}&dataEscolhida={{ dataEscolhida }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+        {% else %}
+
+            {% if sessoes.previous_page_number != 1  %}
+                <li class="page-item "><a class="page-link" href="?page=1}&dataEscolhida={{ dataEscolhida }}">1</a></li>
+                <li class="page-item"><a class="page-link" {% if not sessoes.has_previous %} hidden="hidden"{% endif %} href="#">...</a></li>
+            {% endif %}
+
+            {% if sessoes.has_previous %}
+              <li class="page-item "><a class="page-link" href="?page={{ sessoes.previous_page_number }}&dataEscolhida={{ dataEscolhida }}">{{ sessoes.previous_page_number }}</a></li>
+            {% endif %}
+
+            <li class="page-item active">
+              <a class="page-link" href="#">{{ sessoes.number }} <span class="sr-only">(atual)</span></a>
+            </li>
+
+           {% if sessoes.has_next %}
+               <li class="page-item"><a class="page-link" href="?page={{ sessoes.next_page_number }}&dataEscolhida={{ dataEscolhida }}">{{ sessoes.next_page_number }}</a></li>
+               {% if sessoes.next_page_number != sessoes.paginator.num_pages  %}
+                    <li class="page-item"><a class="page-link" {% if not sessoes.has_next %} hidden="hidden"{% endif %} href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ sessoes.paginator.num_pages }}&dataEscolhida={{ dataEscolhida }}">{{ sessoes.paginator.num_pages }}</a></li>
+               {% endif %}
+           {% endif %}
+
+
+
+        {% endif %}
+
+        <li class="page-item{% if not sessoes.has_next %} disabled {% endif %}">
+          <a class="page-link" {% if sessoes.has_next %} href="?page= {{ sessoes.next_page_number}}&dataEscolhida={{ dataEscolhida }}" {% else %} tabindex="-1" {% endif %}>Próximo</a>
+        </li>
+      </ul>
+    </nav>
+
+
     </div>
   </div>
 
