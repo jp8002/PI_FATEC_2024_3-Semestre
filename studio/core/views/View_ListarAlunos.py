@@ -10,29 +10,35 @@ from core.services.convert_id import convert_idTo
 
 class ListarAlunosView(View):
     
-    def __init__(self, ):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.errors = None
         self.serviceM = ConexaoMongo()
         self.serviceM._colecao = self.serviceM._mydb["aluno"]
         self.alunoRepository = AlunoRepository(self.serviceM)
 
 
     def get(self, request):
+        listaAlunos, total_alunos = None, None
         if not Autenticar.checarSessao(request.session):
             return redirect("paginaInicial")
 
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
 
-
-        listaAlunos = self.alunoRepository.listarTodos()
-        total_alunos = len(listaAlunos)
-        convert_idTo("id",listaAlunos)
+        try:
+            listaAlunos = self.alunoRepository.listarTodos()
+            total_alunos = len(listaAlunos)
+            convert_idTo("id",listaAlunos)
+        except Exception as e:
+            self.errors = e
         form = CadastrarAlunoForm()
 
         contexto = {
             'alunos': listaAlunos,
             'total_alunos': total_alunos,
-            'form': form
+            'form': form,
+            "errors": self.errors,
         }
 
         return render(request, "TemplateListarAlunos.html",contexto)
@@ -43,21 +49,33 @@ class ListarAlunosView(View):
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
 
-        action = request.POST.get("action",None)
+        try:
+            action = request.POST.get("action",None)
 
-        if action == "excluir":
-            self.alunoRepository.deletarByCpf(request.POST['cpf'])
-            return redirect("listarAlunos")
+            if action == "excluir":
+                self.alunoRepository.deletarByCpf(request.POST['cpf'])
+                return redirect("listarAlunos")
 
-        if 'cpf' in request.POST and 'status' in request.POST:
-            self.alunoRepository.AlterarStatus(
-                request.POST['status'],cpf=request.POST['cpf']
 
-        )
-        elif 'cpf' in request.POST and 'status' not in request.POST:
-            status = 'off'
-            self.alunoRepository.AlterarStatus(
-                status,
-                request.POST['cpf']
+
+            if 'cpf' in request.POST and 'status' in request.POST:
+                self.alunoRepository.AlterarStatus(
+                    request.POST['status'],cpf=request.POST['cpf']
+
             )
-        return redirect('listarAlunos')
+            elif 'cpf' in request.POST and 'status' not in request.POST:
+                status = 'off'
+                self.alunoRepository.AlterarStatus(
+                    status,
+                    request.POST['cpf']
+                )
+
+            return redirect('listarAlunos')
+
+        except Exception as e:
+            self.errors = e
+
+
+        return self.get(request)
+
+
