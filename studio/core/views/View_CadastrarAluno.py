@@ -10,6 +10,7 @@ from core.forms import CadastrarAlunoForm
 
 
 class CadastrarAlunoView(View):
+
     def get(self, request):
         sessao = request.session
         if not Autenticar.checarSessao(sessao) or not Autenticar.checarSessaoPersonal(sessao):
@@ -44,7 +45,6 @@ class CadastrarAlunoView(View):
                 repository.criar(aluno)
                 return redirect('cadastrarAluno')
             except Exception as e:
-                errors = str(e)
+                errors = e
 
-
-        return render(request, "TemplateCadastrarAluno.html", {'errors':form.errors})
+        return render(request, "TemplateCadastrarAluno.html", {'form':form,'errors':errors})

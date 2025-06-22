@@ -12,10 +12,31 @@
         display: flex;
         flex-direction: column;
       }
+      .img-circ {
+          border-radius: 50%;
+          width: 100px;
+          height: 100px;
+      }
+
+      .corpo-card {
+        background-color:#484848;
+        align-items: center;
+        color: #FFF;
+        padding: 5% 0% 5% 0%;
+      }
+
+      .card-img{
+        padding: 5% 5% 5% 5%;
+        text-align: center;
+      }
+
+      .laranja{
+        color: #FF6A00;
+      }
     </style>
-    <title>Document</title>
+    <title>Pagina Inicial</title>
 </head>
-<body>
+<body style="background-color: black; color: aliceblue;">
 
   {% block template %}
     {% include "TemplateNavBar.html" %}
@@ -24,15 +45,15 @@
 <div class="tudo" >
   <div class="box flex justify-content-center" style="height: 29%; width: 100%; margin-bottom: 5%;">
     <div id="carouselExample" class="carousel slide">
-        <div class="carousel-inner">
+        <div class="carousel-inner" >
           <div class="carousel-item active">
-            <img src="{% static 'gym.jpg' %}" class="d-block w-100" alt="..." >
+            <img src="{% static 'gym2.png' %}" class="d-block w-100" alt="..." >
           </div>
           <div class="carousel-item">
-            <img src="{% static 'gym.jpg' %}" class="d-block w-100" alt="...">
+            <img src="{% static 'gym2.png' %}" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="{% static 'gym.jpg' %}" class="d-block w-100" alt="...">
+            <img src="{% static 'gym2.png' %}" class="d-block w-100" alt="...">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -47,19 +68,18 @@
     </div>
 
 
-    <div class="card-group" style="padding-right: 10%; padding-left: 10%; ">
+    <div class="card-group" style="padding-right: 10%; padding-left: 10%; margin-bottom:5%; ">
       
-        <img class="card-img-top" src="{% static 'treino.jpg' %}" alt="Card image cap" style="width: 40%; height: 40%; margin-right:2% ; align-items: center;overflow: hidden; border: 1px black solid;; border-radius: 75px; box-shadow: 25px 25px black;">
-      
+        <img class="card-img-top img-circ" src="{% static 'PH.png' %}" alt="Card image cap" style="width: 40%; height: 40%;">
 
-      <div class="card"  style="margin-left: 2%; width: 40%; max-width: 80%;">
-        <div class="card-body">
-          <h5 class="card-title">Sobre Mim</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor, tortor vel malesuada pretium, libero ipsum pulvinar ligula, in accumsan tortor orci eu ante. Proin at vestibulum orci, nec interdum enim. Maecenas blandit ultrices elit, ac feugiat metus vulputate sed. Donec ullamcorper risus ac nulla hendrerit, ut vulputate erat feugiat. Cras porta dui elit, id dapibus velit aliquam vitae. Etiam sodales ligula et justo consequat, ac tempus quam sodales. Phasellus lacus est, vehicula vel nibh et, ullamcorper gravida elit. Nullam accumsan posuere erat ut aliquet. Integer ornare tempor nisl, sed faucibus neque rutrum id. Fusce non ex a nunc tempus faucibus. Fusce imperdiet lacus vel lacus porttitor, non congue massa tristique. Proin dignissim turpis eget erat consequat accumsan. Aenean a nibh tempor, tristique mauris id, vulputate turpis. Sed enim quam, vestibulum eu enim vel, interdum condimentum purus. Duis tempor metus vel viverra iaculis. Quisque vitae ante malesuada, imperdiet elit et, porta ipsum.
+        <div style="z-index: -1; width: 30%; height: 60%;background-color: black;position: absolute; border-radius: 50%;border: #FF6A00 100px solid;margin-left: -15%;margin-top: -12%;">
 
-            Quisque lacinia erat ac urna mollis venenatis. Maecenas eros eros, tincidunt sed maximus eget, ultricies at orci. Vestibulum eu enim ut tellus congue consectetur. Pellentesque a eleifend sapien, at ullamcorper erat. Proin vulputate diam ipsum, iaculis cursus ante fermentum non. Curabitur porttitor gravida nulla, ut malesuada metus ullamcorper ut. Praesent pretium dictum justo, non posuere eros egestas in. Quisque sagittis urna vel maximus imperdiet. Integer posuere dictum neque vitae congue. Nunc at elementum est, id mollis ligula. Cras auctor nec elit sed tempus. Sed eget eleifend massa, in ultricies enim. Ut molestie, purus ut interdum tincidunt, nibh neque consectetur risus, vitae porta ante mi non lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eros quam, pretium id mi finibus, pulvinar lacinia dui. Sed vel vehicula purus, in malesuada nisl.
-            
-            Duis in vulputate ligula. Nam et tortor a diam suscipit pretium. Vestibulum imperdiet, mauris eu rutrum sodales, sem neque bibendum libero, et luctus ex mi placerat velit. Sed vel velit consectetur, sagittis tortor vel, sollicitudin velit. Donec sit amet tortor eget turpis rhoncus facilisis a non eros. Suspendisse sodales ex a nunc dapibus dictum. Nullam commodo nunc ipsum, in hendrerit diam vestibulum vitae. Proin condimentum orci eu imperdiet pretium. Mauris hendrerit tincidunt nisl at congue. Sed ultricies ullamcorper risus ut varius. Ut nec convallis mauris, id egestas quam. Vestibulum blandit porta euismod.</p>
+        </div>
+
+      <div class="card"  style="margin-left: 10%;  background-color: #D8D8D8; margin-bottom:5%; border-radius:5%">
+        <div class="" style="width: 100%; text-align: justify;  padding:10% 18% 18% 18%">
+          <h5 class="card-title" style="font-size:3rem; padding-bottom:10%; color:#FF6A00; font-family:Proza Libre;" >Sobre Mim</h5>
+          <p class="card-text" style="font-size:1.1rem;font-family:Reem Kufi Fun;">Meu nome é Paulo Henrique de Almeida, mais conhecido como PH, sou educador físico onde trabalho como personal trainer . Graduado em Educação Física pela Fundação Hermínio Ometto - Araras e pós Graduado pela Faculdade Veiga de Almeida - Rio de Janeiro . Formado desde 2002 onde atuo há 23 anos como personal trainer .</p>
         </div>
       </div>
     </div>
@@ -67,45 +87,63 @@
 
 
 
-    <div class="card-group">
-    <div class="card">
-      <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-group" style="padding:5% 5% 5% 5%;"> <!--  background-image: url( {% static 'fundo-card.png' } ); -->
+    <div class="card corpo-card" >
+      <img class="card-img-top card-img" style="width:50%" src="{% static "biceps.png" %}" alt="Card image cap">
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <h5 class="card-title" >Card title</h5>
+        <p class="card-text">Ganhe mais força, resistência e definição muscular com treinos personalizados. O fortalecimento físico melhora sua postura e previne lesões no dia a dia.</p>
       </div>
     </div>
-    <div class="card">
-      <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card corpo-card" style="margin-left:8%; margin-right:8%;" >
+      <img class="card-img-top card-img" style="width:50%" src="{% static "carinha.png" %}" alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title">Card title</h5>
-        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <p class="card-text">A prática regular de exercícios libera endorfina, reduz o estresse e a ansiedade. Sinta-se mais leve, feliz e confiante em cada treino.</p>
       </div>
     </div>
-    <div class="card">
-      <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card corpo-card">
+      <img class="card-img-top card-img" style="width:50%" src="{% static "raio.png" %}" alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <p class="card-text">A atividade física aumenta sua energia e foco ao longo do dia. Comece a semana com mais ânimo e produtividade!</p>
       </div>
     </div>
   </div>
 
+
+  
+    <div class="card-group" style="padding-top: 10%;  padding-left: 7%; margin-bottom:5%; ">
+
+      <div class="card"  style="margin-right: 10%; margin-bottom:5%; background-color: #000;">
+        <div class="" style="width: 100%; text-align: justify;">
+          <h5 class="card-title" style="font-size:1.9rem; padding-bottom:10%; color: aliceblue; font-family:Proza Libre;" ><i><b>Exclusividade no Treino, Foco no <span class="laranja">Resultado</span></b></i></h5>
+          <p class="card-text" style="font-size:1.3rem;font-family:Reem Kufi Fun; color: aliceblue; ">Treinar com um personal trainer ao seu lado faz toda a diferença! Aqui no <span class="laranja">Studio PH Personal</span>, o treino é <span class="laranja">pensado exclusivamente para você</span>, respeitando seu ritmo, seu corpo e seu momento. Seja para ganhar força, melhorar a saúde, recuperar o condicionamento ou simplesmente se sentir melhor no dia a dia, o seu plano é único. Com <span class="laranja">atenção individual e métodos ajustados para todas as idades</span>, garantimos um ambiente acolhedor e focado em resultados reais. <span class="laranja">Venha descobrir</span> o que o treino certo, com o acompanhamento certo, pode fazer por você.</p>
+        </div>
+      </div>
+
+      <img class="card-img-top" src="{% static 'img-treino.png' %}" alt="Card image cap" style="width: 40%; height: 40%;">
+
+    </div>
+
+  <main style="padding-top:10%; padding-bottom:5%; padding: 10% 5% 5% 5%; " >
   <div class="flex-box">
-    <div class="d-flex align-content-end flex-wrap"><h1>aqui vai o mapa</h1></div>
-  </div>
-  <div class="flex-box">
-    <div class="info1">
-      <img src="" alt="localizacao"><a href="" alt="link local"></a>
+    <div class="d-flex align-content-end flex-wrap"  ><iframe style="border-radius: 3%; " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.942685556926!2d-47.38441738951545!3d-22.355792879561864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c8773af48f8491%3A0x112dcebdc3cf08d2!2sR.%20Mal.%20Deodoro%2C%20345%20-%20Centro%2C%20Araras%20-%20SP%2C%2013600-110!5e0!3m2!1spt-BR!2sbr!4v1750515390745!5m2!1spt-BR!2sbr" width="300" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="info1" style="padding-left: 3%; padding-top: 30%;">
+      <div style="display:inline;">
+      <div><img src="{% static 'location.png' %}" style="width: 20%; " alt="localizacao"></div>
+      
+      <div ><a href="" alt="link local">Rua Marechal Deodoro, 345 <br>Centro Araras-SP</a></div>
+      </div>
     </div>
     <div class="info2">
       <img src="" alt="numero"><a href="" alt="link numero"></a>
     </div>
+    </div>
+    
+  
   </div>
-
+  </main>
 </div>  
 </body>
 </html>

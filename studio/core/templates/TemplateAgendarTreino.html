@@ -23,7 +23,7 @@
             height: 3rem;
         }
 
-        #dia{
+        #data{
             height: 3rem;
             font-size: 24px;
         }
@@ -55,8 +55,8 @@
             h1{
                 font-size:28px;
             }
-            #dia{
-            
+            #data{
+
                 font-size: 16px;
             }
             
@@ -68,16 +68,34 @@
     {% block template %}
         {% include "TemplateNavBar.html" %}
     {% endblock %}
+
+    {% if errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>{{ errors}}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>{{ form.errors}}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endif %}
     
 
-            <div class="row mt-3">
-                <div class="col">
-                    <a href="{% url 'personalInicial' %}" class="back-link">
-                        <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" />
-                        <span>Voltar</span>
-                    </a>
-                </div>
-            </div>
+    <div class="row mt-3">
+        <div class="col">
+            <a href="{% url 'personalInicial' %}" class="back-link">
+                <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" />
+                <span>Voltar</span>
+            </a>
+        </div>
+    </div>
 
     <div class="container d-flex justify-content-center">
         <div class="col-10 d-flex flex-column ">
@@ -96,8 +114,8 @@
                           </select>
                     </div>
                     <div class="form-group d-flex flex-column ">
-                        <label  for="dia">Horário da aula</label>
-                        <input class="form-control " type="datetime-local" id="dia" name="dia" required>
+                        <label  for="data">data da aula</label>
+                        <input class="form-control " type="datetime-local" id="data" name="data" required>
                     </div>
                     <div class="form-group d-flex flex-column ">
                         <label  for="exercicios">Exercicios</label>

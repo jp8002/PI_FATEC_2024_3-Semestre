@@ -40,7 +40,7 @@ class GerenciamentoAgendamentosView(View):
 
         self.listaSessoes["sessoes"] = sorted(self.listaSessoes["sessoes"], key=lambda k: k['dia'])
 
-        p = Paginator(self.listaSessoes.get('sessoes'), 1)
+        p = Paginator(self.listaSessoes.get('sessoes'), 5)
         page = request.GET.get('page')
 
 
