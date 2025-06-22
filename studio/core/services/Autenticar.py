@@ -25,5 +25,21 @@ class Autenticar():
             return False
 
         return True
+    
+    def checarAdmin(sessao):
+        MongoClient = ConexaoMongo()
+        MongoClient._colecao = MongoClient._mydb["personal"]
+
+        personalRepository = PersonalRepository(MongoClient)
+
+        personal = personalRepository.consultarCpf(sessao.get("cpf", False))
+        
+        if not personal:
+            return False
+        
+        if personal.get("acesso", "") != "adm":
+            return False
+        
+        return True
 
 

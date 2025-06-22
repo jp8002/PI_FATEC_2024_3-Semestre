@@ -11,7 +11,6 @@ class AlunoPersonalView(View):
         self.serviceM = ConexaoMongo()
         self.serviceM._colecao = self.serviceM._mydb["aluno"]
 
-
     def get(self,request,nome):
         if not Autenticar.checarSessao(request.session):
             return redirect("paginaInicial")
@@ -19,6 +18,8 @@ class AlunoPersonalView(View):
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
 
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
         alunoRepo = AlunoRepository(self.serviceM)
 
         context = {

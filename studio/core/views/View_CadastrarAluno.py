@@ -15,11 +15,16 @@ class CadastrarAlunoView(View):
         if not Autenticar.checarSessao(sessao) or not Autenticar.checarSessaoPersonal(sessao):
             return redirect("paginaInicial")
 
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
+
         form = CadastrarAlunoForm()
         return render(request, "TemplateCadastrarAluno.html", {'form':form})
 
 
     def post(self, request):
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
 
         errors = None
         form = CadastrarAlunoForm(request.POST)

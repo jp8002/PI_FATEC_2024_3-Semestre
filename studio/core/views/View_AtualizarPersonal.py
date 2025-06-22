@@ -19,6 +19,9 @@ class AtualizarPersonalView(View):
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
 
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
+        
         listaPersonal = self.serviceM.listarPersonals()
 
         contexto = {'personals': listaPersonal}
@@ -26,6 +29,9 @@ class AtualizarPersonalView(View):
         return render(request, "TemplateAtualizarPersonal.html", contexto)
 
     def post(self,request):
+            if not Autenticar.checarAdmin(request.session):
+                return redirect("paginaInicial")    
+        
             atualizacao = request.POST.dict()
             self.serviceM.atualizarPersonal(atualizacao["cpf"], atualizacao["telefone"], atualizacao["email"],
                                             atualizacao["salario"], atualizacao["acesso"])

@@ -19,6 +19,9 @@ class ListarPersonalView(View):
 
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
+        
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
 
         listaPersonal = self.personalRepository.listarTodos().to_list()
         total_personal = len(listaPersonal)
