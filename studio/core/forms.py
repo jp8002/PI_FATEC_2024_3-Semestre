@@ -9,7 +9,7 @@ class CadastrarAlunoForm(forms.Form):
         repository = PersonalRepository(serviceM)
         
         personais = repository.listarTodos()
-        print(personais)
+
         return [(str(p['nome']), p['nome']) for p in personais]
 
     def clean(self):
@@ -32,7 +32,7 @@ class CadastrarAlunoForm(forms.Form):
 
     cpf = forms.CharField(
         label='CPF',
-        max_length=14,
+        max_length=11,
         required=True,
         widget=forms.TextInput(attrs={
             'class': 'form-control p-10',
@@ -122,5 +122,21 @@ class CadastrarPersonalForm(forms.Form):
             cpf = cpf.replace('.','')
             
             return cpf
-            
 
+
+class AgendamentoForm(forms.Form):
+
+    cpf = forms.CharField(label='CPF',
+                          max_length=11)
+
+    data = forms.DateTimeField(
+        label='data do Agendamento',input_formats="%Y-%m-%dT%H:%M")
+
+    exercicios = forms.CharField(label="Exercicios")
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get('cpf')
+        cpf = cpf.replace('-', '')
+        cpf = cpf.replace('.', '')
+
+        return cpf

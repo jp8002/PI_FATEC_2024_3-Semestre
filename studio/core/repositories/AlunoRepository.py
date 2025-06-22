@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime
+from logging import exception
 
+from django.core.exceptions import SuspiciousOperation
 import ipdb
 from bson import ObjectId
 from dns.e164 import query
@@ -34,9 +36,11 @@ class AlunoRepository(InterfaceRepository):
 
         try:
             query = self.mongo._colecao.find_one({"cpf": cpf})
-            list(query)
 
         except Exception as e:
+            raise Exception("Não foi possivel consultar aluno: ", e)
+
+        if not query:
             return False
 
         return query
@@ -70,7 +74,7 @@ class AlunoRepository(InterfaceRepository):
     def listarTodos(self):
 
         try:
-            query = list(self.mongo._colecao.find())
+            query = list(self.mongo._colecao.aggregate([{"$sort":{"nome":1}}]))
 
 
         except Exception as e:
@@ -120,7 +124,7 @@ class AlunoRepository(InterfaceRepository):
 
     def agendar(self, Agendamento):
         cpf = Agendamento['cpf']
-        dia = Agendamento["dia"]
+        data = Agendamento["data"]
         exercicios = Agendamento["exercicios"]
 
         alunoRepository = AlunoRepository(self.mongo)
@@ -129,18 +133,11 @@ class AlunoRepository(InterfaceRepository):
             raise Exception("Esse cpf não existe", cpf)
 
         try:
-            dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")
-
-
-        except Exception as e:
-            raise Exception("Erro ao converter o dia ", e)
-
-        try:
-                       #db.aluno.updateOne({ _id : ObjectId("id")}, {$push:{sessoes:{"dia":0,"exercicios":["xxx","yyy"]}}})
-            self.mongo._colecao.update_one({"cpf": cpf}, {"$push":{"sessoes":{"dia":dia,"exercicios":exercicios}}})
+            data = datetime.strptime(data, "%Y-%m-%dT%H:%M")
+            self.mongo._colecao.update_one({"cpf": cpf}, {"$push":{"sessoes":{"dia":data,"exercicios":exercicios}}})
 
         except Exception as e:
-            raise Exception("Erro ao atualizar dia ", e)
+            raise Exception("Erro ao atualizar data ", e)
 
         return True
 
@@ -276,19 +273,18 @@ class AlunoRepository(InterfaceRepository):
                 {
                     "$facet": {
                         "novas_assinaturas": [
-                            {"$match": {"status": "ativo"}},
+                            {"$match": {"status": "Ativo"}},
                             {"$project": {"mes": {"$month": "$data_assinatura"}}},
                             {"$group": {"_id": "$mes", "qtd": {"$sum": 1}}},
                             {"$sort": {"_id": 1}}
                         ],
                         "renovacoes": [
-                            {"$match": {"status": "ativo"}},
+                            {"$match": {"status": "Ativo"}},
                             {"$project": {"mes": {"$month": "$data_renovacao"}}},
                             {"$group": {"_id": "$mes", "qtd": {"$sum": 1}}},
                             {"$sort": {"_id": 1}}
                         ],
                         "cancelamentos": [
-                            {"$match": {"status": "cancelado"}},
                             {"$project": {"mes": {"$month": "$data_cancelamento"}}},
                             {"$group": {"_id": "$mes", "qtd": {"$sum": 1}}},
                             {"$sort": {"_id": 1}}
@@ -318,7 +314,7 @@ class AlunoRepository(InterfaceRepository):
                 return result.modified_count > 0
             except Exception as e:
                 raise Exception("Erro ao atualizar Status ", e)
-                return False
+
 
     def alunoPorPersonal(self, personal):
         try:

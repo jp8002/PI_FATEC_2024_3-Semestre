@@ -9,36 +9,48 @@ from core.services.ConexaoMongo import ConexaoMongo
 from core.forms import CadastrarAlunoForm
 
 class EditarAlunoView(View):
+    def __init__(self):
+        super().__init__()
+        self.form = None
+        self.errors = None
+        self.serviceM = ConexaoMongo()
+        self.serviceM._colecao = self.serviceM._mydb["aluno"]
+        self.repository = AlunoRepository(self.serviceM)
+
+
     def get(self, request, cpf):
+        aluno = None
         sessao = request.session
         if not Autenticar.checarSessao(sessao) or not Autenticar.checarSessaoPersonal(sessao):
             return redirect("paginaInicial")
-        
-        serviceM = ConexaoMongo()
-        serviceM._colecao = serviceM._mydb["aluno"]
-        repository = AlunoRepository(serviceM)
-        
-        aluno = repository.consultarCpf(cpf)
-        if not aluno:
-            return redirect("listarAlunos")
-        
-        form = CadastrarAlunoForm(initial=aluno)
-        return render(request, "TemplateEditarAluno.html", {'form': form, 'cpf': cpf})
+
+        try:
+            aluno = self.repository.consultarCpf(cpf)
+            if not aluno:
+                return redirect("listarAlunos")
+
+        except Exception as e:
+            self.errors = e
+
+        if not self.form:
+         self.form = CadastrarAlunoForm(initial=aluno)
+
+        context = {"errors": self.errors, 'form': self.form, 'cpf': cpf}
+
+        return render(request, "TemplateEditarAluno.html", context)
     
     def post(self, request, cpf):
         sessao = request.session
         if not Autenticar.checarSessao(sessao) or not Autenticar.checarSessaoPersonal(sessao):
             return redirect("paginaInicial")
-        
-        serviceM = ConexaoMongo()
-        serviceM._colecao = serviceM._mydb["aluno"]
-        repository = AlunoRepository(serviceM)
 
-        aluno_existente = repository.consultarCpf(cpf)
+        aluno_existente = self.repository.consultarCpf(cpf)
         
-        form = CadastrarAlunoForm(request.POST)
-        if form.is_valid():
-            dados = form.cleaned_data
+        self.form = CadastrarAlunoForm(request.POST)
+
+        if self.form.is_valid():
+
+            dados = self.form.cleaned_data
             dados["data_nascimento"] = datetime.combine(dados["data_nascimento"], datetime.min.time())
 
             aluno = Aluno(dados)
@@ -47,7 +59,7 @@ class EditarAlunoView(View):
             aluno.data_renovacao = aluno_existente.get('data_renovacao')
             aluno.sessoes = aluno_existente.get('sessoes')
             
-            repository.atualizar(aluno)
+            self.repository.atualizar(aluno)
             return redirect("listarAlunos")
-        
-        return render(request, "TemplateEditarAluno.html", {'form': form, 'cpf': cpf})
+
+        return self.get(request, cpf)
