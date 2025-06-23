@@ -41,7 +41,7 @@ urlpatterns = [
     path("personal/listar_personal", ListarPersonalView.as_view(), name='listarPersonal'),
     path('personal/dashboard/', DashboardView.as_view(), name='dashboard'),
 
-    path('personal/alunopersonal/<str:nome>/', AlunoPersonalView.as_view(), name='alunopersonal'),
+    path('personal/alunopersonal/<str:personal>/', AlunoPersonalView.as_view(), name='alunopersonal'),
     path("sair", SairView.as_view(), name="sair")
     
 ]

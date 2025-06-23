@@ -82,6 +82,19 @@ class AlunoRepository(InterfaceRepository):
 
 
         return query
+
+    def listarTodosPorInicioNome(self,nome):
+
+        try:
+            query = self.mongo._colecao.find({
+                "nome": {"$regex": "^"+nome, "$options": "i"}
+            })
+
+        except Exception as e:
+            raise Exception("Erro ao consultar o registro ", e)
+
+        return query
+
     def consultarId(self, id):
         query = self.mongo._colecao.find_one(ObjectId(id))
 
@@ -319,6 +332,14 @@ class AlunoRepository(InterfaceRepository):
     def alunoPorPersonal(self, personal):
         try:
             result = self.mongo._colecao.find({"personal":personal},{}).to_list()
+        except Exception as e:
+             raise Exception('Nenhum aluno encontrar', e)
+
+        return result
+
+    def alunoPorPersonalENome(self, personal,nome):
+        try:
+            result = self.mongo._colecao.find({"personal":personal,"nome":{"$regex":"^"+nome,"$options":"i"}},{}).to_list()
         except Exception as e:
              raise Exception('Nenhum aluno encontrar', e)
 

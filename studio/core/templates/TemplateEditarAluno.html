@@ -140,7 +140,7 @@
 
     <!-- Header -->
     {% block template %}
-        {% include "TemplateNavBar.html" %}
+        {% include "TemplateNavBarLogado.html" %}
     {% endblock %}
 
     {% if errors %}
@@ -156,7 +156,7 @@
     <main class="text-left">
         <div class="row mt-3">
             <div class="col">
-                <a href="{% url 'listarAlunos' %}" class="back-link">
+                <a href="{{ request.META.HTTP_REFERER }}" class="back-link">
                     <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" />
                     <span>Voltar</span>
                 </a>

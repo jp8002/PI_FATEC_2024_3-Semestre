@@ -34,6 +34,25 @@
         text-decoration: none;
         color: black;
     }
+    .btn-ordenar{
+        background-color: #D9D9D9;
+        border: none;
+
+    }
+    .paginador{
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+   }
+     a:visited, a:link, a:active
+    {
+        text-decoration: none;
+        color: black;
+    }
+
+     a:hover{
+         color: #4a4a4a;
+     }
 
     .h-7 {
       height: 1.75rem;
@@ -58,13 +77,24 @@
 
   <!-- Header -->
   {% block template %}
-    {% include "TemplateNavBar.html" %}
+    {% include "TemplateNavBarLogado.html" %}
   {% endblock %}
+
+  {% if errors %}
+
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>{{ errors }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+  {% endif %}
 
   <!-- Main Content -->
   <main class="text-left">
     <div class="d-flex">
-      <a href="{% url 'personalInicial' %}" class="text-dark rounded d-flex align-items-center">
+      <a href="{% url 'listarPersonal' %}" class="text-dark rounded d-flex align-items-center">
         <img src="https://img.icons8.com/?size=100&id=PXS7hSwrozS5&format=png&color=000000" alt="Voltar" class="h-7 mr-2" />
         <span class="font-weight-bold">Voltar</span>
       </a>
@@ -73,15 +103,52 @@
     <div class="container mt-2 rounded p-4 bg-white">
       {% block content %}
       <div class="d-flex">
-        <h1 class="mb-2 mt-4 font-weight-bold">Alunos</h1>
+        <h1 class="mb-2 mt-4 font-weight-bold">Alunos de {{ personal }}</h1>
       </div>
 
       <div class="container mt-2 rounded p-4" style="background-color: #D9D9D9;">
         <h3 class="mb-4 mt-4 font-weight-bold">Total de Alunos: {{total_aluno}}</h3>
 
-        <i id="btn-ordenar" class="btn font-weight-bold btn-lg">
-          Ordem Alfabética A-Z
-        </i>
+        <form action="#" method="post">
+            {% csrf_token %}
+
+            {% if ordemAlunos == "crescente"  %}
+
+                <button type="submit" class="btn-ordenar  font-weight-bold " value="Z-A" name="action" >
+                    Ordem Alfabética A-Z
+                </button>
+
+            {% else %}
+                <button type="submit" class="btn-ordenar  font-weight-bold " value="A-Z" name="action" >
+                    Ordem Alfabética Z-A
+                </button>
+
+            {% endif %}
+        </form>
+
+        <div class="d-flex">
+            <form class="form-inline" action="" method="post">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar" value="{{ pesquisaNome }}" name="pesquisaNome">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="action" value="pesquisar">Pesquisar</button>
+            </form>
+
+            <!--Paginador-->
+            <ul class="paginador ml-auto pagination ">
+                <li>
+                    {% if pagina_de_alunos.has_previous%}
+                        <a class="setas " href="?page={{ pagina_de_alunos.previous_page_number }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">&#9666;Anterior</a>
+                    {% endif %}
+                </li>
+
+                <li>
+                    {% if pagina_de_alunos.has_next %}
+                        <a class="setas" href="?page={{ pagina_de_alunos.next_page_number }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">Próximo&#9656;</a>
+                    {% endif %}
+                </li>
+
+            </ul>
+        </div>
 
         <div class="container mt-2 rounded p-4 bg-white">
           <div class="lista-com-scroll">
@@ -93,7 +160,7 @@
                 </tr>
               </thead>
               <tbody id="lista-alunos-personal">
-                {% for i in alunos %}
+                {% for i in pagina_de_alunos %}
                 <tr>
                   <th>{{ i.nome }}</th>
                   <td class="icones">
@@ -110,32 +177,32 @@
     </div>
   </main>
 
-  <!-- JS para Ordenação -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const btnOrdenar = document.getElementById('btn-ordenar');
-      let ordemAscendente = true;
-
-      btnOrdenar.addEventListener('click', () => {
-        ordemAscendente = !ordemAscendente;
-        btnOrdenar.textContent = ordemAscendente ? 'Ordem Alfabética A-Z' : 'Ordem Alfabética Z-A';
-        ordenarLista();
-      });
-
-      function ordenarLista() {
-        const lista = document.getElementById('lista-alunos-personal');
-        const itens = [...lista.querySelectorAll('tr')];
-
-        itens.sort((a, b) => {
-          const nomeA = a.querySelector('th').textContent.trim().toLowerCase();
-          const nomeB = b.querySelector('th').textContent.trim().toLowerCase();
-          return ordemAscendente ? nomeA.localeCompare(nomeB) : nomeB.localeCompare(nomeA);
-        });
-
-        itens.forEach(item => lista.appendChild(item));
-      }
-    });
-  </script>
+{#  <!-- JS para Ordenação -->#}
+{#  <script>#}
+{#    document.addEventListener('DOMContentLoaded', () => {#}
+{#      const btnOrdenar = document.getElementById('btn-ordenar');#}
+{#      let ordemAscendente = true;#}
+{##}
+{#      btnOrdenar.addEventListener('click', () => {#}
+{#        ordemAscendente = !ordemAscendente;#}
+{#        btnOrdenar.textContent = ordemAscendente ? 'Ordem Alfabética A-Z' : 'Ordem Alfabética Z-A';#}
+{#        ordenarLista();#}
+{#      });#}
+{##}
+{#      function ordenarLista() {#}
+{#        const lista = document.getElementById('lista-alunos-personal');#}
+{#        const itens = [...lista.querySelectorAll('tr')];#}
+{##}
+{#        itens.sort((a, b) => {#}
+{#          const nomeA = a.querySelector('th').textContent.trim().toLowerCase();#}
+{#          const nomeB = b.querySelector('th').textContent.trim().toLowerCase();#}
+{#          return ordemAscendente ? nomeA.localeCompare(nomeB) : nomeB.localeCompare(nomeA);#}
+{#        });#}
+{##}
+{#        itens.forEach(item => lista.appendChild(item));#}
+{#      }#}
+{#    });#}
+{#  </script>#}
 
 </body>
 </html>
