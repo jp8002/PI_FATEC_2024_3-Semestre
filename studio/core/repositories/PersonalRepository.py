@@ -68,6 +68,18 @@ class PersonalRepository(InterfaceRepository):
 
         return query
 
+    def listarTodosPorInicioNome(self, nome):
+
+        try:
+            query = self.mongo._colecao.find({
+                "nome": {"$regex": "^" + nome, "$options": "i"}
+            })
+
+        except Exception as e:
+            raise Exception("Erro ao consultar o registro ", e)
+
+        return query
+
     def consultarId(self, id):
 
         try:

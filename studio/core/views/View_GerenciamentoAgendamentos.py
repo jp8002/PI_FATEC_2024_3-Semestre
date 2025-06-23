@@ -40,7 +40,7 @@ class GerenciamentoAgendamentosView(View):
 
         self.listaSessoes["sessoes"] = sorted(self.listaSessoes["sessoes"], key=lambda k: k['dia'])
 
-        p = Paginator(self.listaSessoes.get('sessoes'), 5)
+        p = Paginator(self.listaSessoes.get('sessoes'), 3)
         page = request.GET.get('page')
 
 
@@ -58,8 +58,6 @@ class GerenciamentoAgendamentosView(View):
             return redirect("paginaInicial")
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
-
-
 
         acao = request.POST.get('acao')
         match acao:

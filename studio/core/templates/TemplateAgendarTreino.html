@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
     <style>
         body{
             font-size: 24px;
@@ -66,7 +68,7 @@
   </head>
   <body>
     {% block template %}
-        {% include "TemplateNavBar.html" %}
+        {% include "TemplateNavBarLogado.html" %}
     {% endblock %}
 
     {% if errors %}
@@ -106,8 +108,9 @@
                 <form class="form-agendar p-lg-5 p-4 d-flex flex-column w-100 " action="#" method="post">
                 {% csrf_token %}
                     <div class="form-group d-flex flex-column">
-                        <label for="id">Aluno</label>
-                        <select class="custom-select " id="cpf" name="cpf" required>
+                        <label for="cpf">Aluno</label>
+                        <select  id="cpf" name="cpf" required>
+                            <option value="">Selecione um aluno</option>
                             {% for i in alunos %}
                                 <option value="{{ i.cpf }}"> {{ i.nome }} </option>
                             {% endfor %}
@@ -136,10 +139,20 @@
         
     </div>
 
-    <!-- JavaScript (Opcional) -->
-    <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+     <!-- jQuery completo (não slim) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
+  <!-- Popper e Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="..." crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="..." crossorigin="anonymous"></script>
+  <!-- Selectize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="..." crossorigin="anonymous"></script>
+  <script>
+      $(document).ready(function() {
+          $('select').selectize({
+            sortField: 'text'
+          });
+        });
+  </script>
+
   </body>
 </html>
