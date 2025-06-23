@@ -9,12 +9,15 @@ class TesteViewEditarAlunoPost(TestCase):
         sessao = self.client.session
         sessao["sessao"] = True
         sessao['tipo_usuario'] = "personal"
-        sessao['cpf'] = "12345678901"
+        sessao['cpf'] = "12333678910"
         sessao.save()
         self.client.cookies['sessionid'] = sessao.session_key
 
         # Configurar banco de dados
         self.mongo = ConexaoMongo()
+        self.mongo._colecao = self.mongo._mydb['personal']
+        self.mongo._colecao.insert_one({"nome": "Joana Costa", "senha": "joana123", "telefone": "(11) 91234-0001", "email": "joana.costa@academia.com", "salario": 3000, "cpf": "12333678910", "acesso": "adm", "cref": "123456-G/SP"})
+
         self.mongo._colecao = self.mongo._mydb['aluno']
         
         # Criar aluno inicial
@@ -116,3 +119,6 @@ class TesteViewEditarAlunoPost(TestCase):
     def tearDown(self):
         # Limpar banco de dados
         self.mongo._colecao.delete_many({'cpf': '55'})
+
+        self.mongo._colecao = self.mongo._mydb['personal']
+        self.mongo._colecao.delete_many({'cpf':"12333678910"})
