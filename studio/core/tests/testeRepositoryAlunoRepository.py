@@ -8,7 +8,7 @@ from core.services.ConexaoMongo import ConexaoMongo
 class TestAlunoRepository(TestCase):
     def setUp(self):
         self.mongo = ConexaoMongo()
-        self.mongo._colecao = self.mongo._mydb['aluno']
+        self.mongo._colecao = self.mongo._mydb['mock']
         self.repo = AlunoRepository(self.mongo)
         
         # Limpar dados de teste anteriores
@@ -216,7 +216,7 @@ class TestAlunoRepository(TestCase):
         
         agendamento = {
             "cpf": "44",
-            "dia": "2024-01-01T10:00",
+            "data": "2024-01-01T10:00",
             "exercicios": ["Supino", "Agachamento"]
         }
         
@@ -231,7 +231,7 @@ class TestAlunoRepository(TestCase):
     def test_agendar_cpf_inexistente(self):
         agendamento = {
             "cpf": "00000000000",
-            "dia": "2024-01-01T10:00",
+            "data": "2024-01-01T10:00",
             "exercicios": ["Supino"]
         }
         

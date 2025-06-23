@@ -69,11 +69,11 @@ class TesteServiceMongo(TestCase):
         self.assertTrue(resp)
 
     def test_agendar(self):
-        resp = self.alunoRepository.agendar({"cpf": "123654789", "dia": "2025-05-06T20:06",'exercicios':['coxa','perna']})
+        resp = self.alunoRepository.agendar({"cpf": "123654789", "data": "2025-05-06T20:06",'exercicios':['coxa','perna']})
         self.assertTrue(resp)
 
     def test_deletarAgendamento(self):
-        self.alunoRepository.agendar({"cpf": "123654789", "dia": "2025-05-06T20:06",'exercicios':['coxa','perna']})
+        self.alunoRepository.agendar({"cpf": "123654789", "data": "2025-05-06T20:06",'exercicios':['coxa','perna']})
         resp = self.alunoRepository.deletarAgendamento(cpf = "123654789", dia = "2025-05-06T20:06")
         self.assertTrue(resp)
 

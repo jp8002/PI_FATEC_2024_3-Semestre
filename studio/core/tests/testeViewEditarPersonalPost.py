@@ -8,7 +8,7 @@ class TesteViewEditarPersonalPost(TestCase):
         sessao = self.client.session
         sessao["sessao"] = True
         sessao['tipo_usuario'] = "personal"
-        sessao['cpf'] = "12345678901"
+        sessao['cpf'] = "12333678910"
         sessao.save()
 
         self.client.cookies['sessionid'] = sessao.session_key

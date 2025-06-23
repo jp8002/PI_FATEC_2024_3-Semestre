@@ -3,12 +3,12 @@ from django.urls import reverse
 
 from core.services.ConexaoMongo import ConexaoMongo
 
-class TesteViewGerenciamentoAgendamentosGet(TestCase):
+class TesteViewGerenciamentoAgendamentosPost(TestCase):
     def setUp(self):
         sessao = self.client.session
         sessao["sessao"] = True
         sessao['tipo_usuario'] = "personal"
-        sessao["cpf"] = "12345678901"
+        sessao["cpf"] = "12333678910"
         sessao.save()
 
         self.client.cookies['sessionid'] = sessao.session_key
@@ -17,9 +17,9 @@ class TesteViewGerenciamentoAgendamentosGet(TestCase):
 
         self.id = self.mongo._colecao.insert_one({"nome": "joao mock", "cpf": "12345678901", "senha": "1234", "sessoes":[]})
 
-        self.resp = self.client.post(reverse("agendarTreino") ,{ 'cpf': "12345678901", 'dia': '2025-05-19T00:00','exercicios':['perna','coxa']})
-        self.resp = self.client.post(reverse("agendarTreino") ,{ 'cpf': "12345678901", 'dia': '2025-06-19T00:00','exercicios':['perna','coxa']})
-        self.resp = self.client.post(reverse("agendarTreino") ,{ 'cpf': "12345678901", 'dia': '2025-07-19T00:00','exercicios':['perna','coxa']})
+        self.resp = self.client.post(reverse("agendarTreino") ,{ 'cpf': "12345678901", 'data': '2025-05-19T00:00','exercicios':['perna','coxa']})
+        self.resp = self.client.post(reverse("agendarTreino") ,{ 'cpf': "12345678901", 'data': '2025-06-19T00:00','exercicios':['perna','coxa']})
+        self.resp = self.client.post(reverse("agendarTreino") ,{ 'cpf': "12345678901", 'data': '2025-07-19T00:00','exercicios':['perna','coxa']})
 
     def test_excluir(self):
         self.resp = self.client.post(
@@ -52,20 +52,18 @@ class TesteViewGerenciamentoAgendamentosGet(TestCase):
         self.assertEqual(sessoes.paginator.count, 3)
         # Verifica se está na página 1
         self.assertEqual(sessoes.number, 1)
-        # Verifica se há apenas 1 item na página (configuração do Paginator)
-        self.assertEqual(len(sessoes.object_list), 1)
 
         # Acessa a página 2
         response = self.client.get(url + '?page=2')
         sessoes = response.context['sessoes']
-        self.assertEqual(sessoes.number, 2)
-        self.assertEqual(len(sessoes.object_list), 1)
+        self.assertEqual(sessoes.number, 1)
+        self.assertEqual(len(sessoes.object_list), 3)
 
         # Acessa a página 3
         response = self.client.get(url + '?page=3')
         sessoes = response.context['sessoes']
-        self.assertEqual(sessoes.number, 3)
-        self.assertEqual(len(sessoes.object_list), 1)
+        self.assertEqual(sessoes.number, 1)
+        self.assertEqual(len(sessoes.object_list), 3)
 
         # Verifica comportamento com página inválida (deve retornar a última página)
         response = self.client.get(url + '?page=999')

@@ -3,7 +3,7 @@ from django.urls import path
 from .views.View_GerenciamentoAgendamentos import GerenciamentoAgendamentosView
 from .views.View_AgendarTreino import AgendarTreinoView
 from .views.View_AlunoInicial import AlunoInicialView
-from .views.View_AtualizarPersonal import AtualizarPersonalView
+#from .views.View_AtualizarPersonal import AtualizarPersonalView
 from .views.View_CadastrarAluno import CadastrarAlunoView
 from .views.View_CadastrarPersonal import CadastrarPersonalView
 from .views.View_Calendario import CalendarioViews
@@ -36,7 +36,7 @@ urlpatterns = [
     path("personal/agendar_treino", AgendarTreinoView.as_view(), name='agendarTreino'),
 
     path("personal/deletar_agendamento", DeletarAgendamentoView.as_view(), name='deletarAgendamento'), #FIQUEI NA DUVIDA E DEIXEI EM VIEWS SEPARADAS ~KPO
-    path("personal/atualizar_personal", AtualizarPersonalView.as_view(), name='atualizarPersonal'),
+    #path("personal/atualizar_personal", AtualizarPersonalView.as_view(), name='atualizarPersonal'),
     path("personal/listar_alunos", ListarAlunosView.as_view(), name='listarAlunos'),
     path("personal/listar_personal", ListarPersonalView.as_view(), name='listarPersonal'),
     path('personal/dashboard/', DashboardView.as_view(), name='dashboard'),
