@@ -13,6 +13,9 @@ class EditarPersonalView(View):
         if not Autenticar.checarSessao(sessao) or not Autenticar.checarSessaoPersonal(sessao):
             return redirect("paginaInicial")
         
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
+        
         serviceM = ConexaoMongo()
         serviceM._colecao = serviceM._mydb["personal"]
         repository = PersonalRepository(serviceM)
@@ -27,6 +30,9 @@ class EditarPersonalView(View):
     def post(self, request, cpf):
         sessao = request.session
         if not Autenticar.checarSessao(sessao) or not Autenticar.checarSessaoPersonal(sessao):
+            return redirect("paginaInicial")
+        
+        if not Autenticar.checarAdmin(request.session):
             return redirect("paginaInicial")
         
         serviceM = ConexaoMongo()

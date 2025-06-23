@@ -6,6 +6,7 @@ from core.services.ConexaoMongo import ConexaoMongo
 from core.repositories.AlunoRepository import AlunoRepository
 from core.services.MontarTendencias import montarTendencias
 from core.services.convert_id import convert_idTo
+from core.services.Autenticar import Autenticar
 
 
 class DashboardView(View):
@@ -15,6 +16,12 @@ class DashboardView(View):
         self.alunoRepository = AlunoRepository(self.mongoClinte)
 
     def get(self,request):
+        if not Autenticar.checarSessao(request.session):
+            return redirect("paginaInicial")
+        
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
+        
         balancoAlunos = self.alunoRepository.TodosAlunosPorStatus()
         
         alunosPorPersonal = self.alunoRepository.TodosAlunosPorPersonal()

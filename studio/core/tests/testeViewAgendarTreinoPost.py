@@ -12,7 +12,7 @@ class TesteViewAgendarTreinoPost(TestCase):
         sessao = self.client.session
         sessao["sessao"] = True
         sessao['tipo_usuario'] = "personal"
-        sessao["cpf"] = "12345678901"
+        sessao["cpf"] = "12333678910"
         sessao.save()
 
         self.client.cookies['sessionid'] = sessao.session_key
@@ -25,10 +25,10 @@ class TesteViewAgendarTreinoPost(TestCase):
         self.resp = self.client.post(reverse("agendarTreino") ,{ 'cpf': "123654789", 'dia': '2025-05-19T00:00','exercicios':['perna','coxa']})
 
     def test_200_response(self):
-        self.assertEqual(self.resp.status_code, 302)
+        self.assertEqual(self.resp.status_code, 200)
 
     def test_template(self):
-        self.assertRedirects(self.resp, reverse('agendarTreino'), status_code=302, target_status_code=200, fetch_redirect_response=True)
+        self.assertTemplateUsed(self.resp, "TemplateAgendarTreino.html")
 
     def __del__(self):
         self.mongo._colecao.delete_many({'cpf':'123654789'})

@@ -34,6 +34,7 @@
 
     <div class="row" style="max-width: 48rem; width: 100%;">
 
+      {% if acesso == 'adm' %}
       <!-- Cadastrar alunos -->
       <div class="col-12 col-sm-6 mb-4">
         <a href="{% url 'cadastrarAluno' %}"
@@ -43,7 +44,8 @@
           <span class="h5 font-weight-semibold">Cadastrar alunos</span>
         </a>
       </div>
-
+      {% endif %}
+      
       <!-- Agendar treinos -->
       <div class="col-12 col-sm-6 mb-4">
         <a href="{% url 'agendarTreino' %}"
@@ -64,6 +66,7 @@
         </a>
       </div>
 
+      {% if acesso == 'adm' %}
       <!-- Cadastrar Personal -->
       <div class="col-12 col-sm-6 mb-4">
         <a href="{% url 'cadastrarPersonal' %}"
@@ -73,7 +76,9 @@
           <span class="h5 font-weight-semibold">Cadastrar Personal</span>
         </a>
       </div>
+      {% endif %}
 
+      {% if acesso == 'adm' %}
       <!-- Listar Personais -->
       <div class="col-12 col-sm-6 mb-4">
         <a href="{% url 'listarPersonal' %}"
@@ -83,7 +88,9 @@
           <span class="h5 font-weight-semibold">Listar Personais</span>
         </a>
       </div>
+      {% endif %}
 
+      {% if acesso == 'adm' %}
       <!-- Dashboard -->
       <div class="col-12 col-sm-6 mb-4">
         <a href="{% url 'dashboard' %}"
@@ -93,6 +100,7 @@
           <span class="h5 font-weight-semibold">Dashboard</span>
         </a>
       </div>
+      {% endif %}
 
     </div>
   </main>

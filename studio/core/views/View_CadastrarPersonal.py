@@ -12,10 +12,16 @@ class CadastrarPersonalView(View):
     def get(self, request):
         if not Autenticar.checarSessao(request.session):
             return redirect("paginaInicial")
+        
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
 
         return render(request, "TemplateCadastrarPersonal.html")
 
     def post(self, request):
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
+        
         form = CadastrarPersonalForm(request.POST)
 
         if form.is_valid():

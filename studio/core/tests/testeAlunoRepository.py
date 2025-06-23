@@ -100,7 +100,7 @@ class TestAlunoRepository(TestCase):
     def test_agendar(self):
         agendamento = {
             "cpf": "12345678900",
-            "dia": "2024-07-01T10:00",
+            "data": "2024-07-01T10:00",
             "exercicios": ["leg press", "cadeira flexora"]
         }
         result = self.repo.agendar(agendamento)

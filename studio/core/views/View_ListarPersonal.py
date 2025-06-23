@@ -21,6 +21,9 @@ class ListarPersonalView(View):
 
         if not Autenticar.checarSessaoPersonal(request.session):
             return redirect("paginaInicial")
+        
+        if not Autenticar.checarAdmin(request.session):
+            return redirect("paginaInicial")
 
         pesquisaNome = request.GET.get("pesquisaNome","")
         page = request.GET.get("page",1)
