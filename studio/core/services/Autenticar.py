@@ -1,6 +1,6 @@
 import logging
 
-import ipdb
+
 
 from core.repositories.AlunoRepository import AlunoRepository
 from core.repositories.PersonalRepository import PersonalRepository
@@ -35,7 +35,7 @@ class Autenticar():
         personalRepository = PersonalRepository(MongoClient)
 
         personal = personalRepository.consultarCpf(sessao.get("cpf", False))
-        ipdb.set_trace()
+
         if not personal:
             return False
         
