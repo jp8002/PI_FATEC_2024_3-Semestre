@@ -33,6 +33,7 @@ class TesteViewCadastrarAlunoPost(TestCase):
         self.resp = self.client.post(reverse("cadastrarAluno"), aluno)
 
         x = self.mongo._colecao.find_one({"cpf": "12345678977"})
+
         self.assertEqual(x.get("nome", "Não foi possível encontrar"), "Joao Mock")
 
     def test_template(self):

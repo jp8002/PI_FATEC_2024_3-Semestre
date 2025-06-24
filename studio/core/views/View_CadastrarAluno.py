@@ -1,3 +1,4 @@
+import ipdb
 from django.shortcuts import redirect, render
 from django.views import View
 from datetime import datetime
@@ -24,11 +25,14 @@ class CadastrarAlunoView(View):
 
 
     def post(self, request):
+
         if not Autenticar.checarAdmin(request.session):
             return redirect("paginaInicial")
 
+
         errors = None
         form = CadastrarAlunoForm(request.POST)
+
         if form.is_valid():
             serviceM = ConexaoMongo()
             serviceM._colecao = serviceM._mydb["aluno"]
@@ -42,9 +46,11 @@ class CadastrarAlunoView(View):
             repository = AlunoRepository(serviceM)
 
             try:
+
                 repository.criar(aluno)
                 return redirect('cadastrarAluno')
             except Exception as e:
+
                 errors = e
 
         return render(request, "TemplateCadastrarAluno.html", {'form':form,'errors':errors})
