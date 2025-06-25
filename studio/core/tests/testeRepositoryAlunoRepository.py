@@ -388,3 +388,9 @@ class TestAlunoRepository(TestCase):
         
         self.assertEqual(status_counts.get("Ativo", 0), 2)
         self.assertEqual(status_counts.get("Cancelado", 0), 1)
+
+    def test_exception_deletarById(self):
+        with self.assertRaises(Exception) as context:
+            self.repo.deletarById("0")
+        
+        self.assertIn("Não foi possivel deletar o registro", str(context.exception))
