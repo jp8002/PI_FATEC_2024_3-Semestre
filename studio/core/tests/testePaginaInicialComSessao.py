@@ -12,7 +12,7 @@ class TestePaginaInicialComSessao(TestCase):
     def setUp(self):
 
         self.conn = ConexaoMongo()
-        self.conn._colecao = self.conn._mydb['personal']
+        self.conn._colecao = self.conn.mydb['personal']
 
         self.personalEntity = PersonalEntity({"nome": "joao mock", "cpf": "1", "senha": "1234"})
         self.personalRepository = PersonalRepository(self.conn)

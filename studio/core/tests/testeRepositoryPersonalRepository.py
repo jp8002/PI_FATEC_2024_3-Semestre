@@ -8,7 +8,7 @@ from core.entity.PersonalEntity import PersonalEntity
 class TestPersonalRepository(TestCase):
     def setUp(self):
         self.mongo = ConexaoMongo()
-        self.mongo._colecao = self.mongo._mydb['mock_personal']
+        self.mongo._colecao = self.mongo.mydb['mock_personal']
         self.repo = PersonalRepository(self.mongo)
         
         # Limpar dados de teste anteriores
@@ -237,4 +237,4 @@ class TestPersonalRepository(TestCase):
         self.assertEqual(personal_criado["cref"], "123456")
 
     def __del__(self):
-        self.mongo._mydb.drop_collection('mock_personal')
+        self.mongo.mydb.drop_collection('mock_personal')

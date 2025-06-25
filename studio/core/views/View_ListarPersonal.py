@@ -12,7 +12,7 @@ class ListarPersonalView(View):
 
     def __init__(self, **kwargs):
         self.serviceM = ConexaoMongo()
-        self.serviceM._colecao = self.serviceM._mydb["personal"]
+        self.serviceM._colecao = self.serviceM.mydb["personal"]
         self.personalRepository = PersonalRepository(self.serviceM)
 
     def get(self, request):

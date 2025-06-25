@@ -12,7 +12,7 @@ from core.services.Autenticar import Autenticar
 class DashboardView(View):
     def __init__(self):
         self.mongoClinte = ConexaoMongo()
-        self.mongoClinte._colecao = self.mongoClinte._mydb["aluno"]
+        self.mongoClinte._colecao = self.mongoClinte.mydb["aluno"]
         self.alunoRepository = AlunoRepository(self.mongoClinte)
 
     def get(self,request):

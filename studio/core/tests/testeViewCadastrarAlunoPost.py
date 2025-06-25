@@ -9,7 +9,7 @@ class TesteViewCadastrarAlunoPost(TestCase):
     def setUp(self):
         self.mongo = ConexaoMongo()
 
-        self.mongo._colecao = self.mongo._mydb['personal']
+        self.mongo._colecao = self.mongo.mydb['personal']
         self.mongo._colecao.insert_one({"nome": "Joana Costa", "senha": "joana123", "telefone": "(11) 91234-0001", "email": "joana.costa@academia.com", "salario": 3000, "cpf": "12333678910", "acesso": "adm", "cref": "123456-G/SP"})
 
 
@@ -24,7 +24,7 @@ class TesteViewCadastrarAlunoPost(TestCase):
 
         
 
-        self.mongo._colecao = self.mongo._mydb['aluno']
+        self.mongo._colecao = self.mongo.mydb['aluno']
 
     def test_302_response(self):
         aluno = {"nome": "joao mock", "data_nascimento": "2019-05-20", "cpf": "12345678999", "telefone": "123456",'email':'joaomock@gmail.com','plano':'trimestral','personal':'Joana Costa'}
@@ -68,5 +68,5 @@ class TesteViewCadastrarAlunoPost(TestCase):
         self.mongo._colecao.delete_many({'cpf':"12345678977"})
         self.mongo._colecao.delete_many({'cpf':"12345678999"})
 
-        self.mongo._colecao = self.mongo._mydb['personal']
+        self.mongo._colecao = self.mongo.mydb['personal']
         self.mongo._colecao.delete_many({'cpf':"12333678910"})

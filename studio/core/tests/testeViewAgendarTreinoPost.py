@@ -18,7 +18,7 @@ class TesteViewAgendarTreinoPost(TestCase):
         self.client.cookies['sessionid'] = sessao.session_key
 
         self.mongo = ConexaoMongo()
-        self.mongo._colecao = self.mongo._mydb['aluno']
+        self.mongo._colecao = self.mongo.mydb['aluno']
 
         self.id = self.mongo._colecao.insert_one({"nome": "joao mock", "cpf": "123654789", "senha": "1234", "sessoes":[]})
 

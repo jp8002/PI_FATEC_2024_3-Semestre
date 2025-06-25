@@ -11,7 +11,7 @@ from datetime import datetime
 class TesteServiceMongo(TestCase):
     def setUp(self):
         self.mongo = ConexaoMongo('localhost', '27017', "mock")
-        self.mongo._colecao = self.mongo._mydb['mockcol']
+        self.mongo._colecao = self.mongo.mydb['mockcol']
 
         self.alunoRepository = AlunoRepository(self.mongo)
         self.personalRepository = PersonalRepository(self.mongo)

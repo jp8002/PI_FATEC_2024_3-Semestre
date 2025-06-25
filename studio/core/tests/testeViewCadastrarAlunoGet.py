@@ -18,9 +18,9 @@ class TesteViewCadastrarAlunoGet(TestCase):
         self.client.cookies['sessionid'] = sessao.session_key
 
         self.mongo = ConexaoMongo()
-        self.mongo._colecao = self.mongo._mydb['personal']
+        self.mongo._colecao = self.mongo.mydb['personal']
         
-        self.mongo._colecao = self.mongo._mydb['personal']
+        self.mongo._colecao = self.mongo.mydb['personal']
         self.mongo._colecao.insert_one({"nome": "Joana Costa", "senha": "joana123", "telefone": "(11) 91234-0001", "email": "joana.costa@academia.com", "salario": 3000, "cpf": "12333678910", "acesso": "adm", "cref": "123456-G/SP"})
 
         self.resp = self.client.get(reverse("cadastrarAluno"))

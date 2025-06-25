@@ -26,7 +26,7 @@ class CadastrarPersonalView(View):
 
         if form.is_valid():
             serviceM = ConexaoMongo()
-            serviceM._colecao = serviceM._mydb["personal"]
+            serviceM._colecao = serviceM.mydb["personal"]
             personal = PersonalEntity(form.cleaned_data)
             personal_repository = PersonalRepository(serviceM)
             personal_repository.criar(personal)

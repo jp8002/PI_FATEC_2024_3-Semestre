@@ -5,7 +5,7 @@ from core.services.ConexaoMongo import ConexaoMongo
 class CadastrarAlunoForm(forms.Form):
     def listar_personal():
         serviceM = ConexaoMongo()
-        serviceM._colecao = serviceM._mydb["personal"]
+        serviceM._colecao = serviceM.mydb["personal"]
         repository = PersonalRepository(serviceM)
         
         personais = repository.listarTodos()

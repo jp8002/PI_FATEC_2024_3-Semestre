@@ -2,8 +2,8 @@ from datetime import datetime
 class Aluno():
     def __init__(self, aluno):
         self.id = aluno.get("_id")
-        self.nome = aluno.get('nome','')
-        self.idade = aluno.get('idade','')
+        self.nome = aluno.get('nome')
+        self.idade = aluno.get('idade')
         self.telefone = aluno.get('telefone')
         self.cpf = aluno.get('cpf')
         self.data_nascimento = aluno.get('data_nascimento')

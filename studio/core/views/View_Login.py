@@ -10,7 +10,7 @@ from core.services.ConexaoMongo import ConexaoMongo
 class LoginView(View):
     def __init__(self):
         self.conexao = ConexaoMongo()
-        self.conexao._colecao = self.conexao._mydb["personal"]
+        self.conexao._colecao = self.conexao.mydb["personal"]
         self.personalRepo = PersonalRepository(self.conexao)
         self.autenticador = AutenticadorUsuario(self.personalRepo)
 

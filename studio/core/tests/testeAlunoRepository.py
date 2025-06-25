@@ -10,7 +10,7 @@ from core.services.ConexaoMongo import ConexaoMongo
 class TestAlunoRepository(TestCase):
     def setUp(self):
         self.mongo = ConexaoMongo('localhost', '27017', "test_db")
-        self.mongo._colecao = self.mongo._mydb['test_collection']
+        self.mongo._colecao = self.mongo.mydb['test_collection']
         self.repo = AlunoRepository(self.mongo)
 
         # Dados iniciais para os testes

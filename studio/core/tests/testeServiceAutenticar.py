@@ -10,7 +10,7 @@ class TesteAutenticar(TestCase):
 
     def setUp(self):
         self.conn = ConexaoMongo()
-        self.conn._colecao = self.conn._mydb['personal']
+        self.conn._colecao = self.conn.mydb['personal']
         self.session = self.client.session
 
 

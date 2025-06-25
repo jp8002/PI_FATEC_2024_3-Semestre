@@ -1,12 +1,6 @@
-import logging
-from datetime import datetime
 
-import ipdb
 from bson import ObjectId
-
-from core.entity.AlunoEntity import Aluno
 from core.interfaces.InterfaceRepository import InterfaceRepository
-from core.repositories.AlunoRepository import AlunoRepository
 
 
 class PersonalRepository(InterfaceRepository):
@@ -105,7 +99,7 @@ class PersonalRepository(InterfaceRepository):
 
         except Exception as e:
             raise Exception("Erro ao atualizar o registro ", e)
-            return False
+
 
 
 

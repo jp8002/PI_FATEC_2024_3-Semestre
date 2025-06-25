@@ -1,18 +1,12 @@
-import logging
+
 from datetime import datetime
-from logging import exception
-
-from django.core.exceptions import SuspiciousOperation
-import ipdb
 from bson import ObjectId
-from dns.e164 import query
-
-from core.entity import AlunoEntity
 from core.interfaces.InterfaceRepository import InterfaceRepository
-from core.entity.AlunoEntity import Aluno
+from core.services.ConexaoMongo import ConexaoMongo
+
 
 class AlunoRepository(InterfaceRepository):
-    def __init__(self, mongo):
+    def __init__(self, mongo:ConexaoMongo):
         self.mongo = mongo
 
     def criar(self,  entity):
@@ -50,7 +44,7 @@ class AlunoRepository(InterfaceRepository):
         try:
             query = self.mongo._colecao.delete_many({"_id": ObjectId(id)})
 
-            if(query.deleted_count == 0):
+            if query.deleted_count == 0:
                 raise Exception(f"Id: {id} não encontrada")
 
             return True
@@ -62,7 +56,7 @@ class AlunoRepository(InterfaceRepository):
         try:
             query = self.mongo._colecao.delete_many({"cpf": cpf})
 
-            if(query.deleted_count == 0):
+            if query.deleted_count == 0:
                 raise Exception(f"CPF: {cpf} não encontrado")
 
             return True
@@ -109,13 +103,14 @@ class AlunoRepository(InterfaceRepository):
         if '_id' in dados:
             del dados['_id']
 
+
         try:
             query = self.mongo._colecao.update_one({"cpf": entity.cpf}, {"$set": dados})
             return query
 
         except Exception as e:
             raise Exception("Erro ao atualizar o registro ", e)
-            return False
+
 
     def consultar_datas_agendadas(self):  # O METODO ATUALMENTE RETORNA TODAS AS DATAS (BASEADAS NAS ASSINATURAS ATIVAS) NO FORMATO DD/MM/AAAA
         datas_agendadas = []
@@ -140,9 +135,7 @@ class AlunoRepository(InterfaceRepository):
         data = Agendamento["data"]
         exercicios = Agendamento["exercicios"]
 
-        alunoRepository = AlunoRepository(self.mongo)
-
-        if (alunoRepository.consultarCpf(cpf) == False):
+        if (self.consultarCpf(cpf) == False):
             raise Exception("Esse cpf não existe", cpf)
 
         try:
@@ -156,9 +149,7 @@ class AlunoRepository(InterfaceRepository):
 
     def deletarAgendamento(self, cpf,dia):
 
-        alunoRepository = AlunoRepository(self.mongo)
-
-        alunoRepository.consultarCpf(cpf)
+        self.consultarCpf(cpf)
 
         try:
             dia = datetime.strptime(dia, "%Y-%m-%dT%H:%M")

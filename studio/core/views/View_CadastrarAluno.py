@@ -1,4 +1,4 @@
-import ipdb
+
 from django.shortcuts import redirect, render
 from django.views import View
 from datetime import datetime
@@ -35,7 +35,7 @@ class CadastrarAlunoView(View):
 
         if form.is_valid():
             serviceM = ConexaoMongo()
-            serviceM._colecao = serviceM._mydb["aluno"]
+            serviceM._colecao = serviceM.mydb["aluno"]
             dados = (form.cleaned_data) 
             dados["status"] = "Ativo"
             dados["data_assinatura"] = datetime.now()

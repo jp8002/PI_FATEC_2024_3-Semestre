@@ -1,3 +1,4 @@
+import ipdb
 from django.shortcuts import redirect, render
 from django.views import View
 from datetime import datetime
@@ -14,7 +15,7 @@ class EditarAlunoView(View):
         self.form = None
         self.errors = None
         self.serviceM = ConexaoMongo()
-        self.serviceM._colecao = self.serviceM._mydb["aluno"]
+        self.serviceM._colecao = self.serviceM.mydb["aluno"]
         self.repository = AlunoRepository(self.serviceM)
 
 
@@ -34,6 +35,7 @@ class EditarAlunoView(View):
 
         if not self.form:
          self.form = CadastrarAlunoForm(initial=aluno)
+
 
         context = {"errors": self.errors, 'form': self.form, 'cpf': cpf}
 
@@ -58,7 +60,9 @@ class EditarAlunoView(View):
             aluno.data_assinatura = aluno_existente.get('data_assinatura')
             aluno.data_renovacao = aluno_existente.get('data_renovacao')
             aluno.sessoes = aluno_existente.get('sessoes')
-            
+            aluno.idade = aluno_existente.get('idade')
+
+
             self.repository.atualizar(aluno)
             return redirect("listarAlunos")
 

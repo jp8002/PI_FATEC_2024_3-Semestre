@@ -10,8 +10,9 @@ from core.services.ConexaoMongo import ConexaoMongo
 
 class AlunoPersonalView(View):
     def __init__(self):
+
         self.serviceM = ConexaoMongo()
-        self.serviceM._colecao = self.serviceM._mydb["aluno"]
+        self.serviceM._colecao = self.serviceM.mydb["aluno"]
         self.alunoRepo = AlunoRepository(self.serviceM)
 
     def get(self,request,personal):

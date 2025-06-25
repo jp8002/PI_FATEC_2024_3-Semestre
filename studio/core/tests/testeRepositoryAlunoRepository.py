@@ -8,7 +8,7 @@ from core.services.ConexaoMongo import ConexaoMongo
 class TestAlunoRepository(TestCase):
     def setUp(self):
         self.mongo = ConexaoMongo()
-        self.mongo._colecao = self.mongo._mydb['mock']
+        self.mongo._colecao = self.mongo.mydb['mock']
         self.repo = AlunoRepository(self.mongo)
         
         # Limpar dados de teste anteriores

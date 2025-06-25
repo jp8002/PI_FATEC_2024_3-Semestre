@@ -1,8 +1,4 @@
-import logging
 
-
-
-from core.repositories.AlunoRepository import AlunoRepository
 from core.repositories.PersonalRepository import PersonalRepository
 from core.services.ConexaoMongo import ConexaoMongo
 
@@ -19,7 +15,7 @@ class Autenticar():
         
     def checarSessaoPersonal(sessao):
         MongoClient = ConexaoMongo()
-        MongoClient._colecao = MongoClient._mydb["personal"]
+        MongoClient._colecao = MongoClient.mydb["personal"]
 
         personalRepository = PersonalRepository(MongoClient)
 
@@ -30,7 +26,7 @@ class Autenticar():
     
     def checarAdmin(sessao):
         MongoClient = ConexaoMongo()
-        MongoClient._colecao = MongoClient._mydb["personal"]
+        MongoClient._colecao = MongoClient.mydb["personal"]
 
         personalRepository = PersonalRepository(MongoClient)
 

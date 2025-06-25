@@ -19,7 +19,7 @@ class PersonalInicialView(View):
         cpf = request.session.get("cpf", False)
         serviceM = ConexaoMongo()
 
-        serviceM._colecao = serviceM._mydb["personal"]
+        serviceM._colecao = serviceM.mydb["personal"]
 
         personalRepository = PersonalRepository(serviceM)
 

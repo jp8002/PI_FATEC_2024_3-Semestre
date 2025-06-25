@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.views import View
 from django.shortcuts import render, redirect
-from pygments.styles.rainbow_dash import RED_BRIGHT
+
 
 from core.repositories.AlunoRepository import AlunoRepository
 from core.services.Autenticar import Autenticar
@@ -14,7 +14,7 @@ class GerenciamentoAgendamentosView(View):
     def __init__(self,**kwargs):
 
         self.mongoClinte = ConexaoMongo()
-        self.mongoClinte._colecao = self.mongoClinte._mydb["aluno"]
+        self.mongoClinte._colecao = self.mongoClinte.mydb["aluno"]
 
         self.alunoRepository = AlunoRepository(self.mongoClinte)
         self.listaSessoes = kwargs.get("listaSessoes",None)

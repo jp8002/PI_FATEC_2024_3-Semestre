@@ -15,7 +15,7 @@ class ListarAlunosView(View):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.serviceM = ConexaoMongo()
-        self.serviceM._colecao = self.serviceM._mydb["aluno"]
+        self.serviceM._colecao = self.serviceM.mydb["aluno"]
         self.alunoRepository = AlunoRepository(self.serviceM)
 
 

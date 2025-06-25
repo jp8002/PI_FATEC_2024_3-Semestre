@@ -17,7 +17,7 @@ class EditarPersonalView(View):
             return redirect("paginaInicial")
         
         serviceM = ConexaoMongo()
-        serviceM._colecao = serviceM._mydb["personal"]
+        serviceM._colecao = serviceM.mydb["personal"]
         repository = PersonalRepository(serviceM)
         
         personal = repository.consultarCpf(cpf)
@@ -36,7 +36,7 @@ class EditarPersonalView(View):
             return redirect("paginaInicial")
         
         serviceM = ConexaoMongo()
-        serviceM._colecao = serviceM._mydb["personal"]
+        serviceM._colecao = serviceM.mydb["personal"]
         repository = PersonalRepository(serviceM)
 
         form = CadastrarPersonalForm(request.POST)
