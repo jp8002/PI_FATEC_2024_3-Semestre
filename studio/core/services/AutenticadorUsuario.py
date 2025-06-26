@@ -13,8 +13,10 @@ class AutenticadorUsuario():
         if not cpf or not senha:
             raise Exception("Os campos não foram completamente preenchidos")
 
-
         query = self.personalRepo.consultarCpf(cpf)
+
+        if not query:
+            raise Exception("Esse cpf não existe.")
 
         if not (query.get("senha") == senha):
             raise Exception("Senha errada")

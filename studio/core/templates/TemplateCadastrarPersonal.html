@@ -45,7 +45,15 @@
         {% include "TemplateNavBarLogado.html" %}
     {% endblock %}
     
-    {{errors}}
+    {% if errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>{{errors}}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endif %}
+
     <div class="d-flex">
         <a class="ml-2" id="voltar" href="{% url "personalInicial" %}"><i class="fa-solid fa-arrow-left "></i><b>Voltar</b></a>
     </div>

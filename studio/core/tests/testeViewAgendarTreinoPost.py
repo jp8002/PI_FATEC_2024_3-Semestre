@@ -1,9 +1,6 @@
-import ipdb
+
 from django.test import TestCase
 from django.urls import reverse
-
-from core.entity.AlunoEntity import Aluno
-from core.repositories.AlunoRepository import AlunoRepository
 from core.services.ConexaoMongo import ConexaoMongo
 
 

@@ -27,7 +27,7 @@ class TesteViewEditarAlunoPost(TestCase):
             "cpf": "55",
             "telefone": "111111",
             "email": "original@email.com",
-            "plano": "mensal",
+            "plano": "Mensal",
             "personal": "Joana Costa",
             "status": "Ativo",
             "sessoes": 10
@@ -42,7 +42,7 @@ class TesteViewEditarAlunoPost(TestCase):
             'cpf': '55',
             'email': 'atualizado@email.com',
             'telefone': '999999',
-            'plano': 'anual',
+            'plano': 'Anual',
             'data_nascimento': '1999-12-31',
             'personal': 'Joana Costa'  # Personal existente
         }

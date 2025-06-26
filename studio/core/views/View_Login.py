@@ -24,8 +24,11 @@ class LoginView(View):
     def post(self, request):
         usuario = request.POST
 
-        if not self.autenticador.AutenticarUsuario(usuario):
-            return render(request, "TemplateLogin.html")
+        try:
+         self.autenticador.AutenticarUsuario(usuario)
+
+        except Exception as e:
+            return render(request, "TemplateLogin.html", {"errors": e})
 
         request.session["sessao"] = True
         request.session["cpf"] = usuario.get("cpf")

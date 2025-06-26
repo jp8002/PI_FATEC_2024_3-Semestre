@@ -1,4 +1,4 @@
-import ipdb
+
 from django.test import TestCase
 
 from core.entity.AlunoEntity import Aluno
@@ -65,7 +65,7 @@ class TesteServiceMongo(TestCase):
 
     def test_listaAlunos(self):
         resp = self.alunoRepository.listarTodos()
-        # ipdb.set_trace()
+
         self.assertTrue(resp)
 
     def test_agendar(self):

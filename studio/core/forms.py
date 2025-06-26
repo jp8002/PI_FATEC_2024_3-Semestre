@@ -70,12 +70,11 @@ class CadastrarAlunoForm(forms.Form):
         })
     )
 
-    plano = forms.CharField(
-        label='Plano',
-        widget=forms.TextInput(attrs={
-            'class': 'form-control p-10',
-        })
-    )
+    plano = forms.ChoiceField(label='Plano',
+                              choices=[('Anual', 'Anual'), ('Mensal', 'Mensal'),('Trimestral', 'Trimestral')],
+                               widget=forms.Select(attrs={
+                                   'class': 'form-control p-7',
+                               }))
 
     personal = forms.ChoiceField(
         choices=listar_personal,
@@ -114,7 +113,10 @@ class CadastrarPersonalForm(forms.Form):
 
         salario = forms.FloatField(label='Salario')
         
-        acesso = forms.ChoiceField(label='Acesso', choices=[('adm','adm'),('funcionario','funcionario')])
+        acesso = forms.ChoiceField(label='Acesso', choices=[('adm','adm'),('funcionario','funcionario')],
+        widget=forms.Select(attrs={
+            'class': 'form-control p-7',
+        }))
         
         def clean_cpf(self):
             cpf = self.cleaned_data.get('cpf')

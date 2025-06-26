@@ -21,7 +21,7 @@ class TesteViewEditarAlunoGet(TestCase):
 
         self.mongo._colecao = self.mongo.mydb['aluno']
 
-        aluno = {"nome": "joao mock", "data_nascimento": "2019-05-20", "cpf": "44", "telefone": "123456",'email':'joaomock@gmail.com','plano':'trimestral','personal':'Joana Costa'}
+        aluno = {"nome": "joao mock", "data_nascimento": "2019-05-20", "cpf": "44", "telefone": "123456",'email':'joaomock@gmail.com','plano':'Trimestral','personal':'Joana Costa'}
         self.client.post(reverse("cadastrarAluno"), aluno)
 
         # Fazer a requisição GET para a view

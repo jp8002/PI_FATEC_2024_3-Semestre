@@ -24,19 +24,23 @@ class CadastrarPersonalView(View):
         
         form = CadastrarPersonalForm(request.POST)
 
-        if form.is_valid():
-            serviceM = ConexaoMongo()
-            serviceM._colecao = serviceM.mydb["personal"]
-            personal = PersonalEntity(form.cleaned_data)
-            personal_repository = PersonalRepository(serviceM)
-            personal_repository.criar(personal)
-            # serviceM.criarNovoPersonal(request.POST.get('nome'), request.POST.get('senha'),
-            #                            request.POST.get('telefone'), request.POST.get('email'), request.POST.get('cpf'),
-            #                            request.POST.get('salario'), request.POST.get('acesso'),
-            #                            request.POST.get('cref'))
-            return redirect("cadastrarPersonal")
-        else:
-            context={'errors':form.errors}
-            #raise Exception(form.errors)
-            return render(request, "TemplateCadastrarPersonal.html", context)
-        
+        try:
+            if form.is_valid():
+                serviceM = ConexaoMongo()
+                serviceM._colecao = serviceM.mydb["personal"]
+                personal = PersonalEntity(form.cleaned_data)
+                personal_repository = PersonalRepository(serviceM)
+                personal_repository.criar(personal)
+                # serviceM.criarNovoPersonal(request.POST.get('nome'), request.POST.get('senha'),
+                #                            request.POST.get('telefone'), request.POST.get('email'), request.POST.get('cpf'),
+                #                            request.POST.get('salario'), request.POST.get('acesso'),
+                #                            request.POST.get('cref'))
+                return redirect("cadastrarPersonal")
+            else:
+                raise Exception(form.errors)
+
+        except Exception as e:
+            context = {'errors': e}
+
+
+        return render(request, "TemplateCadastrarPersonal.html", context)

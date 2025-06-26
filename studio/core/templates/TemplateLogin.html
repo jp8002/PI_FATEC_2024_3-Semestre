@@ -13,6 +13,13 @@
 
 
   <div class="fundo container-fluid h-100 w-100"  style="background-image: linear-gradient(#000,#000 ,#686868, #fff);">
+      {% if errors %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{ errors }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+
     <div class="h-100 w-100 container-fluid" style="display: flexbox; text-align: center; padding: 1% 30% 7% 30%">
         <div class="img"><img src="{% static "logo.png" %}" alt=""></div>
         <div class="fundolog" style="background-color: rgb(189, 189, 189); border-radius: 5%;">

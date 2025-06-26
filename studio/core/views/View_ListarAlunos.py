@@ -1,4 +1,4 @@
-import ipdb
+
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.views import View
@@ -7,7 +7,7 @@ from core.repositories.AlunoRepository import AlunoRepository
 from core.services.Autenticar import Autenticar
 from core.services.ConexaoMongo import ConexaoMongo
 from core.forms import CadastrarAlunoForm
-from core.services.convert_id import convert_idTo
+
 
 
 class ListarAlunosView(View):

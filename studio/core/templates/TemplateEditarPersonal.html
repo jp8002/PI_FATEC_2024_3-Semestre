@@ -304,13 +304,14 @@
 
                                     <div class="form-group mb-4">
                                         <label for="{{ form.acesso.id_for_label }}" class="form-label">{{ form.acesso.label }}</label>
-                                        <input 
-                                            type="text" 
-                                            name="{{ form.acesso.name }}" 
-                                            id="{{ form.acesso.id_for_label }}" 
-                                            class="form-control"
-                                            value="{{ form.acesso.value|default_if_none:'' }}" 
-                                        >
+                                            {{ form.acesso }}
+{#                                        <input #}
+{#                                            type="text" #}
+{#                                            name="{{ form.acesso.name }}" #}
+{#                                            id="{{ form.acesso.id_for_label }}" #}
+{#                                            class="form-control"#}
+{#                                            value="{{ form.acesso.value|default_if_none:'' }}" #}
+{#                                        >#}
                                         {% if form.acesso.errors %}
                                             <div class="invalid-feedback">
                                                 {{ form.acesso.errors|first }}

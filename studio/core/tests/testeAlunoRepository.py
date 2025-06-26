@@ -1,6 +1,6 @@
-import ipdb
+
 from django.test import TestCase
-from bson import ObjectId
+
 from datetime import datetime
 
 from core.entity.AlunoEntity import Aluno
