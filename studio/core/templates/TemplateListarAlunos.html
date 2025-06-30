@@ -39,15 +39,7 @@
         gap: 0.5rem;
    }
 
-     a:visited, a:link, a:active
-    {
-        text-decoration: none;
-        color: black;
-    }
-
-     a:hover{
-         color: #4a4a4a;
-     }
+   
 
     .gap-2 > * {
       margin-right: 0.5rem;
@@ -65,11 +57,7 @@
       height: 1.75rem;
     }
 
-    .btn-ordenar{
-        background-color: #D9D9D9;
-        border: none;
 
-    }
 
     .icones{
         text-align: center;
@@ -130,7 +118,7 @@
 
                 {% if ordemAlunos == "crescente"  %}
 
-                    <button type="submit" class="btn-ordenar font-weight-bold " value="Z-A" name="action" >
+                    <button type="submit" class="btn-ordenar btn btn-outline-primary " value="Z-A" name="action" >
                         Ordem Alfabética A-Z
                     </button>
 
@@ -145,19 +133,19 @@
             <div class="d-flex">
                 <form class="form-inline" action="" method="post">
                     {% csrf_token %}
-                    <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar" value="{{ pesquisaNome }}" name="pesquisaNome">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="action" value="pesquisar">Pesquisar</button>
+                    <input class="form-control mr-sm-2 " type="search" placeholder="Pesquisar" aria-label="Pesquisar" value="{{ pesquisaNome }}" name="pesquisaNome">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" name="action" value="pesquisar">Pesquisar</button>
                 </form>
                 <ul class="paginador ml-auto pagination ">
-                    <li>
+                    <li class="page-item">
                         {% if alunos.has_previous%}
-                            <a class="setas " href="?page={{ alunos.previous_page_number }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">&#9666;Anterior</a>
+                            <a class="page-link" href="?page={{ alunos.previous_page_number }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">&#9666;Anterior</a>
                         {% endif %}
                     </li>
 
-                    <li>
+                    <li class="page-item">
                         {% if alunos.has_next %}
-                            <a class="setas" href="?page={{ alunos.next_page_number }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">Próximo&#9656;</a>
+                            <a class=" page-link" href="?page={{ alunos.next_page_number }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">Próximo&#9656;</a>
                         {% endif %}
                     </li>
 
