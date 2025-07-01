@@ -19,7 +19,7 @@
       max-height: 500px;
       padding: 10px;
       overflow-y: scroll;
-      overflow-x: hidden;
+      overflow-x: scroll;
       scrollbar-color: #656565 rgba(255, 166, 0, 0);
       scrollbar-width: thick;
     }
@@ -73,6 +73,10 @@
         h3 {
             font-size: 24px;
         }
+
+        #btn-pesquisa{
+            display: none;
+        }
     }
   </style>
 </head>
@@ -104,105 +108,131 @@
     <div>
       <div class="container d-flex flex-column">
         {% block content %}
-        <div class="d-flex">
-          <h1 class="mb-2 mt-4 font-weight-bold ">Alunos</h1>
-        </div>
-
-        <div class="container mt-2 rounded p-4" style="background-color: #D9D9D9;">
-          <h3 class="mb-4 mt-4 font-weight-bold ">Total de alunos: {{total_alunos}}</h3>
-
-
-
-            <form action="#" method="post">
-                {% csrf_token %}
-
-                {% if ordemAlunos == "crescente"  %}
-
-                    <button type="submit" class="btn-ordenar btn btn-outline-primary " value="Z-A" name="action" >
-                        Ordem Alfabética A-Z
-                    </button>
-
-                {% else %}
-                    <button type="submit" class="btn-ordenar font-weight-bold " value="A-Z" name="action" >
-                        Ordem Alfabética Z-A
-                    </button>
-
-                {% endif %}
-            </form>
-
             <div class="d-flex">
-                <form class="form-inline" action="" method="post">
-                    {% csrf_token %}
-                    <input class="form-control mr-sm-2 " type="search" placeholder="Pesquisar" aria-label="Pesquisar" value="{{ pesquisaNome }}" name="pesquisaNome">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" name="action" value="pesquisar">Pesquisar</button>
-                </form>
-                <ul class="paginador ml-auto pagination ">
-                    <li class="page-item">
-                        {% if alunos.has_previous%}
-                            <a class="page-link" href="?page={{ alunos.previous_page_number }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">&#9666;Anterior</a>
-                        {% endif %}
-                    </li>
-
-                    <li class="page-item">
-                        {% if alunos.has_next %}
-                            <a class=" page-link" href="?page={{ alunos.next_page_number }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">Próximo&#9656;</a>
-                        {% endif %}
-                    </li>
-
-                </ul>
+              <h1 class="mb-2 mt-4 font-weight-bold ">Alunos</h1>
             </div>
 
-          <div class="container mt-2 rounded p-4 bg-white">
-            <div class="lista-com-scroll">
-                <table class="table table-bordered">
+            <div class="container mt-2 rounded p-4" style="background-color: #D9D9D9;">
+                  <h3 class="mb-4 mt-4 font-weight-bold ">Total de alunos: {{total_alunos}}</h3>
 
-                    <thead>
-                        <tr>
-                          <th scope="col" class="w-75">Nome</th>
-                          <th scope="col" class="text-center">Editar</th>
-                          <th scope="col" class="text-center">Status</th>
-                          <th scope="col" class="text-center">Treino</th>
-                            <th scope="col" class="text-center">Excluir</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lista-alunos">
+                    <div class="d-flex">
+                        <form class="form-inline" action="" method="post">
+                            {% csrf_token %}
+                            <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar" value="{{ pesquisaNome }}" name="pesquisaNome">
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="btn-pesquisa" name="action" value="pesquisar">Pesquisar</button>
+                        </form>
 
-                    {% for i in alunos %}
-                      <div class="d-flex gap-2">
-                            <tr>
-                              <th >{{ i.nome }}</th >
-                              <td class="icones"><a id="editarAluno" href="{% url 'editarAluno' i.cpf %}" class="fa-solid fa-pencil border rounded-circle p-2 " ></a></td>
+                        <form action="#" method="post" class="ml-auto">
+                            {% csrf_token %}
 
-                              <td class="icones">
-                                  <form method="post">
-                                      {% csrf_token %}
-                                      <input type="hidden" name="cpf" value="{{ i.cpf }}">
-                                      <div class="form-check form-switch d-flex justify-content-center">
-                                          <input 
-                                              class="form-check-input status-checkbox" 
-                                              type="checkbox" 
-                                              name="status"
-                                              {% if i.status == 'Ativo' %}checked{% endif %}
-                                              style="width: 20px; height: 20px; transform: scale(1.5); margin-top: 5px;" 
-                                          >
-                                      </div>
-                                  </form>
-                              </td>
+                            {% if ordemAlunos == "crescente"  %}
 
-                              <td class="icones"><a id="gerenciarTreino" href="{%  url "gerenciamentoAgendamentos" i.cpf %}" class="fa-solid fa-dumbbell border rounded-circle p-2"></a></td>
-                                <td class="icones"> <i class="fa-solid fa-trash border rounded-circle p-2"
-                                               style="cursor:pointer"
-                                               data-toggle="modal"
-                                                       data-target="#modalExcluir{{ i.cpf }}"></i>
-                                </td>
-                            </tr>
-                      </div>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                                <button type="submit" class="btn-ordenar btn btn-outline-primary form-control" value="Z-A" name="action" >
+                                    Ordem Alfabética A-Z
+                                </button>
+
+                            {% else %}
+                                <button type="submit" class="btn-ordenar btn btn-outline-primary form-control" value="A-Z" name="action" >
+                                    Ordem Alfabética Z-A
+                                </button>
+
+                            {% endif %}
+                        </form>
+                    </div>
+
+                  <div class="container mt-2 rounded p-4 bg-white">
+                    <div class="lista-com-scroll">
+                        <table class="table table-bordered">
+
+                            <thead>
+                                <tr>
+                                  <th scope="col" class="w-75">Nome</th>
+                                  <th scope="col" class="text-center">Editar</th>
+                                  <th scope="col" class="text-center">Status</th>
+                                  <th scope="col" class="text-center">Treino</th>
+                                    <th scope="col" class="text-center">Excluir</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-alunos">
+
+                            {% for i in alunos %}
+                              <div class="d-flex gap-2">
+                                    <tr>
+                                      <th >{{ i.nome }}</th >
+                                      <td class="icones"><a id="editarAluno" href="{% url 'editarAluno' i.cpf %}" class="fa-solid fa-pencil border rounded-circle p-2 " ></a></td>
+
+                                      <td class="icones">
+                                          <form method="post">
+                                              {% csrf_token %}
+                                              <input type="hidden" name="cpf" value="{{ i.cpf }}">
+                                              <div class="form-check form-switch d-flex justify-content-center">
+                                                  <input
+                                                      class="form-check-input status-checkbox"
+                                                      type="checkbox"
+                                                      name="status"
+                                                      {% if i.status == 'Ativo' %}checked{% endif %}
+                                                      style="width: 20px; height: 20px; transform: scale(1.5); margin-top: 5px;"
+                                                  >
+                                              </div>
+                                          </form>
+                                      </td>
+
+                                      <td class="icones"><a id="gerenciarTreino" href="{%  url "gerenciamentoAgendamentos" i.cpf %}" class="fa-solid fa-dumbbell border rounded-circle p-2"></a></td>
+                                        <td class="icones"> <i class="fa-solid fa-trash border rounded-circle p-2"
+                                                       style="cursor:pointer"
+                                                       data-toggle="modal"
+                                                               data-target="#modalExcluir{{ i.cpf }}"></i>
+                                        </td>
+                                    </tr>
+                              </div>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                  </div>
+                  <div class="d-flex mt-2 justify-content-center">
+                    <ul class="pagination d-flex flex-row justify-content-center">
+                        <li class="page-item {% if not alunos.has_previous %} disabled {% endif %} ">
+                          <a class="page-link" {% if alunos.has_previous %} href="?page={{ alunos.previous_page_number}}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}" {% else %} tabindex="-1" {% endif %} >Anterior</a>
+                        </li>
+
+                        {% if alunos.paginator.num_pages < 7 %}
+                            {% for i in alunos.paginator.page_range %}
+                                {% if i == alunos.number %}
+                                    <li class="page-item active teste">
+                                      <a class="page-link" href="#">{{ i }} <span class="sr-only">(atual)</span></a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                        {% else %}
+
+                            {% if alunos.has_previous %}
+                                <li class="page-item "><a class="page-link" href="?page=1&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">1</a></li>
+                                <li class="page-item"><a class="page-link" {% if not alunos.has_previous %} hidden="hidden"{% endif %} href="#">...</a></li>
+                            {% endif %}
+
+                            <li class="page-item active">
+                              <a class="page-link" href="#">{{ alunos.number }} <span class="sr-only">(atual)</span></a>
+                            </li>
+
+                           {% if alunos.has_next %}
+
+                                    <li class="page-item"><a class="page-link" {% if not alunos.has_next %} hidden="hidden"{% endif %} href="#">...</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ alunos.paginator.num_pages }}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}">{{ alunos.paginator.num_pages }}</a></li>
+
+                           {% endif %}
+
+                        {% endif %}
+
+                        <li class="page-item{% if not alunos.has_next %} disabled {% endif %}">
+                          <a class="page-link" {% if alunos.has_next %} href="?page= {{ alunos.next_page_number}}&ordemAlunos={{ ordemAlunos }}&pesquisaNome={{ pesquisaNome }}" {% else %} tabindex="-1" {% endif %}>Próximo</a>
+                        </li>
+                      </ul>
+                </div>
             </div>
-          </div>
-        </div>
         {% endblock %}
       </div>
     </div>

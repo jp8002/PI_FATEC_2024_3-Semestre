@@ -62,13 +62,13 @@ class AlunoPersonalView(View):
         action = request.POST.get('action','')
 
         if action == 'Z-A':
-            return redirect(f"{request.path}?ordemAlunos=decrescente")
+            return redirect(f"{request.path}?pesquisaNome={request.GET.get('pesquisaNome',"")}&ordemAlunos=decrescente")
 
         elif action == 'A-Z':\
-            return redirect(f"{request.path}?ordemAlunos=crescente")
+            return redirect(f"{request.path}?pesquisaNome={request.GET.get('pesquisaNome',"")}&ordemAlunos=crescente")
 
         elif action == "pesquisar":
-            return redirect(f"{request.path}?pesquisaNome={request.POST.get('pesquisaNome')}")
+            return redirect(f"{request.path}?pesquisaNome={request.POST.get('pesquisaNome')}&ordemAlunos{request.GET.get('ordemAlunos',"crescente")}")
 
 
         return redirect("paginaInicial")

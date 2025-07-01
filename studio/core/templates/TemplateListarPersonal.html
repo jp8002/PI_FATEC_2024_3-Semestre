@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
@@ -20,7 +20,7 @@
       max-height: 500px;
       padding: 10px;
       overflow-y: scroll;
-      overflow-x: hidden;
+      overflow-x: scroll;
       scrollbar-color: #656565 rgba(255, 166, 0, 0);
       scrollbar-width: thick;
     }
@@ -53,29 +53,15 @@
         text-align: center;
     }
 
-    .paginador{
-        display: flex;
-        flex-direction: row;
-        gap: 0.5rem;
-   }
-     a:visited, a:link, a:active
-    {
-        text-decoration: none;
-        color: black;
-    }
 
-     a:hover{
-         color: #4a4a4a;
-     }
 
-      .btn-ordenar{
-        background-color: #D9D9D9;
-        border: none;
-
-    }
     @media screen and (max-width:600px) {
         body {
             font-size: 16px;
+        }
+
+        #btn-pesquisa{
+            display: none;
         }
 
         h1 {
@@ -124,48 +110,31 @@
 
         <div class="container mt-2 rounded p-4" style="background-color: #D9D9D9;">
           <h3 class="mb-4 mt-4 font-weight-bold ">Total de Personais: {{total_personal}}</h3>
-            <form action="#" method="post">
-                {% csrf_token %}
-
-                {% if ordemPersonais == "crescente"  %}
-
-                    <button type="submit" class="btn-ordenar  font-weight-bold " value="Z-A" name="action" >
-                        Ordem Alfabética A-Z
-                    </button>
-
-                {% else %}
-                    <button type="submit" class="btn-ordenar  font-weight-bold " value="A-Z" name="action" >
-                        Ordem Alfabética Z-A
-                    </button>
-
-                {% endif %}
-            </form>
 
             <div class="d-flex">
                 <form class="form-inline" action="" method="post">
                     {% csrf_token %}
                     <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar" value="{{ pesquisaNome }}" name="pesquisaNome">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="action" value="pesquisar">Pesquisar</button>
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="btn-pesquisa" name="action" value="pesquisar">Pesquisar</button>
                 </form>
 
-                <!--Paginador-->
-                <ul class="paginador ml-auto pagination ">
-                    <li>
-                        {% if paginas_de_personais.has_previous%}
-                            <a class="setas " href="?page={{ paginas_de_personais.previous_page_number }}&ordemPersonais={{ ordemPersonais }}&pesquisaNome={{ pesquisaNome }}">&#9666;Anterior</a>
-                        {% endif %}
-                    </li>
+                <form action="#" method="post" class="ml-auto">
+                    {% csrf_token %}
 
-                    <li>
-                        {% if paginas_de_personais.has_next %}
-                            <a class="setas" href="?page={{ paginas_de_personais.next_page_number }}&ordemPersonais={{ ordemPersonais }}&pesquisaNome={{ pesquisaNome }}">Próximo&#9656;</a>
-                        {% endif %}
-                    </li>
+                    {% if ordemPersonais == "crescente"  %}
 
-                </ul>
+                        <button type="submit" class="btn-ordenar btn btn-outline-primary form-control" value="Z-A" name="action" >
+                            Ordem Alfabética A-Z
+                        </button>
+
+                    {% else %}
+                        <button type="submit" class="btn-ordenar btn btn-outline-primary form-control" value="A-Z" name="action" >
+                            Ordem Alfabética Z-A
+                        </button>
+
+                    {% endif %}
+                </form>
             </div>
-
-
 
           <div class="container mt-2 rounded p-4 bg-white">
             <div class="lista-com-scroll">
@@ -200,6 +169,49 @@
                 </table>
             </div>
           </div>
+
+          <div class="d-flex mt-2 justify-content-center">
+                    <ul class="pagination d-flex flex-row justify-content-center">
+                        <li class="page-item {% if not paginas_de_personais.has_previous %} disabled {% endif %} ">
+                          <a class="page-link" {% if paginas_de_personais.has_previous %} href="?page={{ paginas_de_personais.previous_page_number}}&ordemPersonais={{ ordemPersonais }}&pesquisaNome={{ pesquisaNome }}" {% else %} tabindex="-1" {% endif %} >Anterior</a>
+                        </li>
+
+                        {% if paginas_de_personais.paginator.num_pages < 7 %}
+                            {% for i in paginas_de_personais.paginator.page_range %}
+                                {% if i == paginas_de_personais.number %}
+                                    <li class="page-item active teste">
+                                      <a class="page-link" href="#">{{ i }} <span class="sr-only">(atual)</span></a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}&ordemPersonais={{ ordemPersonais }}&pesquisaNome={{ pesquisaNome }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                        {% else %}
+
+                            {% if paginas_de_personais.has_previous %}
+                                <li class="page-item "><a class="page-link" href="?page=1&ordemPersonais={{ ordemPersonais }}&pesquisaNome={{ pesquisaNome }}">1</a></li>
+                                <li class="page-item"><a class="page-link" {% if not alunos.has_previous %} hidden="hidden"{% endif %} href="#">...</a></li>
+                            {% endif %}
+
+                            <li class="page-item active">
+                              <a class="page-link" href="#">{{ paginas_de_personais.number }} <span class="sr-only">(atual)</span></a>
+                            </li>
+
+                           {% if paginas_de_personais.has_next %}
+
+                                    <li class="page-item"><a class="page-link" {% if not paginas_de_personais.has_next %} hidden="hidden"{% endif %} href="#">...</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ paginas_de_personais.paginator.num_pages }}&ordemPersonais={{ ordemPersonais }}&pesquisaNome={{ pesquisaNome }}">{{ alunos.paginator.num_pages }}</a></li>
+
+                           {% endif %}
+
+                        {% endif %}
+
+                        <li class="page-item{% if not paginas_de_personais.has_next %} disabled {% endif %}">
+                          <a class="page-link" {% if paginas_de_personais.has_next %} href="?page= {{ paginas_de_personais.next_page_number}}&ordemPersonais={{ ordemPersonais }}&pesquisaNome={{ pesquisaNome }}" {% else %} tabindex="-1" {% endif %}>Próximo</a>
+                        </li>
+                      </ul>
+                </div>
         </div>
         {% endblock %}
       </div>

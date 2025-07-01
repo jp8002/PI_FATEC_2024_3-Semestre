@@ -75,13 +75,13 @@ class ListarAlunosView(View):
                     return redirect("listarAlunos")
 
                 case"Z-A":
-                    return redirect(f"{request.path}?ordemAlunos=decrescente")
+                    return redirect(f"{request.path}?pesquisaNome={request.GET.get('pesquisaNome',"")}&ordemAlunos=decrescente")
 
                 case "A-Z":
-                    return redirect(f"{request.path}?ordemAlunos=crescente")
+                    return redirect(f"{request.path}?pesquisaNome={request.GET.get('pesquisaNome',"")}&ordemAlunos=crescente")
 
                 case "pesquisar":
-                    return redirect(f"{request.path}?pesquisaNome={request.POST['pesquisaNome']}")
+                    return redirect(f"{request.path}?pesquisaNome={request.POST['pesquisaNome']}&ordemAlunos={request.GET.get('ordemAlunos','crescente')}")
 
 
             if 'cpf' in request.POST and 'status' in request.POST:

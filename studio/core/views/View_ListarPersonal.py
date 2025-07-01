@@ -74,12 +74,12 @@ class ListarPersonalView(View):
             return redirect("listarPersonal")
 
         if action == "Z-A":
-            return redirect(f"{request.path}?ordemPersonais=decrescente")
+            return redirect(f"{request.path}?pesquisaNome={request.GET.get('pesquisaNome')}&ordemPersonais=decrescente")
 
         if action == "A-Z":
-            return redirect(f"{request.path}?ordemPersonais=crescente")
+            return redirect(f"{request.path}?pesquisaNome={request.GET.get('pesquisaNome')}&ordemPersonais=crescente")
 
         if action == "pesquisar":
-            return redirect(f"{request.path}?pesquisaNome={request.POST.get('pesquisaNome')}")
+            return redirect(f"{request.path}?pesquisaNome={request.POST.get('pesquisaNome')}&ordemPersonais={request.GET.get('ordemPersonais','crescente')}")
 
         return redirect("paginaInicial")
